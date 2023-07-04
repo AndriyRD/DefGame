@@ -1,0 +1,1 @@
+export = (hum: Humanoid) => hum.MoveDirection.Magnitude

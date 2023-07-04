@@ -1,0 +1,1 @@
+export = (plr: Player) => plr.Character ? plr.Character : plr.CharacterAdded.Wait()[0]

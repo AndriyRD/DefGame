@@ -1,0 +1,4 @@
+export enum EQUIPMENT_TYPES {
+    DEFAULT = 'DEFAULT',
+    WEAPON = 'WEAPON'
+}
