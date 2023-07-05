@@ -19,7 +19,7 @@ export class SmokeGenerator {
     }
 
     private GetParticleAnimtionSize(){
-        return new Vector3(math.random(), math.random(), math.random())
+        return  new Vector3(math.random(), math.random(), math.random())
     }
 
     private GetParticleColor(){

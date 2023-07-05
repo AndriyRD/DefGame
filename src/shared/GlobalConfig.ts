@@ -10,6 +10,29 @@ export class GlobalConfig {
                     Input: Enum.UserInputType.MouseButton1
                 }
             }
+        },
+
+        Build: {
+            Cancel: {
+                Action: 'CancleBuildAction',
+                PC: {
+                    Input: [Enum.KeyCode.T, Enum.UserInputType.MouseButton2]
+                }
+            },
+
+            Build: {
+                Action: 'BuildAction',
+                PC: {
+                    Input: Enum.UserInputType.MouseButton1
+                }
+            },
+
+            Rotate: {
+                Action: 'RotateBuildingAction',
+                PC: {
+                    Input: [Enum.KeyCode.R, Enum.KeyCode.Q]
+                }
+            }
         }
     }
 
@@ -18,4 +41,7 @@ export class GlobalConfig {
     }
 
     static MAP_MODEL_STORAGE = ReplicatedStorage.WaitForChild('Maps')
+    static BUILDING_MODEL_STORAGE = ReplicatedStorage.WaitForChild('Buildings')
+    static MAP_TERRAIN_CONTAINER_NAME = 'Tarrain'
+    static LAODED_MAP_NAME = 'Map'
 }
