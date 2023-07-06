@@ -27,9 +27,15 @@ do
 			StopFire = self.dirs.Weapon:WaitForChild("StopFire"),
 		}
 	end
+	function RemoteProvider:GetForBuild()
+		return {
+			Build = self.dirs.Build:WaitForChild("Build"),
+		}
+	end
 	RemoteProvider.dirs = {
 		Equipemnt = ReplicatedStorage:WaitForChild("Equipment"):WaitForChild("Remote"),
 		Weapon = ReplicatedStorage:WaitForChild("Weapon"):WaitForChild("Remote"),
+		Build = ReplicatedStorage:WaitForChild("Build"):WaitForChild("Remote"),
 	}
 end
 return {

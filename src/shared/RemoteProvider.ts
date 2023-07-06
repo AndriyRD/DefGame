@@ -3,7 +3,8 @@ import { ReplicatedStorage } from "@rbxts/services";
 export class RemoteProvider {
     private static readonly dirs = {
         Equipemnt: ReplicatedStorage.WaitForChild('Equipment').WaitForChild('Remote'),
-        Weapon: ReplicatedStorage.WaitForChild('Weapon').WaitForChild('Remote')
+        Weapon: ReplicatedStorage.WaitForChild('Weapon').WaitForChild('Remote'),
+        Build: ReplicatedStorage.WaitForChild('Build').WaitForChild('Remote')
     }
 
     static GetForEquipment(){
@@ -17,6 +18,12 @@ export class RemoteProvider {
             CreateWeapon: this.dirs.Weapon.WaitForChild('CreateWeapon') as RemoteEvent,
             StartFire: this.dirs.Weapon.WaitForChild('StartFire') as RemoteEvent,
             StopFire: this.dirs.Weapon.WaitForChild('StopFire') as RemoteEvent
+        }
+    }
+
+    static GetForBuild(){
+        return {
+            Build: this.dirs.Build.WaitForChild('Build') as RemoteEvent
         }
     }
 }

@@ -2,7 +2,7 @@ import { TextService, TweenService } from "@rbxts/services"
 
 export class RotateModule {
     private readonly fullRotationTime = 1
-    private readonly root: BasePart
+    private root: BasePart
     private tweenInfo = new TweenInfo(this.fullRotationTime)
     private currentTween: Tween | undefined = undefined
     private readonly ROATATION_ANGLE = {
@@ -17,9 +17,19 @@ export class RotateModule {
             {CFrame: angle})
     }
 
-    Rotateion(toRight: boolean){
+    private SetRoot(model: Model){
+        this.root = model.PrimaryPart as BasePart
+        if (!this.root) error(`Not found PrimaryPart in model: ${model}`)
+        return model
+    }
+
+    CancelIfRotateion(){
         if (this.currentTween)
-            this.currentTween.Cancel
+            this.currentTween.Cancel()
+    }
+
+    Rotateion(toRight: boolean){
+        this.CancelIfRotateion()
 
         if (toRight)
             this.currentTween = this.RotateTo(this.ROATATION_ANGLE.RIGHT)
@@ -29,7 +39,11 @@ export class RotateModule {
         this.currentTween.Play()
     }
 
-    constructor(private readonly model: Model){
+    SetNewModel(model: Model){
+        this.model = this.SetRoot(model)
+    }
+
+    constructor(private model: Model){
         this.root = model.PrimaryPart as BasePart
     }
 }

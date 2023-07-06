@@ -1,10 +1,12 @@
 import { IViewModelConfiguration } from "./IViewModelConfiguration"
+import { RotateModule } from "./RoteateModule"
 import { ViewModelLoader } from "./ViewModelLoader"
 import { GlobalConfig } from "shared/GlobalConfig"
 
 export class ViewModel {
     private model
     private availableBuild = false
+    private rotateModule
 
     private ChacngeModelColor(color: BrickColor){
         for (const item of this.model.GetDescendants()) {
@@ -44,10 +46,24 @@ export class ViewModel {
             this.model.Destroy()
         this.model = ViewModelLoader.Load(id)
         this.InitModel()
+        this.rotateModule.SetNewModel(this.model)
+    }
+
+    GetRoationModule(){
+        return this.rotateModule
+    }
+
+    GetBuildingName(){
+        return this.model.Name
+    }
+
+    GetCF(){
+        return this.model.GetPivot()
     }
 
     constructor(id: string, private readonly config: IViewModelConfiguration){
         this.model = ViewModelLoader.Load(id)
         this.InitModel()
+        this.rotateModule = new RotateModule(this.model)
     }
 }

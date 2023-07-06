@@ -4,9 +4,11 @@ local ReplicatedStorage = TS.import(script, game:GetService("ReplicatedStorage")
 local ClientEquipmentManager = TS.import(script, script.Parent, "Equipment", "ClientEquipmentManager").ClientEquipmentManager
 local WeaponProvider = TS.import(script, script.Parent, "Weapon", "WeaponProvider").WeaponProvider
 local WeaponReplicator = TS.import(script, script.Parent, "Weapon", "ReplicateWeapon", "WeaponFireReplicator").WeaponReplicator
+local App = TS.import(script, script.Parent, "UI", "App")
 local remote = ReplicatedStorage:WaitForChild("Equipment"):WaitForChild("Remote")
 local craeteEquipmentEvent = remote:WaitForChild("CreateEquipment")
 WeaponProvider.new()
 WeaponReplicator.new():Run()
 ClientEquipmentManager.new():Startup()
 craeteEquipmentEvent:FireServer("AK47")
+App()
