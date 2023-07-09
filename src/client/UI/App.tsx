@@ -10,5 +10,5 @@ export = () => {
         </screengui>
     )
 
-    Roact.mount(app, playerGui, 'MainUI')
+    // Roact.mount(app, playerGui, 'MainUI')
 }

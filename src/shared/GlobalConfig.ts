@@ -44,4 +44,5 @@ export class GlobalConfig {
     static BUILDING_MODEL_STORAGE = ReplicatedStorage.WaitForChild('Build').WaitForChild('Models')
     static MAP_TERRAIN_CONTAINER_NAME = 'Tarrain'
     static LAODED_MAP_NAME = 'Map'
+    static HP_ATTRIBUtE_NAME = 'HP'
 }

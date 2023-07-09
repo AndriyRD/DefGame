@@ -17,7 +17,8 @@ export class RemoteProvider {
         return {
             CreateWeapon: this.dirs.Weapon.WaitForChild('CreateWeapon') as RemoteEvent,
             StartFire: this.dirs.Weapon.WaitForChild('StartFire') as RemoteEvent,
-            StopFire: this.dirs.Weapon.WaitForChild('StopFire') as RemoteEvent
+            StopFire: this.dirs.Weapon.WaitForChild('StopFire') as RemoteEvent,
+            Hit: this.dirs.Weapon.WaitForChild('Hit') as RemoteEvent
         }
     }
 

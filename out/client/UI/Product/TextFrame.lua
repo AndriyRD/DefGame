@@ -6,11 +6,13 @@ return function(props)
 	return Roact.createElement("Frame", {
 		BackgroundColor3 = Color3.fromHex("#49494a"),
 		Transparency = .25,
+		Size = UDim2.new(1, 0, .2, 0),
+		BackgroundTransparency = 1,
 	}, {
 		Roact.createElement(Title, {
 			text = props.text,
 			pos = UDim2.new(0.5, 0, 0.85, 0),
-			size = UDim2.new(1, 0, 0, 0.2),
+			size = UDim2.new(1, 0, 1, 0),
 		}),
 	})
 end

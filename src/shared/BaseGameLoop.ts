@@ -36,4 +36,8 @@ export class BaseGameLoop {
         this.tickRate = tickRate
         return this
     }
+
+    ClearTaskList(){
+        this.taskList.clear()
+    }
 }
