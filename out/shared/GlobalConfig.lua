@@ -55,6 +55,7 @@ do
 	GlobalConfig.BUILDING_MODEL_STORAGE = ReplicatedStorage:WaitForChild("Build"):WaitForChild("Models")
 	GlobalConfig.MAP_TERRAIN_CONTAINER_NAME = "Tarrain"
 	GlobalConfig.LAODED_MAP_NAME = "Map"
+	GlobalConfig.HP_ATTRIBUtE_NAME = "HP"
 end
 return {
 	GlobalConfig = GlobalConfig,

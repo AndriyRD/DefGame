@@ -12,5 +12,5 @@ return function()
 	}, {
 		Roact.createElement(WeaponShop),
 	}))
-	Roact.mount(app, playerGui, "MainUI")
+	-- Roact.mount(app, playerGui, 'MainUI')
 end

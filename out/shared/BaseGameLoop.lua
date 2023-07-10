@@ -49,6 +49,9 @@ do
 		self.tickRate = tickRate
 		return self
 	end
+	function BaseGameLoop:ClearTaskList()
+		table.clear(self.taskList)
+	end
 end
 return {
 	BaseGameLoop = BaseGameLoop,

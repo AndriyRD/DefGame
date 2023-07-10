@@ -1,8 +1,6 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
-local Debris = _services.Debris
-local TweenService = _services.TweenService
+local TweenService = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").TweenService
 local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
 math.randomseed(time())
 local SmokeGenerator
@@ -49,7 +47,6 @@ do
 		part.Size = self.PRATICLE_SIZE
 		part.Color = self:GetParticleColor()
 		part.Material = self.PARTICLE_MATERIAL
-		Debris:AddItem(part, 1.5)
 		return part
 	end
 	function SmokeGenerator:AnimateParticle(particle, dir)
@@ -65,7 +62,11 @@ do
 		local _size = particle.Size
 		local _arg0 = self:GetParticleAnimtionSize()
 		_object[_left] = _size + _arg0
-		_fn:Create(_exp, _exp_1, _object):Play()
+		local tween = _fn:Create(_exp, _exp_1, _object)
+		tween.Completed:Connect(function()
+			return particle:Destroy()
+		end)
+		tween:Play()
 	end
 	function SmokeGenerator:Generate(start, length)
 		do

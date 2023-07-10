@@ -43,21 +43,20 @@ export class SmokeGenerator {
         part.Size = this.PRATICLE_SIZE
         part.Color = this.GetParticleColor()
         part.Material = this.PARTICLE_MATERIAL
-
-        Debris.AddItem(part, 1.5)
         return part
     }
 
     private AnimateParticle(particle: BasePart, dir: Vector3){
         const _time = math.random()*2
-        TweenService.Create(
+        const tween = TweenService.Create(
             particle,
             new TweenInfo(_time), 
             {
                 Position: particle.Position, 
                 Transparency: 1,
                 Size: particle.Size.add(this.GetParticleAnimtionSize())})
-            .Play()
+        tween.Completed.Connect(() => particle.Destroy())
+        tween.Play()
     }
 
     Generate(start: CFrame, length: number){

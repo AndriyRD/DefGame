@@ -25,6 +25,7 @@ do
 			CreateWeapon = self.dirs.Weapon:WaitForChild("CreateWeapon"),
 			StartFire = self.dirs.Weapon:WaitForChild("StartFire"),
 			StopFire = self.dirs.Weapon:WaitForChild("StopFire"),
+			Hit = self.dirs.Weapon:WaitForChild("Hit"),
 		}
 	end
 	function RemoteProvider:GetForBuild()

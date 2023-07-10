@@ -6,7 +6,7 @@ export class HitPackage {
     private readonly maxLifeTime: number
     private readonly results = new Array<IHitResult>()
     private readonly tickRate = 1/20
-    private readonly lifeHanlder = new BaseGameLoop().SetTickRate(this.tickRate)
+    private readonly lifeHanlder = new BaseGameLoop()
     private readonly resultList = new Array<IHitResult>()
     public readonly OnReady = new Instance('BindableEvent')
     private firstItemLifeTime = 0
@@ -19,7 +19,9 @@ export class HitPackage {
     }
 
     private Init(){
-        this.lifeHanlder.AddTask('main', this.OnTick)
+        this.lifeHanlder.AddTask('main', () => this.OnTick())
+        this.lifeHanlder.SetTickRate(this.tickRate)
+        this.lifeHanlder.StartAsync()
     }
 
     Reset(){
@@ -31,8 +33,13 @@ export class HitPackage {
         if(this.resultList.push(res) >= this.packageSize) this.OnReady.Fire(this)
     }
 
+    GetResults(){
+        return this.resultList 
+    }
+
     constructor(_packageSize: number | undefined, _maxLifeTime: number | undefined){
         this.maxLifeTime = _maxLifeTime ? _maxLifeTime : 1
         this.packageSize = _packageSize ? _packageSize : 4
+        this.Init()
     }
 }
