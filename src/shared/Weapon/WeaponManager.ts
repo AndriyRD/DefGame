@@ -1,12 +1,11 @@
-import { WeaponContainer } from "./WeaponContainer";
-import { WeaponContainerFactory, WeaponHandlerFactoryList } from "./WeaponContainerFactory";
+import { FactoryMap } from "shared/FactoryMap";
+import { WeaponContainer } from "./WeaponContainer/WeaponContainer";
+import { WeaponContainerFactory, WeaponHandlerFactory } from "./WeaponContainer/WeaponContainerFactory";
+import { WEAPON_HANDLER_TYPES } from "./WEAPON_HANDLER_TYPES";
 
-export abstract class WeaponManager {
+export class WeaponManager {
     protected readonly weaponContainerFactory: WeaponContainerFactory
     protected readonly containerList = new Map<Player, WeaponContainer>
-    private readonly factories: WeaponHandlerFactoryList
-
-    protected abstract InitFactories(): WeaponHandlerFactoryList
 
     RegisterWeapon(plaeyr: Player, model: Model){
         const container = this.weaponContainerFactory.Create(plaeyr, model)
@@ -18,8 +17,7 @@ export abstract class WeaponManager {
         //TODO: Clear from memory
     }
 
-    constructor(){
-        this.factories = this.InitFactories()
-        this.weaponContainerFactory = new WeaponContainerFactory(this.factories)
+    constructor(private readonly handlerFactory: FactoryMap<WEAPON_HANDLER_TYPES, WeaponHandlerFactory>){
+        this.weaponContainerFactory = new WeaponContainerFactory(this.handlerFactory)
     }
 }

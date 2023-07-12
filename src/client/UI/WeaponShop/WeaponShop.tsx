@@ -1,5 +1,6 @@
 import Roact from "@rbxts/roact";
 import ContentFrame from "./ContentFrame";
+import BuyBtn from "./BuyBtn";
 
 const WeaponShop = (
     <frame 
@@ -11,6 +12,7 @@ const WeaponShop = (
         BorderColor3={BrickColor.White().Color}>
 
         <ContentFrame/>
+        <BuyBtn></BuyBtn>
     </frame>
 )
 

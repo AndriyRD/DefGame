@@ -16,12 +16,13 @@ do
 	function HitPackage:constructor(_packageSize, _maxLifeTime)
 		self.results = {}
 		self.tickRate = 1 / 20
-		self.lifeHanlder = BaseGameLoop.new():SetTickRate(self.tickRate)
+		self.lifeHanlder = BaseGameLoop.new()
 		self.resultList = {}
 		self.OnReady = Instance.new("BindableEvent")
 		self.firstItemLifeTime = 0
 		self.maxLifeTime = if _maxLifeTime ~= 0 and (_maxLifeTime == _maxLifeTime and _maxLifeTime) then _maxLifeTime else 1
 		self.packageSize = if _packageSize ~= 0 and (_packageSize == _packageSize and _packageSize) then _packageSize else 4
+		self:Init()
 	end
 	function HitPackage:OnTick()
 		if #self.resultList <= 0 then
@@ -36,6 +37,8 @@ do
 		self.lifeHanlder:AddTask("main", function()
 			return self:OnTick()
 		end)
+		self.lifeHanlder:SetTickRate(self.tickRate)
+		self.lifeHanlder:StartAsync()
 	end
 	function HitPackage:Reset()
 		table.clear(self.results)

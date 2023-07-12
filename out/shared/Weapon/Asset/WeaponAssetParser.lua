@@ -15,16 +15,21 @@ do
 		return self:constructor(...) or self
 	end
 	function WeaponAssetParser:constructor()
-		self.ASSET_DIR = weaponDir:WaitForChild("Assets")
+		self.options = {}
 	end
 	function WeaponAssetParser:Parse(name)
 		local dir = self.ASSET_DIR:WaitForChild(name)
+		-- TODO: Parse weapon assets
 		return {
 			Sounds = {
-				Fire = {},
+				Fire = Instance.new("Sound"),
+				Equip = {},
+				Unequip = {},
+				Relaod = {},
 			},
 		}
 	end
+	WeaponAssetParser.ASSET_DIR = weaponDir:WaitForChild("Assets")
 end
 return {
 	WeaponAssetParser = WeaponAssetParser,

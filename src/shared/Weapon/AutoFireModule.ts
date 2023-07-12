@@ -1,6 +1,6 @@
 import { BaseGameLoop } from "shared/BaseGameLoop";
 import { IWeapon } from "./IWeapon";
-import { WeaponContainer } from "./WeaponContainer";
+import { WeaponContainer } from "./WeaponContainer/WeaponContainer";
 
 export class AutoFireModule {
     protected readonly weapon: IWeapon

@@ -1,9 +1,9 @@
 import { PlayerStorageContainer } from "server/Core/PlayerStorage/PlayerStorageContainer";
-import { ServerWeaponManager } from "./ServerWeaponManager";
-import { WeaponContainer } from "shared/Weapon/WeaponContainer";
 import { RemoteProvider } from "shared/RemoteProvider";
 import { PlayerFireModules } from "shared/Weapon/PlayerFireModules";
 import { AutoFireModule } from "shared/Weapon/AutoFireModule";
+import { WeaponContainer } from "shared/Weapon/WeaponContainer/WeaponContainer";
+import { ServerWeaponManager } from "./ServerWeaponManager";
 
 export class WeaponController extends PlayerStorageContainer<string, WeaponContainer> {
     private readonly remote = RemoteProvider.GetForWeapon()
@@ -32,6 +32,4 @@ export class WeaponController extends PlayerStorageContainer<string, WeaponConta
         this.playerFireModules.GetFireModule(plr, id).FireModule.StopFire()
         this.remote.StopFire.FireAllClients(plr, id)
     }
-
-
 }

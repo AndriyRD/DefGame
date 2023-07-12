@@ -2,6 +2,7 @@
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local Roact = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "roact", "src")
 local ContentFrame = TS.import(script, script.Parent, "ContentFrame")
+local BuyBtn = TS.import(script, script.Parent, "BuyBtn")
 local WeaponShop = (Roact.createFragment({
 	WeaponShop = Roact.createElement("Frame", {
 		Size = UDim2.new(.5, 0, .6, 0),
@@ -12,6 +13,7 @@ local WeaponShop = (Roact.createFragment({
 		BorderColor3 = BrickColor.White().Color,
 	}, {
 		Roact.createElement(ContentFrame),
+		Roact.createElement(BuyBtn),
 	}),
 }))
 return function()

@@ -1,13 +1,22 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local WeaponContainerFactory = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WeaponContainerFactory").WeaponContainerFactory
+local WeaponContainerFactory = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WeaponContainer", "WeaponContainerFactory").WeaponContainerFactory
 local WeaponManager
 do
-	WeaponManager = {}
-	function WeaponManager:constructor()
+	WeaponManager = setmetatable({}, {
+		__tostring = function()
+			return "WeaponManager"
+		end,
+	})
+	WeaponManager.__index = WeaponManager
+	function WeaponManager.new(...)
+		local self = setmetatable({}, WeaponManager)
+		return self:constructor(...) or self
+	end
+	function WeaponManager:constructor(handlerFactory)
+		self.handlerFactory = handlerFactory
 		self.containerList = {}
-		self.factories = self:InitFactories()
-		self.weaponContainerFactory = WeaponContainerFactory.new(self.factories)
+		self.weaponContainerFactory = WeaponContainerFactory.new(self.handlerFactory)
 	end
 	function WeaponManager:RegisterWeapon(plaeyr, model)
 		local container = self.weaponContainerFactory:Create(plaeyr, model)

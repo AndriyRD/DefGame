@@ -1,7 +1,7 @@
-import { AutoFireModule } from "./AutoFireModule";
-import { IWeapon } from "./IWeapon";
-import { IFireHandler } from "./WeaponHandler/IFireHandler";
-import { IHitHandler } from "./WeaponHandler/IHitHandler";
+import { IWeapon } from "../IWeapon"
+import { IFireHandler } from "../WeaponHandler/IFireHandler"
+import { IHitHandler } from "../WeaponHandler/IHitHandler"
+
 
 export class WeaponContainer {
     private readonly owner
@@ -27,6 +27,10 @@ export class WeaponContainer {
         return this.hitHandler
     }
 
+    Reload(){
+        
+    }
+
     Destory(){
         //TODO: clear from memory
     }
@@ -34,7 +38,8 @@ export class WeaponContainer {
     constructor(
         private readonly weapon: IWeapon,
         private readonly fireHandler: IFireHandler,
-        private readonly hitHandler: IHitHandler){
+        private readonly hitHandler: IHitHandler)
+        {
             this.owner = weapon.GetOwner()
         }
 }

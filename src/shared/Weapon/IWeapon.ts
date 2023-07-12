@@ -1,4 +1,6 @@
 import { AmmoContainer } from "./Ammo/AmmoContainer"
+import { IWeaponAssets } from "./Asset/IWeaponAssets"
+import { IWeaponAnimationSet } from "./IWeaponAnimationSet"
 import { IWeaponConfig } from "./IWeaponConfig"
 import { IWeaponModel } from "./IWeaponModel"
 
@@ -9,5 +11,5 @@ export interface IWeapon {
     GetConfig(): IWeaponConfig
     GetAmmoContainer(): AmmoContainer
     GetFireDelay(): number
-    // GetAssets(): 
+    GetAssets(): IWeaponAssets
 }

@@ -1,4 +1,6 @@
 -- Compiled with roblox-ts v2.1.0
+local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
+local WeaponAssetParser = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Asset", "WeaponAssetParser").WeaponAssetParser
 local BaseWeapon
 do
 	BaseWeapon = setmetatable({}, {
@@ -17,6 +19,7 @@ do
 		self.model = model
 		self.config = config
 		self.ammo = ammo
+		self.assets = WeaponAssetParser:Parse(self.name)
 	end
 	function BaseWeapon:GetName()
 		return self.name
@@ -35,6 +38,9 @@ do
 	end
 	function BaseWeapon:GetFireDelay()
 		return 1 / self:GetConfig().FireSpeed
+	end
+	function BaseWeapon:GetAssets()
+		return self.assets
 	end
 end
 return {

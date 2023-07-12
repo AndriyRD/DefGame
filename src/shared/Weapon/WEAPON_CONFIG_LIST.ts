@@ -10,6 +10,11 @@ WEAPON_CONFIG_LIST.set('AK47', {
     AmmoConfig: {
         MagazineSize: 30,
         MaxAmmo: 180
+    },
+    AnimationSet: {
+        Equip: '',
+        Unequip: '',
+        Relaod: '14044982295'
     }
 })
 

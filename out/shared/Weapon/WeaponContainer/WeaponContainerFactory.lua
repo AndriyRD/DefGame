@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local WeaponContainer = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WeaponContainer").WeaponContainer
+local WeaponContainer = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WeaponContainer", "WeaponContainer").WeaponContainer
 local WeaponFactory = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WeaponFactory").WeaponFactory
 local WeaponContainerFactory
 do
@@ -20,14 +20,12 @@ do
 	end
 	function WeaponContainerFactory:Create(owner, model)
 		local weapon = self.weaponFactory:CreateByModel(owner, model)
-		local _factories = self.factories
-		local _handlerType = weapon:GetConfig().HandlerType
-		local handlerFactory = _factories[_handlerType]
-		if not handlerFactory then
+		local handlers = self.factories:Find(weapon:GetConfig().HandlerType)()
+		if not handlers then
 			error("Not found weapon handler-factory: (" .. (weapon:GetName() .. ")"))
 		end
-		local hitHandler = handlerFactory.CreateHitHandler(weapon)
-		return WeaponContainer.new(weapon, handlerFactory.CreateFireHandler(weapon, hitHandler), hitHandler)
+		local hitHandler = handlers.CreateHitHandler(weapon)
+		return WeaponContainer.new(weapon, handlers.CreateFireHandler(weapon, hitHandler), hitHandler)
 	end
 end
 return {

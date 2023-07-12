@@ -10,6 +10,11 @@ local _arg1 = {
 		MagazineSize = 30,
 		MaxAmmo = 180,
 	},
+	AnimationSet = {
+		Equip = "",
+		Unequip = "",
+		Relaod = "14044982295",
+	},
 }
 WEAPON_CONFIG_LIST.AK47 = _arg1
 return WEAPON_CONFIG_LIST

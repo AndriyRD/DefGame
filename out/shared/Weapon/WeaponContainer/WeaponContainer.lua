@@ -33,6 +33,8 @@ do
 	function WeaponContainer:GetHitHandler()
 		return self.hitHandler
 	end
+	function WeaponContainer:Reload()
+	end
 	function WeaponContainer:Destory()
 	end
 end
