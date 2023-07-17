@@ -1,7 +1,8 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local WeaponRayCasting = TS.import(script, script.Parent, "WeaponRayCasting").WeaponRayCasting
-local ParticleController = TS.import(script, script.Parent, "VisualEffects", "ParticleController").ParticleController
+local BulletHit = TS.import(script, script.Parent, "VisualEffects", "HitEffect", "BulletHit").BulletHit
+local ShotTrace = TS.import(script, script.Parent, "VisualEffects", "Trace", "ShotTrace").ShotTrace
 local BaseFireHandler
 do
 	BaseFireHandler = setmetatable({}, {
@@ -17,9 +18,9 @@ do
 	function BaseFireHandler:constructor(weapon, hitHandler)
 		self.weapon = weapon
 		self.hitHandler = hitHandler
-		self.particleController = ParticleController.new()
 		self.caster = WeaponRayCasting.new(weapon:GetOwner())
-		self.muzzle = weapon:GetWeaponModel().Muzzle
+		self.shotTrace = ShotTrace.new(self.weapon:GetWeaponModel())
+		self.bulletHit = BulletHit.new()
 	end
 	function BaseFireHandler:OnHit(res)
 		self.hitHandler:OnHit(res)
@@ -38,9 +39,15 @@ do
 	end
 	function BaseFireHandler:Fire()
 		local res = self.caster:Cast()
-		if res then
-			self:OnHit(res)
-			self.particleController:Shot(self.muzzle.CFrame, res.Position)
+		local rayRes = res.RaycastResult
+		if rayRes then
+			self:OnHit(rayRes)
+			coroutine.wrap(function()
+				self.shotTrace:Create(rayRes.Instance, rayRes.Position)
+				self.bulletHit:Spawn(rayRes.Instance, rayRes.Position)
+			end)()
+		else
+			self.shotTrace:CreateWithoutParent(res.EndPoint)
 		end
 		return self
 	end

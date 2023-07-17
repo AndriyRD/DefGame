@@ -1,13 +1,15 @@
+import { RunService } from "@rbxts/services";
 import { AmmoContainer } from "./Ammo/AmmoContainer";
+import { WeaponAnimation } from "./Animation/WeaponAnimation";
 import { IWeaponAssets } from "./Asset/IWeaponAssets";
 import { WeaponAssetParser } from "./Asset/WeaponAssetParser";
 import { IWeapon } from "./IWeapon";
-import { IWeaponAnimationSet } from "./IWeaponAnimationSet";
 import { IWeaponConfig } from "./IWeaponConfig";
 import { IWeaponModel } from "./IWeaponModel";
 
 export class BaseWeapon implements IWeapon {
     private readonly assets;
+    private readonly animation: WeaponAnimation
 
     GetName(): string {
         return this.name;
@@ -37,6 +39,13 @@ export class BaseWeapon implements IWeapon {
         return this.assets
     }
 
+    Relaod(): IWeapon {
+        if (RunService.IsClient())
+            this.animation.PlayReload()
+        this.GetAmmoContainer().Reload()
+        return this
+    }
+
     constructor(
         private readonly owner: Player,
         private readonly name: string,
@@ -45,5 +54,6 @@ export class BaseWeapon implements IWeapon {
         private readonly ammo: AmmoContainer,
     ){
         this.assets = WeaponAssetParser.Parse(this.name) as IWeaponAssets
+        this.animation = new WeaponAnimation(this)
     }
 }

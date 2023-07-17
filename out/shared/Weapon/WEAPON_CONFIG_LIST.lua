@@ -13,8 +13,23 @@ local _arg1 = {
 	AnimationSet = {
 		Equip = "",
 		Unequip = "",
-		Relaod = "14044982295",
+		Relaod = "14085080526",
 	},
 }
 WEAPON_CONFIG_LIST.AK47 = _arg1
+local _arg1_1 = {
+	Damage = 110,
+	FireSpeed = 2,
+	HandlerType = WEAPON_HANDLER_TYPES.BASE,
+	AmmoConfig = {
+		MagazineSize = 1,
+		MaxAmmo = 10,
+	},
+	AnimationSet = {
+		Equip = "",
+		Unequip = "",
+		Relaod = "14085080526",
+	},
+}
+WEAPON_CONFIG_LIST.RocketLauncher = _arg1_1
 return WEAPON_CONFIG_LIST

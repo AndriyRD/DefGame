@@ -25,6 +25,7 @@ do
 			CreateWeapon = self.dirs.Weapon:WaitForChild("CreateWeapon"),
 			StartFire = self.dirs.Weapon:WaitForChild("StartFire"),
 			StopFire = self.dirs.Weapon:WaitForChild("StopFire"),
+			Reload = self.dirs.Weapon:WaitForChild("Reload"),
 			Hit = self.dirs.Weapon:WaitForChild("Hit"),
 		}
 	end
@@ -34,6 +35,7 @@ do
 		}
 	end
 	RemoteProvider.dirs = {
+		Runner = ReplicatedStorage:WaitForChild("Runner"):WaitForChild("Remote"),
 		Equipemnt = ReplicatedStorage:WaitForChild("Equipment"):WaitForChild("Remote"),
 		Weapon = ReplicatedStorage:WaitForChild("Weapon"):WaitForChild("Remote"),
 		Build = ReplicatedStorage:WaitForChild("Build"):WaitForChild("Remote"),

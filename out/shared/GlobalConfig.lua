@@ -26,6 +26,12 @@ do
 					Input = Enum.UserInputType.MouseButton1,
 				},
 			},
+			Reload = {
+				Action = "WeaponReloadAction",
+				PC = {
+					Input = Enum.KeyCode.R,
+				},
+			},
 		},
 		Build = {
 			Cancel = {
@@ -45,6 +51,12 @@ do
 				PC = {
 					Input = { Enum.KeyCode.R, Enum.KeyCode.Q },
 				},
+			},
+		},
+		Run = {
+			Action = "RunAction",
+			Input = {
+				PC = Enum.KeyCode.RightShift,
 			},
 		},
 	}

@@ -2,8 +2,9 @@
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local EQUIPMENT_TYPES = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Equipment", "EQUIPMENTS_TYPES").EQUIPMENT_TYPES
 local C_BaseWrapperEquipment = TS.import(script, script.Parent.Parent, "BaseWrapper", "C_BaseWrapperEquipment").C_BaseWrapperEquipment
-local BindedAutoFireModule = TS.import(script, script.Parent.Parent.Parent.Parent, "Weapon", "Common", "BindedAutoFireModule").BindedAutoFireModule
 local WeaponProvider = TS.import(script, script.Parent.Parent.Parent.Parent, "Weapon", "WeaponProvider").WeaponProvider
+local WeaponBindModule = TS.import(script, script.Parent, "WeaponBindModule").WeaponBindModule
+local AutoFireModule = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "AutoFireModule").AutoFireModule
 local C_WeaponWrappedEquipment
 do
 	local super = C_BaseWrapperEquipment
@@ -20,17 +21,18 @@ do
 	end
 	function C_WeaponWrappedEquipment:constructor(...)
 		super.constructor(self, ...)
-		self.autoFireModule = BindedAutoFireModule.new(WeaponProvider.weaponManager:RegisterWeapon(self:GetOwner(), self:GetModel()))
+		self.weaponContainer = WeaponProvider.weaponManager:RegisterWeapon(self:GetOwner(), self:GetModel())
+		self.bindWeaponModule = WeaponBindModule.new(self.weaponContainer:GetWeapon(), AutoFireModule.new(self.weaponContainer))
 	end
 	function C_WeaponWrappedEquipment:GetEquipmentType()
 		return EQUIPMENT_TYPES.WEAPON
 	end
 	function C_WeaponWrappedEquipment:Equip()
-		self.autoFireModule:Bind()
+		self.bindWeaponModule:Bind()
 		return super.Equip(self)
 	end
 	function C_WeaponWrappedEquipment:Unequip()
-		self.autoFireModule:Unbind()
+		self.bindWeaponModule:Unbind()
 		return super.Unequip(self)
 	end
 end

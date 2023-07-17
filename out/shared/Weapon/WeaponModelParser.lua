@@ -19,6 +19,7 @@ do
 		self.PART_NAMES = {
 			MUZZLE = "Muzzle",
 			CASING_SPAWN = "CasingSpawn",
+			MAGGAZINE = "Mag",
 		}
 	end
 	function WeaponModelParser:Parse(model)
@@ -27,16 +28,16 @@ do
 			error("Not found muzzle-part in weapon: " .. tostring(model))
 		end
 		local casingSpawn = model:WaitForChild(self.PART_NAMES.CASING_SPAWN)
+		local mag = model:WaitForChild(self.PART_NAMES.MAGGAZINE)
 		local root = model.PrimaryPart
 		if not root then
 			error("Not found PrimaryPart in weapon-model: " .. tostring(model))
 		end
-		-- const grip = root.WaitForChild(this.GRIP_POSTFIX) as Motor6D
-		-- if (!grip) error(`Not found grip in weapon-model: ${model}`)
 		return {
 			CasingSpawn = casingSpawn,
 			Muzzle = muzzle,
 			Model = model,
+			Magazine = mag,
 		}
 	end
 	function WeaponModelParser:ByOriginal(name)

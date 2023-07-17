@@ -15,10 +15,11 @@ export class AnimationWithSound {
     }
 
     private Init(){
-        this.char.Events.get(CHARACTER_LOAD_EVENT_NAMES.ANIMATOR)?.Event.Connect(()=>{
+        this.char.Events.get(CHARACTER_LOAD_EVENT_NAMES.ANIMATOR)!.Event.Connect(()=>{
             this.track?.Destroy()
             this.Laod()
         })
+        this.inited = true
     }
 
     private InitIfNotInited(){
@@ -47,5 +48,6 @@ export class AnimationWithSound {
         protected readonly aniamtion: Animation,
         protected readonly soundSet: Map<string, Sound>){
             this.char = new ReloadableCharacter(this.owner)
+            this.Laod()
         }
 }

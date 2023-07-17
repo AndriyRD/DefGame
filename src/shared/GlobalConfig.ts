@@ -9,6 +9,13 @@ export class GlobalConfig {
                 PC: {
                     Input: Enum.UserInputType.MouseButton1
                 }
+            },
+
+            Reload: {
+                Action: 'WeaponReloadAction',
+                PC: {
+                    Input: Enum.KeyCode.R
+                }
             }
         },
 
@@ -32,6 +39,13 @@ export class GlobalConfig {
                 PC: {
                     Input: [Enum.KeyCode.R, Enum.KeyCode.Q]
                 }
+            }
+        },
+
+        Run: {
+            Action: 'RunAction',
+            Input: {
+                PC: Enum.KeyCode.RightShift
             }
         }
     }

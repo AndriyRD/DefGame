@@ -6,7 +6,8 @@ const models = weaponDir.WaitForChild('Models') as Folder
 export class WeaponModelParser {
     private readonly PART_NAMES = {
         MUZZLE: 'Muzzle',
-        CASING_SPAWN: 'CasingSpawn'
+        CASING_SPAWN: 'CasingSpawn',
+        MAGGAZINE: 'Mag'
     }
     
     Parse(model: Model){
@@ -14,17 +15,16 @@ export class WeaponModelParser {
         if (!muzzle) error(`Not found muzzle-part in weapon: ${model}`)
         
         const casingSpawn = model.WaitForChild(this.PART_NAMES.CASING_SPAWN) as BasePart
+        const mag = model.WaitForChild(this.PART_NAMES.MAGGAZINE) as BasePart
 
         const root = model.PrimaryPart as BasePart
         if (!root) error(`Not found PrimaryPart in weapon-model: ${model}`)
 
-        // const grip = root.WaitForChild(this.GRIP_POSTFIX) as Motor6D
-        // if (!grip) error(`Not found grip in weapon-model: ${model}`)
-
         return {
             CasingSpawn: casingSpawn,
             Muzzle: muzzle,
-            Model: model
+            Model: model,
+            Magazine: mag
         } as IWeaponModel
     }
 

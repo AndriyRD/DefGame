@@ -19,17 +19,26 @@ do
 		self.owner = owner
 		self.rayParams = RaycastParams.new()
 		self.RANGE = 100
+		self.endPointOffset = Vector3.new(0, 0, -self.RANGE)
 		self.char = ReloadableCharacter.new(owner)
 		self.rayParams.FilterType = Enum.RaycastFilterType.Exclude
 		self.rayParams.FilterDescendantsInstances = { self.char:GetCharacter(), GlobalConfig.DEBRIS }
 	end
 	function WeaponRayCasting:Cast()
 		local root = self.char:GetRoot()
-		local _fn = Workspace
-		local _exp = root.Position
 		local _lookVector = root.CFrame.LookVector
 		local _rANGE = self.RANGE
-		return _fn:Raycast(_exp, _lookVector * _rANGE, self.rayParams)
+		local dir = _lookVector * _rANGE
+		local res = Workspace:Raycast(root.Position, dir, self.rayParams)
+		-- const part = new Instance('Part')
+		-- part.Parent = Workspace
+		-- part.Anchored = true
+		-- part.CanCollide = false
+		-- part.Position = dir
+		return {
+			RaycastResult = res,
+			EndPoint = root.CFrame:PointToWorldSpace(self.endPointOffset),
+		}
 	end
 end
 return {

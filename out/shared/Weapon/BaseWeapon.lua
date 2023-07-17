@@ -1,5 +1,7 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
+local RunService = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").RunService
+local WeaponAnimation = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Animation", "WeaponAnimation").WeaponAnimation
 local WeaponAssetParser = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Asset", "WeaponAssetParser").WeaponAssetParser
 local BaseWeapon
 do
@@ -20,6 +22,7 @@ do
 		self.config = config
 		self.ammo = ammo
 		self.assets = WeaponAssetParser:Parse(self.name)
+		self.animation = WeaponAnimation.new(self)
 	end
 	function BaseWeapon:GetName()
 		return self.name
@@ -41,6 +44,13 @@ do
 	end
 	function BaseWeapon:GetAssets()
 		return self.assets
+	end
+	function BaseWeapon:Relaod()
+		if RunService:IsClient() then
+			self.animation:PlayReload()
+		end
+		self:GetAmmoContainer():Reload()
+		return self
 	end
 end
 return {

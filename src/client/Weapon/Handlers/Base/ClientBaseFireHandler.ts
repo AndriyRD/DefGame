@@ -2,11 +2,12 @@ import { IWeapon } from "shared/Weapon/IWeapon";
 import { IFireHandler } from "shared/Weapon/WeaponHandler/IFireHandler";
 import { WeaponRayCasting } from "./WeaponRayCasting";
 import { IHitHandler } from "shared/Weapon/WeaponHandler/IHitHandler";
-import { ParticleController } from "./VisualEffects/ParticleController";
+import { BulletHit } from "./VisualEffects/HitEffect/BulletHit";
+import { ShotTrace } from "./VisualEffects/Trace/ShotTrace";
 
 export class BaseFireHandler implements IFireHandler{
-    private readonly particleController = new ParticleController()
-    private readonly muzzle
+    private readonly shotTrace
+    private readonly bulletHit
     private readonly caster
 
     protected OnHit(res: RaycastResult){
@@ -27,13 +28,17 @@ export class BaseFireHandler implements IFireHandler{
     }
 
     Fire(): IFireHandler {
-        const res = this.caster.Cast() as RaycastResult | undefined
-        if (res){
-            this.OnHit(res)
-            this.particleController.Shot(this.muzzle.CFrame, res.Position)
+        const res = this.caster.Cast()
+        const rayRes = res.RaycastResult
+        if (rayRes){
+            this.OnHit(rayRes)
+            coroutine.wrap(() => {
+                this.shotTrace.Create(rayRes.Instance, rayRes.Position)
+                this.bulletHit.Spawn(rayRes.Instance, rayRes.Position)
+            })()
         }
         else{
-
+            this.shotTrace.CreateWithoutParent(res.EndPoint)
         }
         return this;
     }
@@ -42,6 +47,7 @@ export class BaseFireHandler implements IFireHandler{
         protected readonly weapon: IWeapon,
         protected readonly hitHandler: IHitHandler){
         this.caster = new WeaponRayCasting(weapon.GetOwner())
-        this.muzzle = weapon.GetWeaponModel().Muzzle
+        this.shotTrace = new ShotTrace(this.weapon.GetWeaponModel())
+        this.bulletHit = new BulletHit()
     }
 }

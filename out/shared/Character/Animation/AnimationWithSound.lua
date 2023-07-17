@@ -22,6 +22,7 @@ do
 		self.onLoad = Instance.new("BindableEvent")
 		self.inited = false
 		self.char = ReloadableCharacter.new(self.owner)
+		self:Laod()
 	end
 	function AnimationWithSound:Laod()
 		self.track = self.char:GetAnimator():LoadAnimation(self.aniamtion)
@@ -38,16 +39,14 @@ do
 	function AnimationWithSound:Init()
 		local _events = self.char.Events
 		local _aNIMATOR = CHARACTER_LOAD_EVENT_NAMES.ANIMATOR
-		local _result = _events[_aNIMATOR]
-		if _result ~= nil then
-			_result = _result.Event:Connect(function()
-				local _result_1 = self.track
-				if _result_1 ~= nil then
-					_result_1:Destroy()
-				end
-				self:Laod()
-			end)
-		end
+		_events[_aNIMATOR].Event:Connect(function()
+			local _result = self.track
+			if _result ~= nil then
+				_result:Destroy()
+			end
+			self:Laod()
+		end)
+		self.inited = true
 	end
 	function AnimationWithSound:InitIfNotInited()
 		if not self.inited then
