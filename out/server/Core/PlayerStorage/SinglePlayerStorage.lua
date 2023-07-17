@@ -5,10 +5,6 @@ do
 	function SinglePlayerStorage:constructor()
 		self.items = {}
 	end
-	function SinglePlayerStorage:Unload()
-		-- TODO: Unload player inventory
-		warn("Ovveride")
-	end
 	function SinglePlayerStorage:Get(player)
 		local _items = self.items
 		local _player = player

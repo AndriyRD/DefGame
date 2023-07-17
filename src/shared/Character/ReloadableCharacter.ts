@@ -81,14 +81,17 @@ export class ReloadableCharacter {
         return this.animateScript as Instance
     }
 
-    constructor(private readonly owner: Player){
+    Destory(){
+        for (const item of this.Events)
+            item[1].Destroy()
+        this.Events.clear()
+        this.char = undefined as any
+        this.root = undefined as any
+        this.hum = undefined as any
+        this.animateScript = undefined as any
+    }
 
+    constructor(private readonly owner: Player){
         this.InitEvents()
-        const conn = Players.PlayerRemoving.Connect(p => {
-            if (p === owner){
-                this.OnOwnerLeave()
-                conn.Disconnect()
-            }
-        })
     }
 }

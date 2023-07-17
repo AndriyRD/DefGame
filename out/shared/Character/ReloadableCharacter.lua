@@ -1,6 +1,5 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local Players = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Players
 local BODY_PART_NAMES = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "BODY_PART_NAMES")
 local PROP_NAMES = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "PROP_NAMES").PROP_NAMES
 local GetCharacter = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "GetCharacter")
@@ -38,13 +37,6 @@ do
 		self.owner = owner
 		self.Events = {}
 		self:InitEvents()
-		local conn
-		conn = Players.PlayerRemoving:Connect(function(p)
-			if p == owner then
-				self:OnOwnerLeave()
-				conn:Disconnect()
-			end
-		end)
 	end
 	function ReloadableCharacter:OnOwnerLeave()
 		for _k, _v in self.Events do
@@ -106,6 +98,17 @@ do
 	end
 	function ReloadableCharacter:GetAnimateScript()
 		return self.animateScript
+	end
+	function ReloadableCharacter:Destory()
+		for _k, _v in self.Events do
+			local item = { _k, _v }
+			item[2]:Destroy()
+		end
+		table.clear(self.Events)
+		self.char = nil
+		self.root = nil
+		self.hum = nil
+		self.animateScript = nil
 	end
 end
 return {

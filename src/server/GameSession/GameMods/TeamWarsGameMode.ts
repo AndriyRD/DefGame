@@ -6,6 +6,7 @@ import { WeaponEventListener } from "server/Weapon/FrontLayer/WeaponEventListene
 import { EquipmentEventListener } from "server/Equipment/FrontLayer/EquipmentEventListener";
 import { ApiServiceRegister } from "server/Core/ApiService/ApiServiceRegister";
 import { EquipmentService } from "server/Equipment/FrontLayer/EquipmentService";
+import { RunnerEventListener } from "server/Runner/RunnerEventListener";
 
 export class TeamWarsGameMode extends GameModeLoader{
     static readonly ID = 'TeamWars'
@@ -20,6 +21,7 @@ export class TeamWarsGameMode extends GameModeLoader{
         new EventRegister()
             .Register(new WeaponEventListener())
             .Register(new EquipmentEventListener())
+            .Register(new RunnerEventListener())
     }
 
     private RunApiServices(){

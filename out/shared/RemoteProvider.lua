@@ -34,6 +34,12 @@ do
 			Build = self.dirs.Build:WaitForChild("Build"),
 		}
 	end
+	function RemoteProvider:GetForRunner()
+		return {
+			Run = self.dirs.Runner:WaitForChild("Run"),
+			Stop = self.dirs.Runner:WaitForChild("Stop"),
+		}
+	end
 	RemoteProvider.dirs = {
 		Runner = ReplicatedStorage:WaitForChild("Runner"):WaitForChild("Remote"),
 		Equipemnt = ReplicatedStorage:WaitForChild("Equipment"):WaitForChild("Remote"),

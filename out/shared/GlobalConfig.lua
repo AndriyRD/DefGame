@@ -56,7 +56,7 @@ do
 		Run = {
 			Action = "RunAction",
 			Input = {
-				PC = Enum.KeyCode.RightShift,
+				PC = Enum.KeyCode.LeftShift,
 			},
 		},
 	}

@@ -1,14 +1,10 @@
+import { Players } from "@rbxts/services";
 import { IStorage } from "./IStorage";
 export abstract class SinglePlayerStorage<T> implements IStorage{
-    private readonly items = new Map<Player, T>()
+    protected readonly items = new Map<Player, T>()
     
     protected abstract CreateItem(plr: Player): T
-
-    Unload(){
-        //TODO: Unload player inventory
-        warn('Ovveride')
-    }
-
+    
     Get(player: Player){
         const item = this.items.get(player)
         if (!item)
