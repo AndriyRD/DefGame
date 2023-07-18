@@ -3,6 +3,6 @@ export interface IWeaponAssets {
         Fire: Sound
         Equip: Map<string, Sound>
         Unequip: Map<string, Sound>
-        Relaod: Map<string, Sound>
+        Reload: Map<string, Sound>
     }
 }

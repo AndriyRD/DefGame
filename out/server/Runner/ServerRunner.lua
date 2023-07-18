@@ -23,14 +23,16 @@ do
 	end
 	function Runner:Dispose()
 		self.character:Destory()
+		self.stamina:Dispose()
 	end
 	function Runner:Run()
-		print("SERVER RUNNNER RUN")
 		self.humanoid.WalkSpeed = self.runSpeed
+		self.stamina:SetConsuptionMode(true)
 		return self
 	end
 	function Runner:Stop()
 		self.humanoid.WalkSpeed = self.defaultSpeed
+		self.stamina:SetConsuptionMode(false)
 		return self
 	end
 end

@@ -7,8 +7,11 @@ do
 	BaseRunner = {}
 	function BaseRunner:constructor(owner)
 		self.owner = owner
-		self.stamina = Stamina.new(100, 2)
+		self.stamina = Stamina.new(100, 1)
 		self.character = ReloadableCharacter.new(owner)
+		self.stamina.OnEndStamina.Event:Connect(function()
+			return self:Stop()
+		end)
 	end
 end
 return {

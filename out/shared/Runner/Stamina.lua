@@ -19,13 +19,16 @@ do
 		self.loopHandler = BaseGameLoop.new()
 		self.currentValue = 0
 		self.enableRegenState = true
+		self.OnEndStamina = Instance.new("BindableEvent")
+		self.OnUpdateValue = Instance.new("BindableEvent")
 		self.loopHandler:AddTask("main", function()
 			if self.enableRegenState then
 				self:RegenStamina()
 			else
 				self:ConsuptionStamina()
 			end
-		end):StartAsync()
+		end):StartAsync():SetTickRate(1 / 20)
+		self.currentValue = self.maxValue
 	end
 	function Stamina:RegenStamina()
 		if self.currentValue < self.maxValue then
@@ -33,28 +36,40 @@ do
 			if self.currentValue > self.maxValue then
 				self.currentValue = self.maxValue
 			end
+			self.OnUpdateValue:Fire(self.currentValue)
 		end
 	end
 	function Stamina:ConsuptionStamina()
 		if self.currentValue > 0 then
 			self.currentValue -= 1
+			self.OnUpdateValue:Fire(self.currentValue)
+		end
+		if self.currentValue <= 0 then
 			if self.currentValue < 0 then
 				self.currentValue = 0
 			end
+			self.OnEndStamina:Fire()
 		end
 	end
 	function Stamina:Dispose()
 		self.loopHandler:Stop()
+		self.OnEndStamina:Destroy()
+		self.OnUpdateValue:Destroy()
 		self.loopHandler:ClearTaskList()
 		self.currentValue = nil
 		self.maxValue = nil
 		self.loopHandler = nil
+		self.OnEndStamina = nil
+		self.OnEndStamina = nil
 	end
 	function Stamina:GetCurrentValue()
-		return self
+		return self.currentValue
+	end
+	function Stamina:GetMaxValue()
+		return self.maxValue
 	end
 	function Stamina:SetConsuptionMode(value)
-		self.enableRegenState = value
+		self.enableRegenState = not value
 	end
 end
 return {

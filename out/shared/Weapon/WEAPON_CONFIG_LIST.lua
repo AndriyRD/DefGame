@@ -13,7 +13,7 @@ local _arg1 = {
 	AnimationSet = {
 		Equip = "",
 		Unequip = "",
-		Relaod = "14085080526",
+		Relaod = "14110068229",
 	},
 }
 WEAPON_CONFIG_LIST.AK47 = _arg1

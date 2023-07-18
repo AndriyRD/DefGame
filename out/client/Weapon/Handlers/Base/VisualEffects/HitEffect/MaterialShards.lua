@@ -21,21 +21,38 @@ do
 		self.lifeTime = NumberRange.new(1, 3)
 		self.container = GlobalConfig.DEBRIS
 	end
-	function MaterialShards:CreateShard(pos, material)
+	function MaterialShards:CreateShard(material)
 		local shard = Instance.new("Part", self.container)
 		shard.Material = material
 		shard.Anchored = false
 		shard.CanCollide = true
-		shard.AssemblyLinearVelocity = VectorUtility:CreateRandomVector(self.velocity.Min, self.velocity.Max)
-		shard.Position = pos
-		shard.Size = VectorUtility:CreateRandomVector(self.size.Min, self.size.Max)
 		return shard
 	end
+	function MaterialShards:PlaceShard(shard, pos)
+		shard.AssemblyLinearVelocity = VectorUtility:CreateRandomVector(self.velocity.Min, self.velocity.Max)
+		shard.Position = pos
+		return shard
+	end
+	function MaterialShards:GenerateShardSize()
+		return VectorUtility:CreateRandomVector(self.size.Min, self.size.Max)
+	end
+	function MaterialShards:SpawnShard(pos, material)
+		local shard = self:CreateShard(material)
+		shard.Size = self:GenerateShardSize()
+		return self:PlaceShard(shard, pos)
+	end
+	function MaterialShards:GetLifeTime()
+		return self.lifeTime
+	end
 	function MaterialShards:Spawn(pos, count, material)
+		local shards = {}
 		for i = 0, count - 1 do
 			local lifeTime = math.random(self.lifeTime.Min, self.lifeTime.Max)
-			Debris:AddItem(self:CreateShard(pos, material), lifeTime)
+			local shard = self:SpawnShard(pos, material)
+			table.insert(shards, shard)
+			Debris:AddItem(shard, lifeTime)
 		end
+		return shards
 	end
 end
 return {

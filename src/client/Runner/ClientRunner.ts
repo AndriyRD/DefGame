@@ -1,4 +1,6 @@
 import { ContextActionService } from "@rbxts/services";
+import { EventProvider } from "client/EventProvider";
+import CreateStaminaUI from "client/UI/RunnerStamina/CreateStaminaUI";
 import { AnimationWithSound } from "shared/Character/Animation/AnimationWithSound";
 import { AnimationUtility } from "shared/Character/Animation/AnmationUtility";
 import { GlobalConfig } from "shared/GlobalConfig";
@@ -23,13 +25,17 @@ export class Runner extends BaseRunner {
 
     Run(): BaseRunner {
         this.remote.Run.FireServer()
+        this.stamina.SetConsuptionMode(true)
         this.animation.Play()
+        EventProvider.Runner.Run.Fire()
         return this
     }
 
     Stop(): BaseRunner {
         this.remote.Stop.FireServer()
+        this.stamina.SetConsuptionMode(false)
         this.animation.GetTrack()?.Stop()
+        EventProvider.Runner.Stop.Fire()
         return this
     }
 
@@ -39,5 +45,6 @@ export class Runner extends BaseRunner {
             owner, 
             AnimationUtility.CreateByID(runAnimationID),
             new Map())
+        CreateStaminaUI(this.stamina)
     }
 }

@@ -21,6 +21,7 @@ do
 		self.caster = WeaponRayCasting.new(weapon:GetOwner())
 		self.shotTrace = ShotTrace.new(self.weapon:GetWeaponModel())
 		self.bulletHit = BulletHit.new()
+		self.fireSound = self.weapon:GetAssets().Sounds.Fire
 	end
 	function BaseFireHandler:OnHit(res)
 		self.hitHandler:OnHit(res)
@@ -49,6 +50,7 @@ do
 		else
 			self.shotTrace:CreateWithoutParent(res.EndPoint)
 		end
+		self.fireSound:Play()
 		return self
 	end
 end

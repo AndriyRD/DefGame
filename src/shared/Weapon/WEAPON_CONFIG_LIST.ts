@@ -14,7 +14,7 @@ WEAPON_CONFIG_LIST.set('AK47', {
     AnimationSet: {
         Equip: '',
         Unequip: '',
-        Relaod: '14085080526'
+        Relaod: '14110068229'
     }
 })
 

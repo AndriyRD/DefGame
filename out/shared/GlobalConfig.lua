@@ -68,6 +68,7 @@ do
 	GlobalConfig.MAP_TERRAIN_CONTAINER_NAME = "Tarrain"
 	GlobalConfig.LAODED_MAP_NAME = "Map"
 	GlobalConfig.HP_ATTRIBUtE_NAME = "HP"
+	GlobalConfig.UI_MAIN_SCREEN_NAME = "MainUI"
 end
 return {
 	GlobalConfig = GlobalConfig,

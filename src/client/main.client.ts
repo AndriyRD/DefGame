@@ -11,7 +11,7 @@ new WeaponProvider()
 new WeaponReplicator().Run()
 new ClientEquipmentManager().Startup()
 new Runner(Players.LocalPlayer, '845386501').Bind()
+App()
 
 craeteEquipmentEvent.FireServer('AK47')
 // craeteEquipmentEvent.FireServer('RocketLauncher')
-App()

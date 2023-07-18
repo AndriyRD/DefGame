@@ -9,6 +9,7 @@ export class BaseFireHandler implements IFireHandler{
     private readonly shotTrace
     private readonly bulletHit
     private readonly caster
+    private readonly fireSound
 
     protected OnHit(res: RaycastResult){
         this.hitHandler.OnHit(res)
@@ -40,6 +41,7 @@ export class BaseFireHandler implements IFireHandler{
         else{
             this.shotTrace.CreateWithoutParent(res.EndPoint)
         }
+        this.fireSound.Play()
         return this;
     }
 
@@ -49,5 +51,6 @@ export class BaseFireHandler implements IFireHandler{
         this.caster = new WeaponRayCasting(weapon.GetOwner())
         this.shotTrace = new ShotTrace(this.weapon.GetWeaponModel())
         this.bulletHit = new BulletHit()
+        this.fireSound = this.weapon.GetAssets().Sounds.Fire
     }
 }

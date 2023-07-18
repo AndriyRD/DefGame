@@ -1,7 +1,5 @@
 import Roact, { createElement } from "@rbxts/roact";
 import { Players } from "@rbxts/services";
-import WeaponShop from "./WeaponShop/WeaponShop";
-import BuildingMenu from "./BuildingMenu/BuildingMenu";
 const playerGui = Players.LocalPlayer.FindFirstChild('PlayerGui')
 
 export = () => {

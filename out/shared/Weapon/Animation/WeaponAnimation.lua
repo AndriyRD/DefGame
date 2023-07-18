@@ -17,7 +17,7 @@ do
 	end
 	function WeaponAnimation:constructor(weapon)
 		self.weapon = weapon
-		self.reloadAnim = BaseWeaponRelaodAnimation.new(AnimationWithSound.new(self.weapon:GetOwner(), AnimationUtility:CreateByID(self.weapon:GetConfig().AnimationSet.Relaod), self.weapon:GetAssets().Sounds.Relaod), weapon:GetWeaponModel())
+		self.reloadAnim = BaseWeaponRelaodAnimation.new(AnimationWithSound.new(self.weapon:GetOwner(), AnimationUtility:CreateByID(self.weapon:GetConfig().AnimationSet.Relaod), self.weapon:GetAssets().Sounds.Reload), weapon:GetWeaponModel())
 	end
 	function WeaponAnimation:PlayReload()
 		self.reloadAnim:Play()

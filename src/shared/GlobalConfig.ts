@@ -59,4 +59,5 @@ export class GlobalConfig {
     static MAP_TERRAIN_CONTAINER_NAME = 'Tarrain'
     static LAODED_MAP_NAME = 'Map'
     static HP_ATTRIBUtE_NAME = 'HP'
+    static UI_MAIN_SCREEN_NAME = 'MainUI'
 }

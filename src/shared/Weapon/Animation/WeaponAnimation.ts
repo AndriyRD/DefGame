@@ -15,7 +15,7 @@ export class WeaponAnimation {
             new AnimationWithSound(
                 this.weapon.GetOwner(),
                 AnimationUtility.CreateByID(this.weapon.GetConfig().AnimationSet.Relaod),
-                this.weapon.GetAssets().Sounds.Relaod),
+                this.weapon.GetAssets().Sounds.Reload),
             weapon.GetWeaponModel()
         )
     }
