@@ -1,6 +1,5 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local Debris = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Debris
 local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
 local VectorUtility = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "VectorUtility").VectorUtility
 local MaterialShards
@@ -50,7 +49,6 @@ do
 			local lifeTime = math.random(self.lifeTime.Min, self.lifeTime.Max)
 			local shard = self:SpawnShard(pos, material)
 			table.insert(shards, shard)
-			Debris:AddItem(shard, lifeTime)
 		end
 		return shards
 	end

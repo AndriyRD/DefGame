@@ -15,7 +15,6 @@ do
 		self.weapon = weapon
 	end
 	function BaseFireHandler:Fire()
-		print("[SERVER WEAPON SYSTEM] -> Fire")
 		return self
 	end
 end

@@ -1,20 +1,20 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local ObjectPool = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "ObjectPool", "ObjectPool").ObjectPool
-local GeneratedObjectPool
+local ObjectPull = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "ObjectPool", "ObjectPull").ObjectPull
+local GeneratedObjectPull
 do
-	local super = ObjectPool
-	GeneratedObjectPool = setmetatable({}, {
+	local super = ObjectPull
+	GeneratedObjectPull = setmetatable({}, {
 		__tostring = function()
-			return "GeneratedObjectPool"
+			return "GeneratedObjectPull"
 		end,
 		__index = super,
 	})
-	GeneratedObjectPool.__index = GeneratedObjectPool
-	function GeneratedObjectPool:constructor(...)
+	GeneratedObjectPull.__index = GeneratedObjectPull
+	function GeneratedObjectPull:constructor(...)
 		super.constructor(self, ...)
 	end
-	function GeneratedObjectPool:Take()
+	function GeneratedObjectPull:Take()
 		local res = super.Take(self)
 		if not res then
 			res = self:CreateItem()
@@ -26,5 +26,5 @@ do
 	end
 end
 return {
-	GeneratedObjectPool = GeneratedObjectPool,
+	GeneratedObjectPull = GeneratedObjectPull,
 }

@@ -1,7 +1,7 @@
 import { BaseGameLoop } from "shared/BaseGameLoop";
 import { TempItem } from "./TempItem";
 
-export class ObjectPool<T>{
+export class ObjectPull<T>{
     private readonly tickRate
     protected readonly lifeTimeHandler;
     protected readonly items = new Array<TempItem<T>>()
@@ -15,8 +15,33 @@ export class ObjectPool<T>{
     }
 
     protected UpdateItemsLifeTime(){
-        for (const item of this.items)
+        for (const item of this.items){
             item.Update((old) => old + this.tickRate)
+            if(item.GetLifeTime() >= this.objectLifeTime){
+                this.OnMaxLifeTime(item)
+            }
+        }
+    }
+
+    protected OnMaxLifeTime(item: TempItem<T>){
+        item.Dispose()
+    }
+
+    GetFreeChunk(chunkSize: number){
+        if(chunkSize >= this.items.size()){
+            const res = []
+            let oldCounter = 0
+            for (const item of this.items) {
+                const currentLifeTime = item.GetLifeTime()
+                for (const traget of this.items) {
+                    if(currentLifeTime <= traget.GetLifeTime()){
+                        oldCounter++
+                    }
+                }
+                if(oldCounter >= this.items.size() - chunkSize) res.push(item)
+            }
+            return res
+        }
     }
 
     Push(item: T){
@@ -39,7 +64,11 @@ export class ObjectPool<T>{
     }
 
     GetFreeItems(){
-        return this.items.map((v) => this.CanTake(v))
+        return this.items.filter((v) => this.CanTake(v))
+    }
+
+    GetSize(){
+        return this.items.size()
     }
 
     constructor(protected readonly objectLifeTime: number, tickRate: number | undefined){
@@ -47,5 +76,6 @@ export class ObjectPool<T>{
         this.lifeTimeHandler = new BaseGameLoop()
             .SetTickRate(this.tickRate)
             .AddTask('main', () => this.UpdateItemsLifeTime())
+            .StartAsync()
     }
 }

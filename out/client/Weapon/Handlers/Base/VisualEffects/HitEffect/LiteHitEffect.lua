@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local MaterialShards = TS.import(script, script.Parent, "MaterialShards").MaterialShards
+local MaterialShardPull = TS.import(script, script.Parent, "MaterialShardPull").MaterialShardPull
 local LiteHitEffect
 do
 	LiteHitEffect = setmetatable({}, {
@@ -15,7 +15,7 @@ do
 	end
 	function LiteHitEffect:constructor()
 		self.countOfShards = NumberRange.new(0, 3)
-		self.materialShards = MaterialShards.new()
+		self.materialShards = MaterialShardPull.new()
 		self.materials = { Enum.Material.SmoothPlastic, Enum.Material.Plastic, Enum.Material.Wood }
 	end
 	function LiteHitEffect:Hit(pos, material)

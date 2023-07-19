@@ -4,7 +4,6 @@ import { IFireHandler } from "shared/Weapon/WeaponHandler/IFireHandler";
 export class BaseFireHandler implements IFireHandler {
 
     Fire(): IFireHandler {
-        print('[SERVER WEAPON SYSTEM] -> Fire')
         return this
     }
     

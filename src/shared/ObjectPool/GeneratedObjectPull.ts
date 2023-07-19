@@ -1,7 +1,7 @@
-import { ObjectPool } from "./ObjectPool";
+import { ObjectPull } from "./ObjectPull";
 import { TempItem } from "./TempItem";
 
-export abstract class GeneratedObjectPool<T> extends ObjectPool<T> {
+export abstract class GeneratedObjectPull<T> extends ObjectPull<T> {
     protected abstract CreateItem(): TempItem<T>
 
     Take() {

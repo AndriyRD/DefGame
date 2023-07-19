@@ -1,6 +1,11 @@
-import { ObjectPool } from "./ObjectPool";
+import { ObjectPull } from "./ObjectPull";
+import { TempItem } from "./TempItem";
 
-export class InstancePool extends ObjectPool<Instance>{
+export class InstancePull extends ObjectPull<Instance>{
+
+    protected OnMaxLifeTime(item: TempItem<Instance>): void {
+        item.GetItem().Destroy()
+    }
 
     Push(item: Instance): void {
         super.Push(item)
@@ -11,10 +16,13 @@ export class InstancePool extends ObjectPool<Instance>{
                     print(`Remove from pool item: ${item}`)
                 }
             })
+            conn.Disconnect()
+            conn = undefined as any
         })
     }
 
     constructor(objectLifeTime: number, tickRate: number | undefined){
         super(objectLifeTime, tickRate)
+        math.randomseed(tick())
     }
 }

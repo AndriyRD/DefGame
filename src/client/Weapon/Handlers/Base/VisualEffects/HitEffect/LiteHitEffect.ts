@@ -1,9 +1,10 @@
 import { IHitEffect } from "./IHitEffect";
+import { MaterialShardPull } from "./MaterialShardPull";
 import { MaterialShards } from "./MaterialShards";
 
 export class LiteHitEffect implements IHitEffect{
     private readonly countOfShards = new NumberRange(0,3)
-    private readonly materialShards = new MaterialShards()
+    private readonly materialShards = new MaterialShardPull()
     private readonly materials = [
         Enum.Material.SmoothPlastic,
         Enum.Material.Plastic,

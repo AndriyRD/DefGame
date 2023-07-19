@@ -46,7 +46,6 @@ export class MaterialShards {
             const lifeTime = math.random(this.lifeTime.Min, this.lifeTime.Max)
             const shard = this.SpawnShard(pos, material)
             shards.push(shard)
-            Debris.AddItem(shard, lifeTime)
         }
         return shards
     }
