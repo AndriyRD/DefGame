@@ -1,9 +1,11 @@
+import { ChunkedObjectPull } from "shared/ObjectPool/ChunkedObjectPull";
 import { MaterialShards } from "./MaterialShards";
 import { InstancePull } from "shared/ObjectPool/InstancePull";
 
 export class MaterialShardPull extends MaterialShards {
-    private readonly shardPool = new InstancePull(this.lifeTime.Max, undefined)
-    private readonly MAX_SHARDS = 10
+    private readonly pull = new ChunkedObjectPull(
+            new InstancePull(this.lifeTime.Max, undefined))
+    private readonly MAX_SHARDS = 20
 
     private ReUseShard(shard: BasePart, pos: Vector3){
         this.PlaceShard(shard, pos)
@@ -11,12 +13,9 @@ export class MaterialShardPull extends MaterialShards {
     }
 
     Spawn(pos: Vector3, count: number, material: Enum.Material) {
-        if(this.shardPool.GetSize() >= this.MAX_SHARDS){
-            const freeItems = this.shardPool.GetFreeChunk(count)
-            print('MAX_SIZE')
-            print(freeItems)
-            if(freeItems && freeItems.size() >= count){
-                print('PULL IS FULL')
+        if(this.pull.GetSize() >= this.MAX_SHARDS){
+            const freeItems = this.pull.GetChunk(count)
+            if(freeItems.size() >= count){
                 const res = []
                 for (const item of freeItems){
                     const shard = item.GetItem() as BasePart
@@ -28,8 +27,7 @@ export class MaterialShardPull extends MaterialShards {
             }
         } 
         const shards = super.Spawn(pos, count, material)
-        shards.forEach((v) => this.shardPool.Push(v))
-        print('Generate shards!')
+        shards.forEach((v) => this.pull.Push(v))
         return shards
     }
 }

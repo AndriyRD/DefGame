@@ -41,30 +41,7 @@ do
 	function ObjectPull:OnMaxLifeTime(item)
 		item:Dispose()
 	end
-	function ObjectPull:GetFreeChunk(chunkSize)
-		if chunkSize >= #self.items then
-			local res = {}
-			local oldCounter = 0
-			for _, item in self.items do
-				local currentLifeTime = item:GetLifeTime()
-				for _1, traget in self.items do
-					if currentLifeTime <= traget:GetLifeTime() then
-						oldCounter += 1
-					end
-				end
-				if oldCounter >= #self.items - chunkSize then
-					table.insert(res, item)
-				end
-			end
-			return res
-		end
-	end
-	function ObjectPull:Push(item)
-		local _items = self.items
-		local _tempItem = TempItem.new(item, self.objectLifeTime)
-		table.insert(_items, _tempItem)
-	end
-	function ObjectPull:Take()
+	function ObjectPull:FindOldItem()
 		local res = self.items[1]
 		local resTime = res:GetLifeTime()
 		for _, item in self.items do
@@ -75,6 +52,15 @@ do
 				end
 			end
 		end
+		return res
+	end
+	function ObjectPull:Push(item)
+		local _items = self.items
+		local _tempItem = TempItem.new(item, self.objectLifeTime)
+		table.insert(_items, _tempItem)
+	end
+	function ObjectPull:Take()
+		local res = self:FindOldItem()
 		res:Update(function(v)
 			return self:ResetLifeTime(v)
 		end)

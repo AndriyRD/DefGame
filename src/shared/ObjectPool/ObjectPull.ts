@@ -27,28 +27,7 @@ export class ObjectPull<T>{
         item.Dispose()
     }
 
-    GetFreeChunk(chunkSize: number){
-        if(chunkSize >= this.items.size()){
-            const res = []
-            let oldCounter = 0
-            for (const item of this.items) {
-                const currentLifeTime = item.GetLifeTime()
-                for (const traget of this.items) {
-                    if(currentLifeTime <= traget.GetLifeTime()){
-                        oldCounter++
-                    }
-                }
-                if(oldCounter >= this.items.size() - chunkSize) res.push(item)
-            }
-            return res
-        }
-    }
-
-    Push(item: T){
-        this.items.push(new TempItem(item, this.objectLifeTime))
-    }
-
-    Take(){
+    protected FindOldItem(){
         let res = this.items[0]
         let resTime = res.GetLifeTime()
 
@@ -59,6 +38,15 @@ export class ObjectPull<T>{
                     resTime = item.GetLifeTime()
                 }
         }
+        return res
+    }
+
+    Push(item: T){
+        this.items.push(new TempItem(item, this.objectLifeTime))
+    }
+
+    Take(){
+        const res = this.FindOldItem()
         res.Update((v) => this.ResetLifeTime(v))
         return res
     }
