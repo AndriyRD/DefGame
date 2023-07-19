@@ -5,14 +5,13 @@ import { BUILDING_CATEGORIES } from "shared/Products/BUILDING_CATEGORIES"
 
 export = () => {
     return (
-        <frame Size={new UDim2(.6,0,.6,0)}
+        <frame Key='BuildingMenu' 
+            Size={new UDim2(.6,0,.6,0)}
             AnchorPoint={new Vector2(.5,.5)}
             Position={new UDim2(.5,0,.5,0)}
             BackgroundColor3={BrickColor.Black().Color}
             Transparency={Styles.Menu.Transparency}>
-
-            <Navbar categories={[BUILDING_CATEGORIES.BASE]}></Navbar>
-
+                <Navbar categories={[BUILDING_CATEGORIES.BASE]}></Navbar>
         </frame>
     )
 }

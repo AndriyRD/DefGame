@@ -1,5 +1,6 @@
 import Roact, { createElement } from "@rbxts/roact";
 import { Players } from "@rbxts/services";
+import BuildingMenu from "./BuildingMenu/BuildingMenu";
 const playerGui = Players.LocalPlayer.FindFirstChild('PlayerGui')
 
 export = () => {
@@ -9,6 +10,6 @@ export = () => {
             {/* <BuildingMenu></BuildingMenu> */}
         </screengui>
     )
-
+    
     Roact.mount(app, playerGui, 'MainUI')
 }

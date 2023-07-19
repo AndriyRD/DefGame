@@ -1,6 +1,5 @@
 import { Players } from "@rbxts/services";
 import { EventProvider } from "client/EventProvider";
-import { GlobalConfig } from "shared/GlobalConfig";
 
 export class StateManager {
     static readonly PlayerGUI = Players.LocalPlayer.WaitForChild('PlayerGui') as PlayerGui

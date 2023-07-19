@@ -10,10 +10,4 @@ PRODUCT_LIST.Weapon.push({
     Price: 150
 })
 
-PRODUCT_LIST.Weapon.push({
-    ID: 'AK47_TEST_1',
-    Icon: '',
-    Price: 241
-})
-
 export = PRODUCT_LIST
