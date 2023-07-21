@@ -6,13 +6,13 @@ import { AnimationUtility } from "shared/Character/Animation/AnmationUtility";
 import { GlobalConfig } from "shared/GlobalConfig";
 import { RemoteProvider } from "shared/RemoteProvider";
 import { BaseRunner } from "shared/Runner/BaseRunner";
-import { ShelterHandler } from "./CoverHandler/ShelterHandler";
+import { CoverHandler } from "./CoverHandler/CoverHandler";
 
 export class Runner extends BaseRunner {
     private readonly animation
     private readonly bindData = GlobalConfig.BIND_DATA.Run
     private readonly remote = RemoteProvider.GetForRunner()
-    private readonly shelterHandler = new ShelterHandler(this.character)
+    private readonly coverHadndler = new CoverHandler(this.character)
 
     Bind(){
         ContextActionService.BindAction(this.bindData.Action, (name, state) => {
@@ -30,7 +30,7 @@ export class Runner extends BaseRunner {
         this.stamina.SetConsuptionMode(true)
         this.animation.Play()
         EventProvider.Runner.Run.Fire()
-        this.shelterHandler.Start()
+        this.coverHadndler.Start()
         return this
     }
 

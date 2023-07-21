@@ -8,7 +8,7 @@ local AnimationUtility = TS.import(script, game:GetService("ReplicatedStorage"),
 local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
 local RemoteProvider = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "RemoteProvider").RemoteProvider
 local BaseRunner = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Runner", "BaseRunner").BaseRunner
-local ShelterHandler = TS.import(script, script.Parent, "CoverHandler", "ShelterHandler").ShelterHandler
+local CoverHandler = TS.import(script, script.Parent, "CoverHandler", "CoverHandler").CoverHandler
 local Runner
 do
 	local super = BaseRunner
@@ -27,7 +27,7 @@ do
 		super.constructor(self, owner)
 		self.bindData = GlobalConfig.BIND_DATA.Run
 		self.remote = RemoteProvider:GetForRunner()
-		self.shelterHandler = ShelterHandler.new(self.character)
+		self.coverHadndler = CoverHandler.new(self.character)
 		self.animation = AnimationWithSound.new(owner, AnimationUtility:CreateByID(runAnimationID), {})
 		CreateStaminaUI(self.stamina)
 	end
@@ -47,7 +47,7 @@ do
 		self.stamina:SetConsuptionMode(true)
 		self.animation:Play()
 		EventProvider.Runner.Run:Fire()
-		self.shelterHandler:Start()
+		self.coverHadndler:Start()
 		return self
 	end
 	function Runner:Stop()

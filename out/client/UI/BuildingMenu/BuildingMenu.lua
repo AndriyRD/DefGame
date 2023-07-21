@@ -4,6 +4,8 @@ local Roact = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_inc
 local Styles = TS.import(script, script.Parent.Parent, "Styles").Styles
 local Navbar = TS.import(script, script.Parent, "Navbar")
 local BUILDING_CATEGORIES = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Products", "BUILDING_CATEGORIES").BUILDING_CATEGORIES
+local ContantList = TS.import(script, script.Parent, "ContantFrame", "ContantList")
+local PRODUCT_LIST = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Products", "PRODUCT_LIST")
 return function()
 	return Roact.createFragment({
 		BuildingMenu = Roact.createElement("Frame", {
@@ -15,6 +17,9 @@ return function()
 		}, {
 			Roact.createElement(Navbar, {
 				categories = { BUILDING_CATEGORIES.BASE },
+			}),
+			Roact.createElement(ContantList, {
+				items = PRODUCT_LIST.Building,
 			}),
 		}),
 	})

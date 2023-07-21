@@ -9,11 +9,12 @@ export class ArraySpliter {
     static Split<T>(arr: Array<T>, size: number){
         const targetArrCopy = table.clone(arr)
         const containerArr = new Array<Array<T>>
-        const containerArrSize = math.floor(containerArr.size()/size)
+        const containerArrSize = math.floor(arr.size()/size)
 
         for (const i of $range(0,containerArrSize))
             containerArr.push(ArraySpliter.PopArrayElements(targetArrCopy as [], size))
 
+        print(containerArr.size())
         return containerArr
     }
 }

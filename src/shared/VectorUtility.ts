@@ -21,23 +21,24 @@ export class VectorUtility {
         return this.CreateVectorByAxis(() => getAxis())
     }
 
-    static NormalToFaceID(normal: Vector3){
+    static NormalToFaceID(cf: CFrame, normal: Vector3){
         const THETA = .001
 
         for (const noramlID of VectorUtility.FaceNormalIDs) {
-            if(Vector3.FromNormalId(noramlID).Dot(normal) > (1-THETA))
+            const normalVector = cf.VectorToWorldSpace(Vector3.FromNormalId(noramlID))
+            if(normalVector.Dot(normal) > (1-THETA))
                 return noramlID
         }
         error(`Not correct normal: ${normal}`)
     }
 
-    static NormalIDToVector(part: BasePart, normalID: Enum.NormalId){
-        return part.CFrame.PointToWorldSpace(Vector3.FromNormalId(normalID))
-    }
-
     static NoramlToSurfaceWorldNormal(part: BasePart, normal: Vector3){
-        const surfaceID = VectorUtility.NormalToFaceID(normal)
+        const surfaceID = VectorUtility.NormalToFaceID(part.CFrame, normal)
         const objectPoint = Vector3.FromNormalId(surfaceID).mul(part.Size.div(2))
         return part.CFrame.PointToWorldSpace(objectPoint) 
+    }
+
+    static GetDistance(pos1: Vector3, pos2: Vector3){
+        return pos1.sub(pos2).Magnitude
     }
 }

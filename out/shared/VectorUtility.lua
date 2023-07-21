@@ -24,24 +24,27 @@ do
 			return getAxis()
 		end)
 	end
-	function VectorUtility:NormalToFaceID(normal)
+	function VectorUtility:NormalToFaceID(cf, normal)
 		local THETA = .001
 		for _, noramlID in VectorUtility.FaceNormalIDs do
-			if Vector3.FromNormalId(noramlID):Dot(normal) > (1 - THETA) then
+			local normalVector = cf:VectorToWorldSpace(Vector3.FromNormalId(noramlID))
+			if normalVector:Dot(normal) > (1 - THETA) then
 				return noramlID
 			end
 		end
 		error("Not correct normal: " .. tostring(normal))
 	end
-	function VectorUtility:NormalIDToVector(part, normalID)
-		return part.CFrame:PointToWorldSpace(Vector3.FromNormalId(normalID))
-	end
 	function VectorUtility:NoramlToSurfaceWorldNormal(part, normal)
-		local surfaceID = VectorUtility:NormalToFaceID(normal)
+		local surfaceID = VectorUtility:NormalToFaceID(part.CFrame, normal)
 		local _exp = Vector3.FromNormalId(surfaceID)
 		local _arg0 = part.Size / 2
 		local objectPoint = _exp * _arg0
 		return part.CFrame:PointToWorldSpace(objectPoint)
+	end
+	function VectorUtility:GetDistance(pos1, pos2)
+		local _pos1 = pos1
+		local _pos2 = pos2
+		return (_pos1 - _pos2).Magnitude
 	end
 	VectorUtility.random = Random.new(tick())
 	VectorUtility.FaceNormalIDs = { Enum.NormalId.Front, Enum.NormalId.Back, Enum.NormalId.Bottom, Enum.NormalId.Top, Enum.NormalId.Left, Enum.NormalId.Right }

@@ -5,7 +5,7 @@ import { VectorUtility } from "shared/VectorUtility"
 export class MaterialShards {
     protected readonly size = new NumberRange(.2, .5)
     protected readonly velocity = new NumberRange(-20, 20)
-    protected readonly lifeTime = new NumberRange(1, 3)
+    protected readonly lifeTime = new NumberRange(5, 10)
     protected readonly container = GlobalConfig.DEBRIS
 
     protected CreateShard(material: Enum.Material){

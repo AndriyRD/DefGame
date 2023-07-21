@@ -15,8 +15,8 @@ do
 		local self = setmetatable({}, InstancePull)
 		return self:constructor(...) or self
 	end
-	function InstancePull:constructor(objectLifeTime, tickRate)
-		super.constructor(self, objectLifeTime, tickRate)
+	function InstancePull:constructor(objectLifeTime)
+		super.constructor(self, objectLifeTime)
 		math.randomseed(tick())
 	end
 	function InstancePull:OnMaxLifeTime(item)

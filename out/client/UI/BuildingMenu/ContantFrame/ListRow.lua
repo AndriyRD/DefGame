@@ -3,6 +3,7 @@ local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_incl
 local Roact = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "roact", "src")
 local ProductCard = TS.import(script, script.Parent.Parent.Parent, "Product", "ProductCard")
 return function(props)
+	print("create row")
 	local _products = props.products
 	local _arg0 = function(v)
 		return Roact.createElement(ProductCard, {
@@ -25,6 +26,8 @@ return function(props)
 	local _children = {
 		Roact.createElement("UIListLayout", {
 			FillDirection = "Horizontal",
+			HorizontalAlignment = Enum.HorizontalAlignment.Center,
+			Padding = UDim.new(.01),
 		}),
 	}
 	local _length = #_children

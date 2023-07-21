@@ -19,7 +19,7 @@ do
 	end
 	function MaterialShardPull:constructor(...)
 		super.constructor(self, ...)
-		self.pull = ChunkedObjectPull.new(InstancePull.new(self.lifeTime.Max, nil))
+		self.pull = ChunkedObjectPull.new(InstancePull.new(self.lifeTime.Max))
 		self.MAX_SHARDS = 20
 	end
 	function MaterialShardPull:ReUseShard(shard, pos)

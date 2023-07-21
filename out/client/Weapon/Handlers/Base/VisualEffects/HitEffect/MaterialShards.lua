@@ -17,7 +17,7 @@ do
 	function MaterialShards:constructor()
 		self.size = NumberRange.new(.2, .5)
 		self.velocity = NumberRange.new(-20, 20)
-		self.lifeTime = NumberRange.new(1, 3)
+		self.lifeTime = NumberRange.new(5, 10)
 		self.container = GlobalConfig.DEBRIS
 	end
 	function MaterialShards:CreateShard(material)

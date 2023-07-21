@@ -7,7 +7,7 @@ export = () => {
     const app = (
         <screengui Enabled = {true} ResetOnSpawn={false} IgnoreGuiInset={true}>
             {/* <WeaponShop></WeaponShop> */}
-            {/* <BuildingMenu></BuildingMenu> */}
+            <BuildingMenu></BuildingMenu>
         </screengui>
     )
     

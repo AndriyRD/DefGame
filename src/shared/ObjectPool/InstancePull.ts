@@ -21,8 +21,8 @@ export class InstancePull extends ObjectPull<Instance>{
         })
     }
 
-    constructor(objectLifeTime: number, tickRate: number | undefined){
-        super(objectLifeTime, tickRate)
+    constructor(objectLifeTime: number){
+        super(objectLifeTime)
         math.randomseed(tick())
     }
 }

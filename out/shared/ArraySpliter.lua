@@ -28,11 +28,12 @@ do
 	function ArraySpliter:Split(arr, size)
 		local targetArrCopy = table.clone(arr)
 		local containerArr = {}
-		local containerArrSize = math.floor(#containerArr / size)
+		local containerArrSize = math.floor(#arr / size)
 		for i = 0, containerArrSize do
 			local _arg0 = ArraySpliter:PopArrayElements(targetArrCopy, size)
 			table.insert(containerArr, _arg0)
 		end
+		print(#containerArr)
 		return containerArr
 	end
 end

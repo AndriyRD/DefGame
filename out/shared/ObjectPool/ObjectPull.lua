@@ -1,7 +1,7 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local BaseGameLoop = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "BaseGameLoop").BaseGameLoop
 local TempItem = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "ObjectPool", "TempItem").TempItem
+local RunService = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").RunService
 local ObjectPull
 do
 	ObjectPull = setmetatable({}, {
@@ -14,13 +14,12 @@ do
 		local self = setmetatable({}, ObjectPull)
 		return self:constructor(...) or self
 	end
-	function ObjectPull:constructor(objectLifeTime, tickRate)
+	function ObjectPull:constructor(objectLifeTime)
 		self.objectLifeTime = objectLifeTime
 		self.items = {}
-		self.tickRate = if tickRate ~= 0 and (tickRate == tickRate and tickRate) then tickRate else 1 / 20
-		self.lifeTimeHandler = BaseGameLoop.new():SetTickRate(self.tickRate):AddTask("main", function()
-			return self:UpdateItemsLifeTime()
-		end):StartAsync()
+		self.connectino = RunService.Heartbeat:Connect(function(deltaTime)
+			self:UpdateItemsLifeTime(deltaTime)
+		end)
 	end
 	function ObjectPull:CanTake(item)
 		return true
@@ -28,10 +27,10 @@ do
 	function ObjectPull:ResetLifeTime(oldLifeTime)
 		return 0
 	end
-	function ObjectPull:UpdateItemsLifeTime()
+	function ObjectPull:UpdateItemsLifeTime(delata)
 		for _, item in self.items do
 			item:Update(function(old)
-				return old + self.tickRate
+				return old + delata
 			end)
 			if item:GetLifeTime() >= self.objectLifeTime then
 				self:OnMaxLifeTime(item)

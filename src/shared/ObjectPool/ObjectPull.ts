@@ -1,9 +1,9 @@
 import { BaseGameLoop } from "shared/BaseGameLoop";
 import { TempItem } from "./TempItem";
+import { RunService } from "@rbxts/services";
 
 export class ObjectPull<T>{
-    private readonly tickRate
-    protected readonly lifeTimeHandler;
+    private readonly connectino: RBXScriptConnection
     protected readonly items = new Array<TempItem<T>>()
 
     protected CanTake(item: TempItem<T>){
@@ -14,9 +14,9 @@ export class ObjectPull<T>{
         return 0
     }
 
-    protected UpdateItemsLifeTime(){
+    protected UpdateItemsLifeTime(delata: number){
         for (const item of this.items){
-            item.Update((old) => old + this.tickRate)
+            item.Update((old) => old + delata)
             if(item.GetLifeTime() >= this.objectLifeTime){
                 this.OnMaxLifeTime(item)
             }
@@ -59,11 +59,9 @@ export class ObjectPull<T>{
         return this.items.size()
     }
 
-    constructor(protected readonly objectLifeTime: number, tickRate: number | undefined){
-        this.tickRate = tickRate ? tickRate : 1/20
-        this.lifeTimeHandler = new BaseGameLoop()
-            .SetTickRate(this.tickRate)
-            .AddTask('main', () => this.UpdateItemsLifeTime())
-            .StartAsync()
+    constructor(protected readonly objectLifeTime: number){
+        this.connectino = RunService.Heartbeat.Connect((deltaTime) => {
+            this.UpdateItemsLifeTime(deltaTime)
+        })
     }
 }

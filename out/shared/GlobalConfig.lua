@@ -63,6 +63,10 @@ do
 	GlobalConfig.REPLICATE_PACKAGES_ID = {
 		FIRE = "Fire",
 	}
+	GlobalConfig.SHELTER = {
+		IDLE_ANIMATION_ID = "14134513942",
+		HIDE_ANIMATION_ID = "14134503194",
+	}
 	GlobalConfig.MAP_MODEL_STORAGE = ReplicatedStorage:WaitForChild("Maps")
 	GlobalConfig.BUILDING_MODEL_STORAGE = ReplicatedStorage:WaitForChild("Build"):WaitForChild("Models")
 	GlobalConfig.MAP_TERRAIN_CONTAINER_NAME = "Tarrain"

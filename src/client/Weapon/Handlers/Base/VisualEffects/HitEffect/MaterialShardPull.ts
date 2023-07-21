@@ -4,7 +4,7 @@ import { InstancePull } from "shared/ObjectPool/InstancePull";
 
 export class MaterialShardPull extends MaterialShards {
     private readonly pull = new ChunkedObjectPull(
-            new InstancePull(this.lifeTime.Max, undefined))
+            new InstancePull(this.lifeTime.Max))
     private readonly MAX_SHARDS = 20
 
     private ReUseShard(shard: BasePart, pos: Vector3){

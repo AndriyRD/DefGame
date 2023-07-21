@@ -53,6 +53,11 @@ export class GlobalConfig {
     static REPLICATE_PACKAGES_ID = {
         FIRE: 'Fire'
     }
+    
+    static SHELTER = {
+        IDLE_ANIMATION_ID: '14134513942',
+        HIDE_ANIMATION_ID: '14134503194'
+    }
 
     static MAP_MODEL_STORAGE = ReplicatedStorage.WaitForChild('Maps')
     static BUILDING_MODEL_STORAGE = ReplicatedStorage.WaitForChild('Build').WaitForChild('Models')
