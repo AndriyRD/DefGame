@@ -15,36 +15,46 @@ do
 	end
 	function RemoteProvider:constructor()
 	end
+	function RemoteProvider:GetRemoteFolder(dirName)
+		return ReplicatedStorage:WaitForChild(dirName):WaitForChild(RemoteProvider.REMOTE_DIR_NAME)
+	end
 	function RemoteProvider:GetForEquipment()
 		return {
-			Select = self.dirs.Equipemnt:WaitForChild("SelectEquipment"),
+			Select = RemoteProvider.dirs.Equipment:WaitForChild("SelectEquipment"),
 		}
 	end
 	function RemoteProvider:GetForWeapon()
 		return {
-			CreateWeapon = self.dirs.Weapon:WaitForChild("CreateWeapon"),
-			StartFire = self.dirs.Weapon:WaitForChild("StartFire"),
-			StopFire = self.dirs.Weapon:WaitForChild("StopFire"),
-			Reload = self.dirs.Weapon:WaitForChild("Reload"),
-			Hit = self.dirs.Weapon:WaitForChild("Hit"),
+			CreateWeapon = RemoteProvider.dirs.Weapon:WaitForChild("CreateWeapon"),
+			StartFire = RemoteProvider.dirs.Weapon:WaitForChild("StartFire"),
+			StopFire = RemoteProvider.dirs.Weapon:WaitForChild("StopFire"),
+			Reload = RemoteProvider.dirs.Weapon:WaitForChild("Reload"),
+			Hit = RemoteProvider.dirs.Weapon:WaitForChild("Hit"),
 		}
 	end
 	function RemoteProvider:GetForBuild()
 		return {
-			Build = self.dirs.Build:WaitForChild("Build"),
+			Build = RemoteProvider.dirs.Build:WaitForChild("Build"),
 		}
 	end
 	function RemoteProvider:GetForRunner()
 		return {
-			Run = self.dirs.Runner:WaitForChild("Run"),
-			Stop = self.dirs.Runner:WaitForChild("Stop"),
+			Run = RemoteProvider.dirs.Runner:WaitForChild("Run"),
+			Stop = RemoteProvider.dirs.Runner:WaitForChild("Stop"),
 		}
 	end
+	function RemoteProvider:GetForGameLoader()
+		return {
+			NewSession = RemoteProvider.dirs.GameLoader:WaitForChild("NewSession"),
+		}
+	end
+	RemoteProvider.REMOTE_DIR_NAME = "Remote"
 	RemoteProvider.dirs = {
-		Runner = ReplicatedStorage:WaitForChild("Runner"):WaitForChild("Remote"),
-		Equipemnt = ReplicatedStorage:WaitForChild("Equipment"):WaitForChild("Remote"),
-		Weapon = ReplicatedStorage:WaitForChild("Weapon"):WaitForChild("Remote"),
-		Build = ReplicatedStorage:WaitForChild("Build"):WaitForChild("Remote"),
+		Runner = RemoteProvider:GetRemoteFolder("Runner"),
+		Equipment = RemoteProvider:GetRemoteFolder("Equipment"),
+		Weapon = RemoteProvider:GetRemoteFolder("Weapon"),
+		Build = RemoteProvider:GetRemoteFolder("Build"),
+		GameLoader = RemoteProvider:GetRemoteFolder("GameLoader"),
 	}
 end
 return {

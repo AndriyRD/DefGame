@@ -1,13 +1,14 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local EventRegister = TS.import(script, game:GetService("ServerScriptService"), "TS", "Core", "EventSystem", "EventRegister").EventRegister
-local GameModeLoader = TS.import(script, game:GetService("ServerScriptService"), "TS", "GameSession", "GameModeLoader").GameModeLoader
-local MapManager = TS.import(script, game:GetService("ServerScriptService"), "TS", "GameSession", "MapManager").MapManager
+local GameModeLoader = TS.import(script, game:GetService("ServerScriptService"), "TS", "GameLoader", "GameMode", "GameModeLoader").GameModeLoader
 local WeaponEventListener = TS.import(script, game:GetService("ServerScriptService"), "TS", "Weapon", "FrontLayer", "WeaponEventListener").WeaponEventListener
 local EquipmentEventListener = TS.import(script, game:GetService("ServerScriptService"), "TS", "Equipment", "FrontLayer", "EquipmentEventListener").EquipmentEventListener
 local ApiServiceRegister = TS.import(script, game:GetService("ServerScriptService"), "TS", "Core", "ApiService", "ApiServiceRegister").ApiServiceRegister
 local EquipmentService = TS.import(script, game:GetService("ServerScriptService"), "TS", "Equipment", "FrontLayer", "EquipmentService").EquipmentService
 local RunnerEventListener = TS.import(script, game:GetService("ServerScriptService"), "TS", "Runner", "RunnerEventListener").RunnerEventListener
+local GAME_MODE_IDS = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GameLoader", "GAME_MODE_IDS").GAME_MODE_IDS
+local MapManager = TS.import(script, game:GetService("ServerScriptService"), "TS", "GameLoader", "GameMap", "MapManager").MapManager
 local TeamWarsGameMode
 do
 	local super = GameModeLoader
@@ -24,6 +25,7 @@ do
 	end
 	function TeamWarsGameMode:constructor()
 		super.constructor(self)
+		self.ID = GAME_MODE_IDS.TEAM_WARS
 		self.description = {
 			TeamOptions = nil,
 			ProductOptions = nil,
@@ -45,7 +47,6 @@ do
 	end
 	function TeamWarsGameMode:Unload()
 	end
-	TeamWarsGameMode.ID = "TeamWars"
 end
 return {
 	TeamWarsGameMode = TeamWarsGameMode,

@@ -59,6 +59,11 @@ export class GlobalConfig {
         HIDE_ANIMATION_ID: '14134503194'
     }
 
+    static ATTRIBUTES_NAMES = {
+        GAME_MODE: 'GameMode',
+        IS_STARTING_GAME: 'IsStarting'
+    }
+
     static MAP_MODEL_STORAGE = ReplicatedStorage.WaitForChild('Maps')
     static BUILDING_MODEL_STORAGE = ReplicatedStorage.WaitForChild('Build').WaitForChild('Models')
     static MAP_TERRAIN_CONTAINER_NAME = 'Tarrain'

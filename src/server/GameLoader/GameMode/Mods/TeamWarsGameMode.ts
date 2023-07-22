@@ -6,15 +6,17 @@ import { EquipmentEventListener } from "server/Equipment/FrontLayer/EquipmentEve
 import { ApiServiceRegister } from "server/Core/ApiService/ApiServiceRegister";
 import { EquipmentService } from "server/Equipment/FrontLayer/EquipmentService";
 import { RunnerEventListener } from "server/Runner/RunnerEventListener";
+import { GAME_MODE_IDS } from "shared/GameLoader/GAME_MODE_IDS";
+import { MapManager } from "server/GameLoader/GameMap/MapManager";
 
 export class TeamWarsGameMode extends GameModeLoader{
-    static readonly ID = 'TeamWars'
+    readonly ID = GAME_MODE_IDS.TEAM_WARS
     protected readonly description: IGameModeDescription = {
         TeamOptions: undefined,
         ProductOptions: undefined,
         MapIDList: ['Test']
     }
-    // protected mapManager: MapManager = new MapManager(this.description.MapIDList);
+    protected mapManager: MapManager = new MapManager(this.description.MapIDList);
 
     private RunEventListeners(){
         new EventRegister()

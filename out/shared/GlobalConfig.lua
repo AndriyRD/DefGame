@@ -67,6 +67,10 @@ do
 		IDLE_ANIMATION_ID = "14134513942",
 		HIDE_ANIMATION_ID = "14134503194",
 	}
+	GlobalConfig.ATTRIBUTES_NAMES = {
+		GAME_MODE = "GameMode",
+		IS_STARTING_GAME = "IsStarting",
+	}
 	GlobalConfig.MAP_MODEL_STORAGE = ReplicatedStorage:WaitForChild("Maps")
 	GlobalConfig.BUILDING_MODEL_STORAGE = ReplicatedStorage:WaitForChild("Build"):WaitForChild("Models")
 	GlobalConfig.MAP_TERRAIN_CONTAINER_NAME = "Tarrain"

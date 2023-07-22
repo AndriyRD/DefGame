@@ -1,8 +1,9 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local FactoryMap = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "FactoryMap").FactoryMap
-local GameMap = TS.import(script, game:GetService("ServerScriptService"), "TS", "GameSession", "GameMap").GameMap
+local GameMap = TS.import(script, game:GetService("ServerScriptService"), "TS", "GameLoader", "GameMap", "GameMap").GameMap
 local Workspace = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Workspace
+local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
 local MapManager
 do
 	MapManager = setmetatable({}, {
@@ -34,7 +35,9 @@ do
 			_result:Destory()
 		end
 		self.currentMap = newMap()
-		self.currentMap:GetModel().Parent = Workspace
+		local model = self.currentMap:GetModel()
+		model.Parent = Workspace
+		model.Name = GlobalConfig.LAODED_MAP_NAME
 		return self.currentMap
 	end
 end

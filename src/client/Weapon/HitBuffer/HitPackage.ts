@@ -1,5 +1,5 @@
 import { BaseGameLoop } from "shared/BaseGameLoop"
-import { IHitResult } from "shared/IHitResult"
+import { IHitResult } from "client/Weapon/IHitResult"
 
 export class HitPackage {
     private readonly packageSize: number

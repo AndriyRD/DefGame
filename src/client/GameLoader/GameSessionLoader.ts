@@ -5,6 +5,7 @@ export class GameSessionLoader {
 
     NewSession(gameMode: IGameMode){
         this.currentGameMode = gameMode
+        gameMode.Run()
     }
     
     LoadMap(map: Model){

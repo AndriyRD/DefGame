@@ -13,7 +13,7 @@ export abstract class BaseGameMode implements IGameMode {
         new WeaponReplicator().Run()
         new ClientEquipmentManager().Startup()
         new Runner(Players.LocalPlayer, '845386501').Bind()
-        BuildUI()
+        // BuildUI()
         return this;
     }
 

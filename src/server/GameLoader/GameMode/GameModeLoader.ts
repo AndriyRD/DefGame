@@ -1,23 +1,23 @@
+import { GlobalConfig } from "shared/GlobalConfig"
 import { MapManager } from "../GameMap/MapManager"
 import { IGameModeDescription } from "./IGameModeDescription"
+import { GAME_MODE_IDS } from "shared/GameLoader/GAME_MODE_IDS"
 
 export abstract class GameModeLoader {
-    static readonly ID: string
+    abstract readonly ID: GAME_MODE_IDS
     protected readonly description: IGameModeDescription = {
         TeamOptions: undefined,
         ProductOptions: undefined,
         MapIDList: ['']
     }
-    protected readonly mapManager: MapManager
+    protected abstract readonly mapManager: MapManager
 
     Load(mapID: string){
-        this.mapManager.Select(mapID)
+        const map = this.mapManager.Select(mapID).GetModel()
+        map.SetAttribute(GlobalConfig.ATTRIBUTES_NAMES.GAME_MODE, this.ID)
+        map.SetAttribute(GlobalConfig.ATTRIBUTES_NAMES.IS_STARTING_GAME, true)
         return this
     }
     
     abstract Unload(): void
-
-    constructor(){
-        this.mapManager = new MapManager(this.description.MapIDList)
-    }
 }
