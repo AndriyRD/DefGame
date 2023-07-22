@@ -1,5 +1,5 @@
+import { MapManager } from "../GameMap/MapManager"
 import { IGameModeDescription } from "./IGameModeDescription"
-import { MapManager } from "./MapManager"
 
 export abstract class GameModeLoader {
     static readonly ID: string
@@ -8,7 +8,7 @@ export abstract class GameModeLoader {
         ProductOptions: undefined,
         MapIDList: ['']
     }
-    protected abstract readonly mapManager: MapManager
+    protected readonly mapManager: MapManager
 
     Load(mapID: string){
         this.mapManager.Select(mapID)
@@ -16,4 +16,8 @@ export abstract class GameModeLoader {
     }
     
     abstract Unload(): void
+
+    constructor(){
+        this.mapManager = new MapManager(this.description.MapIDList)
+    }
 }

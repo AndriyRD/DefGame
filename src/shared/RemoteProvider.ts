@@ -1,11 +1,17 @@
 import { ReplicatedStorage } from "@rbxts/services";
 
 export class RemoteProvider {
+    private static readonly REMOTE_DIR_NAME = 'Remote'
     private static readonly dirs = {
-        Runner: ReplicatedStorage.WaitForChild('Runner').WaitForChild('Remote'),
-        Equipemnt: ReplicatedStorage.WaitForChild('Equipment').WaitForChild('Remote'),
-        Weapon: ReplicatedStorage.WaitForChild('Weapon').WaitForChild('Remote'),
-        Build: ReplicatedStorage.WaitForChild('Build').WaitForChild('Remote')
+        Runner: this.GetRemoteFolder('Runner'),
+        Equipemnt: this.GetRemoteFolder('Equipemnt'),
+        Weapon: this.GetRemoteFolder('Weapon'),
+        Build: this.GetRemoteFolder('Build'),
+        GameLoader: this.GetRemoteFolder('GameLoader')
+    }
+
+    private static GetRemoteFolder(dirName: string){
+        return ReplicatedStorage.WaitForChild(dirName).WaitForChild(this.REMOTE_DIR_NAME)
     }
 
     static GetForEquipment(){
@@ -34,6 +40,12 @@ export class RemoteProvider {
         return {
             Run: this.dirs.Runner.WaitForChild('Run') as RemoteEvent,
             Stop: this.dirs.Runner.WaitForChild('Stop') as RemoteEvent
+        }
+    }
+
+    static GetForGameLoader(){
+        return {
+            NewSession: this.dirs.GameLoader.WaitForChild('NewSession') as RemoteEvent
         }
     }
 }

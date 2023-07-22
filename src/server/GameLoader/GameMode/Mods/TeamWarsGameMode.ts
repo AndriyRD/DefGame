@@ -1,7 +1,6 @@
 import { EventRegister } from "server/Core/EventSystem/EventRegister";
 import { GameModeLoader } from "../GameModeLoader";
 import { IGameModeDescription } from "../IGameModeDescription";
-import { MapManager } from "../MapManager";
 import { WeaponEventListener } from "server/Weapon/FrontLayer/WeaponEventListener";
 import { EquipmentEventListener } from "server/Equipment/FrontLayer/EquipmentEventListener";
 import { ApiServiceRegister } from "server/Core/ApiService/ApiServiceRegister";
@@ -15,7 +14,7 @@ export class TeamWarsGameMode extends GameModeLoader{
         ProductOptions: undefined,
         MapIDList: ['Test']
     }
-    protected mapManager: MapManager = new MapManager(this.description.MapIDList);
+    // protected mapManager: MapManager = new MapManager(this.description.MapIDList);
 
     private RunEventListeners(){
         new EventRegister()
