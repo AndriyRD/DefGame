@@ -14,7 +14,6 @@ export class ArraySpliter {
         for (const i of $range(0,containerArrSize))
             containerArr.push(ArraySpliter.PopArrayElements(targetArrCopy as [], size))
 
-        print(containerArr.size())
         return containerArr
     }
 }

@@ -3,7 +3,7 @@ import { ICell } from "./ICell";
 import { Inventory } from "./Inventory";
 
 export class HotInventory extends Inventory {
-    private CurrentCell: ICell | undefined
+    protected CurrentCell: ICell | undefined
 
     SelectItem(index: number){
         if (this.CurrentCell){
@@ -22,5 +22,12 @@ export class HotInventory extends Inventory {
         if (cell){
             this.SelectItem(cell.Index)
         } else error(`Not found inventory-item: ${key}`)
+    }
+
+    SelectEmpty(){
+        if(this.CurrentCell){
+            this.CurrentCell.Equipment.Unequip()
+            this.CurrentCell = undefined
+        }
     }
 }

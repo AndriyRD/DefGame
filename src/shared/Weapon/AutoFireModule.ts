@@ -8,13 +8,13 @@ export class AutoFireModule {
     private work = false
 
     StartFire(){
-        if (this.work) return warn('Fire proccess runed')
+        if (this.work) return
         this.handleLoop.StartAsync()
         this.work = true
     }
 
     StopFire(){
-        if (!this.work) return warn('Fire proccess not runed')
+        if (!this.work) return
         this.handleLoop.Stop()
         this.work = false
     }

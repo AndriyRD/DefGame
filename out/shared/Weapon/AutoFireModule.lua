@@ -24,14 +24,14 @@ do
 	end
 	function AutoFireModule:StartFire()
 		if self.work then
-			return warn("Fire proccess runed")
+			return nil
 		end
 		self.handleLoop:StartAsync()
 		self.work = true
 	end
 	function AutoFireModule:StopFire()
 		if not self.work then
-			return warn("Fire proccess not runed")
+			return nil
 		end
 		self.handleLoop:Stop()
 		self.work = false

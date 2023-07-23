@@ -7,8 +7,13 @@ export class BuildController {
     private readonly viewModelConfig = BaseViewModelConfig
     private readonly buildEvent = RemoteProvider.GetForBuild().Build
     
-    GetRoationModule(){
-        return this.viewModel?.GetRoationModule()
+    RotationMode(toRight: boolean | void){
+        if(this.viewModel){
+            if(this.viewModel.IsRotation())
+                this.viewModel.StopRotation()
+            else 
+                this.viewModel.StartRotation(toRight!)
+        }
     }
 
     PreviewMode(buildingID: string){

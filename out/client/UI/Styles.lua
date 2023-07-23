@@ -17,6 +17,8 @@ do
 		BackgroundColor = Color3.fromHex("#707070"),
 		Transparency = .6,
 	}
+	Styles.ActiveRedColor = Color3.fromHex("#a72a2a")
+	Styles.StandartBorderColor = BrickColor.White().Color
 end
 return {
 	Styles = Styles,

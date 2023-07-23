@@ -17,6 +17,19 @@ do
 		Run = Instance.new("BindableEvent"),
 		Stop = Instance.new("BindableEvent"),
 	}
+	EventProvider.CharatcerController = {
+		Camera = {
+			Enable = Instance.new("BindableEvent"),
+			Disable = Instance.new("BindableEvent"),
+		},
+		Rotation = {
+			Enable = Instance.new("BindableEvent"),
+			Disable = Instance.new("BindableEvent"),
+		},
+	}
+	EventProvider.Build = {
+		PreviewMode = Instance.new("BindableEvent"),
+	}
 end
 return {
 	EventProvider = EventProvider,

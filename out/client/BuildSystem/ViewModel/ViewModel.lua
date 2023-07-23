@@ -18,6 +18,7 @@ do
 	function ViewModel:constructor(id, config)
 		self.config = config
 		self.availableBuild = false
+		self.rotation = false
 		self.model = ViewModelLoader:Load(id)
 		self:InitModel()
 		self.rotateModule = RotateModule.new(self.model)
@@ -60,14 +61,22 @@ do
 		self:InitModel()
 		self.rotateModule:SetNewModel(self.model)
 	end
-	function ViewModel:GetRoationModule()
-		return self.rotateModule
-	end
 	function ViewModel:GetBuildingName()
 		return self.model.Name
 	end
 	function ViewModel:GetCF()
 		return self.model:GetPivot()
+	end
+	function ViewModel:StartRotation(toRight)
+		self.rotateModule:Rotateion(toRight)
+		self.rotation = true
+	end
+	function ViewModel:StopRotation()
+		self.rotateModule:CancelIfRotateion()
+		self.rotation = false
+	end
+	function ViewModel:IsRotation()
+		return self.rotation
 	end
 end
 return {

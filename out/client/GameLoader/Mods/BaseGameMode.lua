@@ -5,6 +5,8 @@ local WeaponReplicator = TS.import(script, script.Parent.Parent.Parent, "Weapon"
 local ClientEquipmentManager = TS.import(script, script.Parent.Parent.Parent, "Equipment", "ClientEquipmentManager").ClientEquipmentManager
 local Runner = TS.import(script, script.Parent.Parent.Parent, "Runner", "ClientRunner").Runner
 local Players = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Players
+local BuildUI = TS.import(script, script.Parent.Parent.Parent, "UI", "App")
+local PlayerBuildModule = TS.import(script, script.Parent.Parent.Parent, "BuildSystem", "PlayerBuildModule").PlayerBuildModule
 local BaseGameMode
 do
 	BaseGameMode = {}
@@ -15,7 +17,8 @@ do
 		WeaponReplicator.new():Run()
 		ClientEquipmentManager.new():Startup()
 		Runner.new(Players.LocalPlayer, "845386501"):Bind()
-		-- BuildUI()
+		PlayerBuildModule.new()
+		BuildUI()
 		return self
 	end
 	function BaseGameMode:Dispose()

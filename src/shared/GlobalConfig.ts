@@ -2,6 +2,7 @@ import { ReplicatedStorage, Workspace } from "@rbxts/services";
 
 export class GlobalConfig {
     static DEBRIS = Workspace.WaitForChild('Debris') as Model
+    static CHARACTER_ALIGHT_ISNTANCE = ReplicatedStorage.WaitForChild('CharAlignOrientation') as AlignOrientation
     static BIND_DATA = {
         Weapon: {
             Fire: {
@@ -47,7 +48,7 @@ export class GlobalConfig {
             Input: {
                 PC: Enum.KeyCode.LeftShift
             }
-        }
+        },
     }
 
     static REPLICATE_PACKAGES_ID = {
@@ -70,4 +71,5 @@ export class GlobalConfig {
     static LAODED_MAP_NAME = 'Map'
     static HP_ATTRIBUtE_NAME = 'HP'
     static UI_MAIN_SCREEN_NAME = 'MainUI'
+    static RUN_STATE_TAG_NAME = 'Running'
 }

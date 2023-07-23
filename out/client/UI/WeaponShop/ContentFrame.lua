@@ -11,6 +11,7 @@ return function()
 			title = product.ID,
 			price = product.Price,
 			size = cardSize,
+			onSelect = nil,
 		})
 	end
 	-- ▼ ReadonlyArray.map ▼

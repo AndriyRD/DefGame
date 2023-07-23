@@ -18,6 +18,7 @@ do
 	function GlobalConfig:constructor()
 	end
 	GlobalConfig.DEBRIS = Workspace:WaitForChild("Debris")
+	GlobalConfig.CHARACTER_ALIGHT_ISNTANCE = ReplicatedStorage:WaitForChild("CharAlignOrientation")
 	GlobalConfig.BIND_DATA = {
 		Weapon = {
 			Fire = {
@@ -77,6 +78,7 @@ do
 	GlobalConfig.LAODED_MAP_NAME = "Map"
 	GlobalConfig.HP_ATTRIBUtE_NAME = "HP"
 	GlobalConfig.UI_MAIN_SCREEN_NAME = "MainUI"
+	GlobalConfig.RUN_STATE_TAG_NAME = "Running"
 end
 return {
 	GlobalConfig = GlobalConfig,

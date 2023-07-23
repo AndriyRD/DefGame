@@ -20,7 +20,7 @@ export = () => {
             </uilistlayout>
 
             {PRODUCT_LIST.Weapon.map((product) => 
-                <ProductCard title={product.ID} price={product.Price} size={cardSize}/>
+                <ProductCard title={product.ID} price={product.Price} size={cardSize} onSelect={undefined}/>
             )}
         </frame>
     )

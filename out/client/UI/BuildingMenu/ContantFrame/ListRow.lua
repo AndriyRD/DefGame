@@ -1,15 +1,18 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local Roact = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "roact", "src")
+local EventProvider = TS.import(script, script.Parent.Parent.Parent.Parent, "EventProvider").EventProvider
 local ProductCard = TS.import(script, script.Parent.Parent.Parent, "Product", "ProductCard")
 return function(props)
-	print("create row")
 	local _products = props.products
 	local _arg0 = function(v)
 		return Roact.createElement(ProductCard, {
 			price = v.Price,
 			size = UDim2.new(.18, 0, 1, 0),
 			title = v.ID,
+			onSelect = function(name)
+				return EventProvider.Build.PreviewMode:Fire(v.ID)
+			end,
 		})
 	end
 	-- ▼ ReadonlyArray.map ▼

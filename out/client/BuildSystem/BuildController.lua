@@ -19,12 +19,14 @@ do
 		self.viewModelConfig = BaseViewModelConfig
 		self.buildEvent = RemoteProvider:GetForBuild().Build
 	end
-	function BuildController:GetRoationModule()
-		local _result = self.viewModel
-		if _result ~= nil then
-			_result = _result:GetRoationModule()
+	function BuildController:RotationMode(toRight)
+		if self.viewModel then
+			if self.viewModel:IsRotation() then
+				self.viewModel:StopRotation()
+			else
+				self.viewModel:StartRotation(toRight)
+			end
 		end
-		return _result
 	end
 	function BuildController:PreviewMode(buildingID)
 		if self.viewModel then

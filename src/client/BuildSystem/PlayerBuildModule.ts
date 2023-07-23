@@ -1,25 +1,33 @@
+import { EventProvider } from "client/EventProvider";
+import { BuildBindModule } from "./BuildBindModule";
 import { BuildController } from "./BuildController";
 
 export class PlayerBuildModule {
-    private static readonly controller = new BuildController()
-    
-    private static BindBuild(){
+    private readonly controller = new BuildController()
+    private readonly bindModule = new BuildBindModule()
 
+    private Unbind(){
+        this.bindModule.Unbind()
     }
 
-    private static BindCancel(){
-
+    private OnCancel(){
+        this.controller.Cancel()
+        this.Unbind()
     }
 
-    private static BindRotation(){
-
+    private OnBuild(){
+        this.controller.Build()
+        this.OnCancel()
     }
 
-    private static Bind(){
-
+    Preview(id: string){
+        this.controller.PreviewMode(id)
+        this.bindModule.BindBuild(() => this.OnBuild())
+        this.bindModule.BindCancle(() => this.OnCancel())
+        this.bindModule.BindRotation((toRight) => this.controller.RotationMode(toRight))
     }
 
-    static BuildMode(){
-
+    constructor(){
+        EventProvider.Build.PreviewMode.Event.Connect((id) => this.Preview(id))
     }
 }

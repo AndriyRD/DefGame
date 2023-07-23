@@ -1,11 +1,12 @@
 import Roact from "@rbxts/roact"
+import { Styles } from "../Styles"
 
 export  = (props: {name: string}) => {
     return (
         <textbutton
             Key={props.name}
             Text={props.name}
-            BackgroundColor3={Color3.fromHex('#a72a2a')}
+            BackgroundColor3={Styles.ActiveRedColor}
             TextColor3={BrickColor.White().Color}
             TextScaled={true}
             TextTransparency={0}

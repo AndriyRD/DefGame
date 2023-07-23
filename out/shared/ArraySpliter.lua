@@ -33,7 +33,6 @@ do
 			local _arg0 = ArraySpliter:PopArrayElements(targetArrCopy, size)
 			table.insert(containerArr, _arg0)
 		end
-		print(#containerArr)
 		return containerArr
 	end
 end

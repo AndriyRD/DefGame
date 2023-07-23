@@ -1,6 +1,8 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local ContextActionService = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").ContextActionService
+local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
+local CollectionService = _services.CollectionService
+local ContextActionService = _services.ContextActionService
 local EventProvider = TS.import(script, script.Parent.Parent, "EventProvider").EventProvider
 local CreateStaminaUI = TS.import(script, script.Parent.Parent, "UI", "RunnerStamina", "CreateStaminaUI")
 local AnimationWithSound = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "Animation", "AnimationWithSound").AnimationWithSound
@@ -27,7 +29,7 @@ do
 		super.constructor(self, owner)
 		self.bindData = GlobalConfig.BIND_DATA.Run
 		self.remote = RemoteProvider:GetForRunner()
-		self.coverHadndler = CoverHandler.new(self.character)
+		self.coverHandler = CoverHandler.new(self.character)
 		self.animation = AnimationWithSound.new(owner, AnimationUtility:CreateByID(runAnimationID), {})
 		CreateStaminaUI(self.stamina)
 	end
@@ -47,7 +49,8 @@ do
 		self.stamina:SetConsuptionMode(true)
 		self.animation:Play()
 		EventProvider.Runner.Run:Fire()
-		self.coverHadndler:Start()
+		CollectionService:AddTag(self.owner, GlobalConfig.RUN_STATE_TAG_NAME)
+		self.coverHandler:Start()
 		return self
 	end
 	function Runner:Stop()
@@ -57,6 +60,7 @@ do
 		if _result ~= nil then
 			_result:Stop()
 		end
+		CollectionService:RemoveTag(self.owner, GlobalConfig.RUN_STATE_TAG_NAME)
 		EventProvider.Runner.Stop:Fire()
 		return self
 	end

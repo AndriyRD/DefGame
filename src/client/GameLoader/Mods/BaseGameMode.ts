@@ -6,6 +6,7 @@ import { ClientEquipmentManager } from "client/Equipment/ClientEquipmentManager"
 import { Runner } from "client/Runner/ClientRunner";
 import { Players } from "@rbxts/services";
 import BuildUI from "../../UI/App";
+import { PlayerBuildModule } from "client/BuildSystem/PlayerBuildModule";
 
 export abstract class BaseGameMode implements IGameMode {
     Run(): IGameMode {
@@ -13,7 +14,8 @@ export abstract class BaseGameMode implements IGameMode {
         new WeaponReplicator().Run()
         new ClientEquipmentManager().Startup()
         new Runner(Players.LocalPlayer, '845386501').Bind()
-        // BuildUI()
+        new PlayerBuildModule()
+        BuildUI()
         return this;
     }
 

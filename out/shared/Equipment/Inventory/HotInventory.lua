@@ -40,6 +40,12 @@ do
 			error("Not found inventory-item: " .. key)
 		end
 	end
+	function HotInventory:SelectEmpty()
+		if self.CurrentCell then
+			self.CurrentCell.Equipment:Unequip()
+			self.CurrentCell = nil
+		end
+	end
 end
 return {
 	HotInventory = HotInventory,
