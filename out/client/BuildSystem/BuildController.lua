@@ -3,6 +3,7 @@ local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_incl
 local RemoteProvider = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "RemoteProvider").RemoteProvider
 local BaseViewModelConfig = TS.import(script, script.Parent, "ViewModel", "BaseViewModelConfig")
 local ViewModel = TS.import(script, script.Parent, "ViewModel", "ViewModel").ViewModel
+local MouseMoveHandler = TS.import(script, script.Parent, "ViewModel", "MouseMoveHandler").MouseMoveHandler
 local BuildController
 do
 	BuildController = setmetatable({}, {
@@ -16,6 +17,7 @@ do
 		return self:constructor(...) or self
 	end
 	function BuildController:constructor()
+		self.moveHandler = MouseMoveHandler.new()
 		self.viewModelConfig = BaseViewModelConfig
 		self.buildEvent = RemoteProvider:GetForBuild().Build
 	end
@@ -32,7 +34,8 @@ do
 		if self.viewModel then
 			self.viewModel:LoadNewModel(buildingID)
 		end
-		self.viewModel = ViewModel.new(buildingID, self.viewModelConfig)
+		self.viewModel = ViewModel.new(buildingID, self.viewModelConfig):View()
+		self.moveHandler:Start(self.viewModel)
 	end
 	function BuildController:Cancel()
 		local _result = self.viewModel
@@ -44,6 +47,7 @@ do
 		if self.viewModel then
 			local buildingID = self.viewModel:GetBuildingName()
 			self.buildEvent:FireServer(buildingID, self.viewModel:GetCF())
+			self.moveHandler:Stop()
 		end
 	end
 end

@@ -1,5 +1,5 @@
 import { IViewModelConfiguration } from "./IViewModelConfiguration"
-import { RotateModule } from "./RoteateModule"
+import { RotateModule } from "./RotateModule"
 import { ViewModelLoader } from "./ViewModelLoader"
 import { GlobalConfig } from "shared/GlobalConfig"
 
@@ -25,8 +25,17 @@ export class ViewModel {
         }
     }
 
+    IsAvailableBuild(){
+        return this.availableBuild
+    }
+
+    GetModel(){
+        return this.model
+    }
+
     View(){
         this.model.Parent = GlobalConfig.DEBRIS
+        return this
     }
 
     Destroy(){
@@ -59,7 +68,7 @@ export class ViewModel {
     }
 
     StartRotation(toRight: boolean){
-        this.rotateModule.Rotateion(toRight)
+        this.rotateModule.Rotation(toRight)
         this.rotation = true
     }
 

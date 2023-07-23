@@ -1,9 +1,11 @@
 import { RemoteProvider } from "shared/RemoteProvider";
 import BaseViewModelConfig from "./ViewModel/BaseViewModelConfig";
 import { ViewModel } from "./ViewModel/ViewModel";
+import { MouseMoveHandler } from "./ViewModel/MouseMoveHandler";
 
 export class BuildController {
     private viewModel: ViewModel | undefined
+    private readonly moveHandler = new MouseMoveHandler()
     private readonly viewModelConfig = BaseViewModelConfig
     private readonly buildEvent = RemoteProvider.GetForBuild().Build
     
@@ -19,7 +21,8 @@ export class BuildController {
     PreviewMode(buildingID: string){
         if (this.viewModel)
             this.viewModel.LoadNewModel(buildingID);
-        this.viewModel = new ViewModel(buildingID, this.viewModelConfig)
+        this.viewModel = new ViewModel(buildingID, this.viewModelConfig).View()
+        this.moveHandler.Start(this.viewModel)
     }
 
     Cancel(){
@@ -32,6 +35,7 @@ export class BuildController {
             this.buildEvent.FireServer(
                 buildingID,
                 this.viewModel.GetCF())
-        }
+            this.moveHandler.Stop()
+            }
     }
 }

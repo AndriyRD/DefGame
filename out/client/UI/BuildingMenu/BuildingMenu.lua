@@ -9,10 +9,22 @@ local BUILDING_CATEGORIES = TS.import(script, game:GetService("ReplicatedStorage
 local ContantList = TS.import(script, script.Parent, "ContantFrame", "ContantList")
 local PRODUCT_LIST = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Products", "PRODUCT_LIST")
 local EventProvider = TS.import(script, script.Parent.Parent.Parent, "EventProvider").EventProvider
+local ContextActionService = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").ContextActionService
+local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
 local BuildingMenu
 do
 	BuildingMenu = Component:extend("BuildingMenu")
 	function BuildingMenu:init()
+	end
+	function BuildingMenu:Bind()
+		local bindData = GlobalConfig.BIND_DATA.Build.UI
+		ContextActionService:BindAction(bindData.Action, function(name, state)
+			if name == bindData.Action and state == Enum.UserInputState.Begin then
+				self:setState({
+					Enabled = not self.state.Enabled,
+				})
+			end
+		end, false, bindData.PC.Input)
 	end
 	function BuildingMenu:didMount()
 		EventProvider.Build.PreviewMode.Event:Connect(function()
@@ -20,6 +32,7 @@ do
 				Enabled = false,
 			})
 		end)
+		self:Bind()
 	end
 	function BuildingMenu:render()
 		return Roact.createElement("ScreenGui", {

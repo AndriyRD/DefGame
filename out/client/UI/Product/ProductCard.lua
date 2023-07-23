@@ -28,8 +28,11 @@ return function(props)
 				AnchorPoint = Vector2.new(.5, .5),
 				Position = UDim2.new(.5, 0, .5, 0),
 				Transparency = 1,
-				[Roact.Event.Activated] = function()
-					return if props.onSelect then props.onSelect(props.title) else function() end
+				[Roact.Event.Activated] = function(rbx)
+					if props.onSelect then
+						props.onSelect(props.title)
+					end
+					(rbx.Parent).BorderColor3 = Styles.StandartBorderColor
 				end,
 			}),
 		}),

@@ -50,7 +50,13 @@ do
 			Rotate = {
 				Action = "RotateBuildingAction",
 				PC = {
-					Input = { Enum.KeyCode.R, Enum.KeyCode.Q },
+					Input = { Enum.KeyCode.Q, Enum.KeyCode.E },
+				},
+			},
+			UI = {
+				Action = "ShowBuildUI",
+				PC = {
+					Input = Enum.KeyCode.B,
 				},
 			},
 		},

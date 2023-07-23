@@ -28,7 +28,10 @@ export = (props: props) => {
                     Position={new UDim2(.5,0,.5,0)}
                     Transparency={1}
                     Event={{
-                        Activated: () => props.onSelect ? props.onSelect(props.title):()=>{}
+                        Activated: (rbx) => {
+                            if(props.onSelect) props.onSelect(props.title);
+                            (rbx.Parent! as any).BorderColor3 = Styles.StandartBorderColor
+                        }
                     }}/>
         </frame>
     )

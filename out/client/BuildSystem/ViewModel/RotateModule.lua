@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local TweenService = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").TweenService
+local BaseGameLoop = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "BaseGameLoop").BaseGameLoop
 local RotateModule
 do
 	RotateModule = setmetatable({}, {
@@ -15,19 +15,23 @@ do
 	end
 	function RotateModule:constructor(model)
 		self.model = model
-		self.fullRotationTime = 1
-		self.tweenInfo = TweenInfo.new(self.fullRotationTime)
-		self.currentTween = nil
+		self.loopHandler = BaseGameLoop.new():SetTickRate(1 / 20)
 		self.ROATATION_ANGLE = {
-			RIGHT = CFrame.Angles(math.pi * 2, 0, 0),
-			LEFT = CFrame.Angles(-math.pi * 2, 0, 0),
+			RIGHT = CFrame.Angles(0, math.rad(10), 0),
+			LEFT = CFrame.Angles(0, math.rad(-10), 0),
 		}
 		self.root = model.PrimaryPart
 	end
 	function RotateModule:RotateTo(angle)
-		return TweenService:Create(self.root, self.tweenInfo, {
-			CFrame = angle,
-		})
+		local _fn = self.model
+		local _exp = self.model:GetPivot()
+		local _angle = angle
+		_fn:PivotTo(_exp * _angle)
+	end
+	function RotateModule:StartRotation(angle)
+		self.loopHandler:AddTask("main", function()
+			return self:RotateTo(angle)
+		end):StartAsync()
 	end
 	function RotateModule:SetRoot(model)
 		self.root = model.PrimaryPart
@@ -37,18 +41,15 @@ do
 		return model
 	end
 	function RotateModule:CancelIfRotateion()
-		if self.currentTween then
-			self.currentTween:Cancel()
-		end
+		self.loopHandler:Stop():ClearTaskList()
 	end
-	function RotateModule:Rotateion(toRight)
+	function RotateModule:Rotation(toRight)
 		self:CancelIfRotateion()
 		if toRight then
-			self.currentTween = self:RotateTo(self.ROATATION_ANGLE.RIGHT)
+			self:StartRotation(self.ROATATION_ANGLE.RIGHT)
 		else
-			self.currentTween = self:RotateTo(self.ROATATION_ANGLE.LEFT)
+			self:StartRotation(self.ROATATION_ANGLE.LEFT)
 		end
-		self.currentTween:Play()
 	end
 	function RotateModule:SetNewModel(model)
 		self.model = self:SetRoot(model)

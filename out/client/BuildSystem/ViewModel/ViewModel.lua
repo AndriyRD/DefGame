@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local RotateModule = TS.import(script, script.Parent, "RoteateModule").RotateModule
+local RotateModule = TS.import(script, script.Parent, "RotateModule").RotateModule
 local ViewModelLoader = TS.import(script, script.Parent, "ViewModelLoader").ViewModelLoader
 local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
 local ViewModel
@@ -37,8 +37,15 @@ do
 			end
 		end
 	end
+	function ViewModel:IsAvailableBuild()
+		return self.availableBuild
+	end
+	function ViewModel:GetModel()
+		return self.model
+	end
 	function ViewModel:View()
 		self.model.Parent = GlobalConfig.DEBRIS
+		return self
 	end
 	function ViewModel:Destroy()
 		self.model:Destroy()
@@ -68,7 +75,7 @@ do
 		return self.model:GetPivot()
 	end
 	function ViewModel:StartRotation(toRight)
-		self.rotateModule:Rotateion(toRight)
+		self.rotateModule:Rotation(toRight)
 		self.rotation = true
 	end
 	function ViewModel:StopRotation()
