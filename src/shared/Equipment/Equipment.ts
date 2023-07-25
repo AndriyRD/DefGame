@@ -72,11 +72,11 @@ export class Equipment implements IEquipment {
     }
 
     constructor(
-        private readonly id: string,
-        private readonly owner: Player,
-        private readonly model: Model,
-        private readonly config: IEquipmentConfig,
-        private readonly grip: Motor6D){
+        protected readonly id: string,
+        protected readonly owner: Player,
+        protected readonly model: Model,
+        protected readonly config: IEquipmentConfig,
+        protected readonly grip: Motor6D){
             this.character = new ReloadableCharacter(owner)
             this.equiped = false
         }

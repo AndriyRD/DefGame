@@ -3,15 +3,11 @@ import { AnimationConfig } from "shared/Character/Animation/AnimationConfig";
 import { IWrappedEquipment } from "shared/Equipment/IWrappedEquipment";
 import { BaseWrappedEquipment } from "shared/Equipment/Wrappers/BaseWrappedEquipment";
 import { EquipmentAnimation } from "./EquipmentAnimation";
+import { IEquipment } from "shared/Equipment/IEquipment";
 
 export class ClientBaseWrapperEquipment extends BaseWrappedEquipment {
-    private readonly equipmentAnimation = new EquipmentAnimation(
-        this.GetCharacter(), 
-        this.GetConfig().ActionAnimations)
-    private readonly animatedCharacter = new AnimatedCharacter(
-        this.GetCharacter(), 
-        this.GetConfig().AnimationSet,
-        AnimationConfig.DEFAULT_ANIMATION_SET_LIST.R16)
+    private readonly equipmentAnimation: EquipmentAnimation
+    private readonly animatedCharacter: AnimatedCharacter
 
     Equip(): IWrappedEquipment {
         this.equipmentAnimation.PlayEquip()?.Stopped.Connect(() => {
@@ -23,5 +19,20 @@ export class ClientBaseWrapperEquipment extends BaseWrappedEquipment {
     Unequip(): IWrappedEquipment {
         this.animatedCharacter.Reset()
         return super.Unequip()
+    }
+
+    constructor(equipment: IEquipment){
+        super(equipment)
+        const char = this.GetCharacter()
+        const config = this.GetConfig()
+
+        this.equipmentAnimation = new EquipmentAnimation(
+            char, 
+            config.ActionAnimations)
+
+        this.animatedCharacter = new AnimatedCharacter(
+            char, 
+            config.AnimationSet,
+            AnimationConfig.DEFAULT_ANIMATION_SET_LIST.R16)
     }
 }
