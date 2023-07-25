@@ -5,6 +5,7 @@ local WeaponProvider = TS.import(script, script.Parent.Parent.Parent.Parent, "We
 local WeaponBindModule = TS.import(script, script.Parent, "WeaponBindModule").WeaponBindModule
 local AutoFireModule = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "AutoFireModule").AutoFireModule
 local ClientBaseWrapperEquipment = TS.import(script, script.Parent.Parent, "BaseWrapper", "ClientBaseWrapperEquipment").ClientBaseWrapperEquipment
+local EventProvider = TS.import(script, script.Parent.Parent.Parent.Parent, "EventProvider").EventProvider
 local WeaponWrappedEquipment
 do
 	local super = ClientBaseWrapperEquipment
@@ -21,6 +22,7 @@ do
 	end
 	function WeaponWrappedEquipment:constructor(...)
 		super.constructor(self, ...)
+		self.events = EventProvider.Weapon
 		self.weaponContainer = WeaponProvider.weaponManager:RegisterWeapon(self:GetOwner(), self:GetModel())
 		self.bindWeaponModule = WeaponBindModule.new(self.weaponContainer:GetWeapon(), AutoFireModule.new(self.weaponContainer))
 	end
@@ -29,10 +31,13 @@ do
 	end
 	function WeaponWrappedEquipment:Equip()
 		self.bindWeaponModule:Bind()
+		local ammoContainer = self.weaponContainer:GetWeapon():GetAmmoContainer()
+		self.events.Equip:Fire(ammoContainer, ammoContainer:GetState())
 		return super.Equip(self)
 	end
 	function WeaponWrappedEquipment:Unequip()
 		self.bindWeaponModule:Unbind()
+		self.events.Unequip:Fire()
 		return super.Unequip(self)
 	end
 end

@@ -30,6 +30,10 @@ do
 	EventProvider.Build = {
 		PreviewMode = Instance.new("BindableEvent"),
 	}
+	EventProvider.Weapon = {
+		Equip = Instance.new("BindableEvent"),
+		Unequip = Instance.new("BindableEvent"),
+	}
 end
 return {
 	EventProvider = EventProvider,

@@ -17,15 +17,21 @@ do
 	function EquipmentAnimation:constructor(character, actionAnimations)
 		self.character = character
 		self.actionAnimations = actionAnimations
+		self.soundContainer = Instance.new("Folder")
 		self.equipAnimation = self:CreateActionAnimation(actionAnimations.Equip)
 		self.unequipAnimation = self:CreateActionAnimation(actionAnimations.Uneqip)
+		self.soundContainer.Parent = character:GetRoot()
+		self.soundContainer.Name = "SoundContainer"
 	end
 	function EquipmentAnimation:ConvertSoundSet(sounds)
 		local soundSet = {}
 		for _, item in sounds do
+			local sound = AssetInstance:CreateByID(item.ID, "Sound")
+			sound.Parent = self.character:GetRoot()
+			sound.Name = item.Name
+			sound.Parent = self.soundContainer
 			local _name = item.Name
-			local _arg1 = AssetInstance:CreateByID(item.ID, "Sound")
-			soundSet[_name] = _arg1
+			soundSet[_name] = sound
 		end
 		return soundSet
 	end

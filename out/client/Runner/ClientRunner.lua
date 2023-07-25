@@ -50,7 +50,7 @@ do
 		self.animation:Play()
 		EventProvider.Runner.Run:Fire()
 		CollectionService:AddTag(self.owner, GlobalConfig.RUN_STATE_TAG_NAME)
-		self.coverHandler:Start()
+		-- this.coverHandler.Start()
 		return self
 	end
 	function Runner:Stop()

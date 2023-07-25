@@ -22,6 +22,9 @@ do
 		}
 		self.magazine = Magazine.new(config.MagazineSize)
 		self.currentAmmo = config.MaxAmmo
+		self.magazine.Changed.Event:Connect(function()
+			return self.Events.ChangeMagazine:Fire(self:GetState())
+		end)
 	end
 	function AmmoContainer:Reload()
 		if self.currentAmmo <= 0 then
@@ -34,14 +37,20 @@ do
 		else
 			self.magazine:AddAmmo(ammoCount)
 		end
-		self.Events.ChangeAmmo:Fire(self)
-		self.Events.ChangeMagazine:Fire(self.magazine)
+		self.Events.ChangeAmmo:Fire(self:GetState())
+		self.Events.ChangeMagazine:Fire(self:GetState())
 	end
 	function AmmoContainer:GetConfig()
 		return self.config
 	end
 	function AmmoContainer:GetMagazine()
 		return self.magazine
+	end
+	function AmmoContainer:GetState()
+		return {
+			Mag = self:GetMagazine():GetCurrentAmmo(),
+			Ammo = self.currentAmmo,
+		}
 	end
 end
 return {

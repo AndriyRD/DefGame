@@ -24,12 +24,7 @@ EQUIPMENT_CONFIG_LIST.set('AK47', {
 		},
 		ActionAnimations: {
 			Equip: {
-				AnimationID: '',
-				Sounds: [] as any
-			},
-
-			Uneqip: {
-				AnimationID: '14182762219',
+				AnimationID: '14189801002',
 				Sounds: [
 					{
 						Name: 'Bolt',
@@ -37,8 +32,21 @@ EQUIPMENT_CONFIG_LIST.set('AK47', {
 					}
 				]
 			},
+
+			Uneqip: {
+				AnimationID: '14191606971',
+				Sounds: [
+					{
+						Name: 'PutToBack',
+						ID: '550208601'
+					}
+				]
+			},
 		}
 })
+
+//new_ak_unequip: 14191606971
+//old_ak_unequip: 14190017861
 
 // EQUIPMENT_CONFIG_LIST.set('RocketLauncher', {
 //     EquipmentType: EQUIPMENT_TYPES.WEAPON,

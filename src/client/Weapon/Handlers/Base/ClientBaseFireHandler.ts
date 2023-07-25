@@ -42,6 +42,7 @@ export class BaseFireHandler implements IFireHandler{
             this.shotTrace.CreateWithoutParent(res.EndPoint)
         }
         this.fireSound.Play()
+
         return this;
     }
 

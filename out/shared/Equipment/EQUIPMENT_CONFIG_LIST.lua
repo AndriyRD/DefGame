@@ -35,18 +35,23 @@ _object.AnimationSet = {
 }
 _object.ActionAnimations = {
 	Equip = {
-		AnimationID = "",
-		Sounds = {},
-	},
-	Uneqip = {
-		AnimationID = "14182762219",
+		AnimationID = "14189801002",
 		Sounds = { {
 			Name = "Bolt",
 			ID = "6111897024",
 		} },
 	},
+	Uneqip = {
+		AnimationID = "14191606971",
+		Sounds = { {
+			Name = "PutToBack",
+			ID = "550208601",
+		} },
+	},
 }
 EQUIPMENT_CONFIG_LIST.AK47 = _object
+-- new_ak_unequip: 14191606971
+-- old_ak_unequip: 14190017861
 -- EQUIPMENT_CONFIG_LIST.set('RocketLauncher', {
 -- EquipmentType: EQUIPMENT_TYPES.WEAPON,
 -- Orientation: {

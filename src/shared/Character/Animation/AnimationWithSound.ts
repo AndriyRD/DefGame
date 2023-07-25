@@ -12,8 +12,8 @@ export class AnimationWithSound extends ReloadableAnimation {
 
     constructor(
         owner: Player| ReloadableCharacter,
-        protected readonly aniamtion: Animation,
+        protected readonly animation: Animation,
         protected readonly soundSet: Map<string, Sound>){
-            super(owner, aniamtion)
+            super(owner, animation)
         }
 }

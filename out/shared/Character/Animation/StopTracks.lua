@@ -2,6 +2,6 @@
 return function(animator)
 	for _, track in animator:GetPlayingAnimationTracks() do
 		track:Stop(0)
-		track:Destroy()
+		-- track.Destroy()
 	end
 end

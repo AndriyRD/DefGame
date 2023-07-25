@@ -22,9 +22,7 @@ export class BindedHotInventory extends HotInventory {
     }
 
     private OnStopRun(){
-        print(this.selectedItem)
         if(this.selectedItem){
-            print()
             this.SelectByKey(this.selectedItem)
             this.selectedItem = undefined
         }

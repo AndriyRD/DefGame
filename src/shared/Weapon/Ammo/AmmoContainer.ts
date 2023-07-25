@@ -1,4 +1,5 @@
 import { IAmmoConfig } from "./IAmmoConfig";
+import { IAmmoContainerState } from "./IAmmoContainerState";
 import { Magazine } from "./Magazine";
 
 export class AmmoContainer {
@@ -22,8 +23,8 @@ export class AmmoContainer {
             this.magazine.AddAmmo(ammoCount)
         }
 
-        this.Events.ChangeAmmo.Fire(this)
-        this.Events.ChangeMagazine.Fire(this.magazine)
+        this.Events.ChangeAmmo.Fire(this.GetState())
+        this.Events.ChangeMagazine.Fire(this.GetState())
     }
 
     GetConfig(){
@@ -34,8 +35,16 @@ export class AmmoContainer {
         return this.magazine
     }
 
+    GetState(): IAmmoContainerState{
+        return {
+            Mag: this.GetMagazine().GetCurrentAmmo(),
+            Ammo: this.currentAmmo
+        }
+    }
+
     constructor(private readonly config: IAmmoConfig){
         this.magazine = new Magazine(config.MagazineSize)
         this.currentAmmo = config.MaxAmmo
+        this.magazine.Changed.Event.Connect(() => this.Events.ChangeMagazine.Fire(this.GetState()))
     }
 }

@@ -1,8 +1,10 @@
 export class Magazine {
     private currentAmmo = 0
+    readonly Changed = new Instance('BindableEvent')
 
     Reload() {
         this.currentAmmo = this.size
+        this.Changed.Fire(this.currentAmmo)
     }
     
     GetCurrentAmmo() {
@@ -11,10 +13,12 @@ export class Magazine {
     
     Take(){
         this.currentAmmo--
+        this.Changed.Fire(this.currentAmmo)
     }
 
     AddAmmo(value: number){
         this.currentAmmo += value
+        this.Changed.Fire(this.currentAmmo)
     }
     
     GetSize(){

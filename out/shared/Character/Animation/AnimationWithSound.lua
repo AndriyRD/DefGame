@@ -15,9 +15,9 @@ do
 		local self = setmetatable({}, AnimationWithSound)
 		return self:constructor(...) or self
 	end
-	function AnimationWithSound:constructor(owner, aniamtion, soundSet)
-		super.constructor(self, owner, aniamtion)
-		self.aniamtion = aniamtion
+	function AnimationWithSound:constructor(owner, animation, soundSet)
+		super.constructor(self, owner, animation)
+		self.animation = animation
 		self.soundSet = soundSet
 	end
 	function AnimationWithSound:Laod()

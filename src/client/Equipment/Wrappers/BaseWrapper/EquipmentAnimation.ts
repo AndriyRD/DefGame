@@ -8,11 +8,18 @@ import { IEquipmentSound } from "shared/Equipment/Animation/IEquipmentSound";
 export class EquipmentAnimation {
     private readonly equipAnimation
     private readonly unequipAnimation
+    private readonly soundContainer = new Instance('Folder')
 
     private ConvertSoundSet(sounds: [IEquipmentSound]){
         const soundSet = new Map<string, Sound>()
-        for (const item of sounds)
-            soundSet.set(item.Name, AssetInstance.CreateByID(item.ID, "Sound"))
+        for (const item of sounds){
+            const sound = AssetInstance.CreateByID<Sound>(item.ID, "Sound")
+            sound.Parent = this.character.GetRoot()
+            sound.Name = item.Name
+            sound.Parent = this.soundContainer
+            soundSet.set(item.Name, sound)
+        }
+
         return soundSet
     }
 
@@ -38,5 +45,8 @@ export class EquipmentAnimation {
         private readonly actionAnimations: IEquipmentActionAnimations){
             this.equipAnimation = this.CreateActionAnimation(actionAnimations.Equip)
             this.unequipAnimation = this.CreateActionAnimation(actionAnimations.Uneqip)
+
+            this.soundContainer.Parent = character.GetRoot()
+            this.soundContainer.Name = "SoundContainer"
         }
 }

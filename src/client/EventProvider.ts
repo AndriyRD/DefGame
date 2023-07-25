@@ -19,4 +19,9 @@ export class EventProvider {
     static readonly Build = {
         PreviewMode: new Instance('BindableEvent')
     }
+
+    static readonly Weapon = {
+        Equip: new Instance('BindableEvent'),
+        Unequip: new Instance('BindableEvent')
+    } 
 }

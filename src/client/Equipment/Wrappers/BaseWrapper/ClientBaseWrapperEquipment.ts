@@ -10,15 +10,18 @@ export class ClientBaseWrapperEquipment extends BaseWrappedEquipment {
     private readonly animatedCharacter: AnimatedCharacter
 
     Equip(): IWrappedEquipment {
-        this.equipmentAnimation.PlayEquip()?.Stopped.Connect(() => {
+        this.equipmentAnimation.PlayEquip()?.Stopped.Connect(() =>
             this.animatedCharacter.Load()
-        })
+        )
         return super.Equip()
     }
 
     Unequip(): IWrappedEquipment {
-        this.animatedCharacter.Reset()
-        return super.Unequip()
+        this.equipmentAnimation.PlayeUnequip()?.Stopped.Connect(() =>
+            this.animatedCharacter.Reset()
+        )
+        super.Unequip()
+        return this
     }
 
     constructor(equipment: IEquipment){

@@ -31,7 +31,7 @@ export class Runner extends BaseRunner {
         this.animation.Play()
         EventProvider.Runner.Run.Fire()
         CollectionService.AddTag(this.owner, GlobalConfig.RUN_STATE_TAG_NAME)
-        this.coverHandler.Start()
+        // this.coverHandler.Start()
         return this
     }
 

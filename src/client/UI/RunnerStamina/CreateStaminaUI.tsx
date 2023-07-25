@@ -1,7 +1,8 @@
 import Roact from "@rbxts/roact"
 import StaminaFrame from "./StaminaFrame"
-import { StateManager } from "../StateManger"
 import { Stamina } from "shared/Runner/Stamina"
+import { Players } from "@rbxts/services"
+import GetPlayerGui from "../GetPlayerGui"
 
 const main = (stamina: Stamina) => {
     return (
@@ -10,5 +11,5 @@ const main = (stamina: Stamina) => {
 }
 
 export = (stamina: Stamina) => {
-    Roact.mount(main(stamina), StateManager.PlayerGUI)
+    Roact.mount(main(stamina), GetPlayerGui(), 'Stamina')
 }

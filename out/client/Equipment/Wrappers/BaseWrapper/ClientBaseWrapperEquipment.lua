@@ -18,23 +18,31 @@ do
 		local self = setmetatable({}, ClientBaseWrapperEquipment)
 		return self:constructor(...) or self
 	end
-	function ClientBaseWrapperEquipment:constructor(...)
-		super.constructor(self, ...)
-		self.equipmentAnimation = EquipmentAnimation.new(self:GetCharacter(), self:GetConfig().ActionAnimations)
-		self.animatedCharacter = AnimatedCharacter.new(self:GetCharacter(), self:GetConfig().AnimationSet, AnimationConfig.DEFAULT_ANIMATION_SET_LIST.R16)
+	function ClientBaseWrapperEquipment:constructor(equipment)
+		super.constructor(self, equipment)
+		local char = self:GetCharacter()
+		local config = self:GetConfig()
+		self.equipmentAnimation = EquipmentAnimation.new(char, config.ActionAnimations)
+		self.animatedCharacter = AnimatedCharacter.new(char, config.AnimationSet, AnimationConfig.DEFAULT_ANIMATION_SET_LIST.R16)
 	end
 	function ClientBaseWrapperEquipment:Equip()
 		local _result = self.equipmentAnimation:PlayEquip()
 		if _result ~= nil then
 			_result = _result.Stopped:Connect(function()
-				self.animatedCharacter:Load()
+				return self.animatedCharacter:Load()
 			end)
 		end
 		return super.Equip(self)
 	end
 	function ClientBaseWrapperEquipment:Unequip()
-		self.animatedCharacter:Reset()
-		return super.Unequip(self)
+		local _result = self.equipmentAnimation:PlayeUnequip()
+		if _result ~= nil then
+			_result = _result.Stopped:Connect(function()
+				return self.animatedCharacter:Reset()
+			end)
+		end
+		super.Unequip(self)
+		return self
 	end
 end
 return {

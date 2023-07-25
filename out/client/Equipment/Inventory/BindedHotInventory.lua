@@ -43,10 +43,8 @@ do
 		end
 	end
 	function BindedHotInventory:OnStopRun()
-		print(self.selectedItem)
 		local _value = self.selectedItem
 		if _value ~= "" and _value then
-			print()
 			self:SelectByKey(self.selectedItem)
 			self.selectedItem = nil
 		end
