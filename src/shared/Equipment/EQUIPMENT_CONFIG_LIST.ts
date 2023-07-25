@@ -21,28 +21,44 @@ EQUIPMENT_CONFIG_LIST.set('AK47', {
 			Walk: '12814987255',
 			Idle: '12814840588',
 			Jump: undefined
-		}
-})
-
-EQUIPMENT_CONFIG_LIST.set('RocketLauncher', {
-    EquipmentType: EQUIPMENT_TYPES.WEAPON,
-		Orientation: {
+		},
+		ActionAnimations: {
 			Equip: {
-				BodyPartName: BODY_PART_NAMES.MAIN.RIGHT_HAND,
-				Offset: new CFrame(0,0,0).mul(CFrame.Angles(-1.57, 1.57, 0))
+				AnimationID: '',
+				Sounds: [] as any
 			},
 
-			Unequip: {
-				BodyPartName: BODY_PART_NAMES.R15.UPPER_TORSO,
-				Offset: new CFrame( 0.8, 1.2, 0.6).mul(CFrame.Angles(2.7, 0.3, -0.56))
-			}
-		},
-		AnimationSet: {
-			Run: '12814987255',
-			Idle: '12814840588',
-			Walk: '12814987255',
-			Jump: undefined
+			Uneqip: {
+				AnimationID: '14182762219',
+				Sounds: [
+					{
+						Name: 'Bolt',
+						ID: '6111897024',
+					}
+				]
+			},
 		}
 })
+
+// EQUIPMENT_CONFIG_LIST.set('RocketLauncher', {
+//     EquipmentType: EQUIPMENT_TYPES.WEAPON,
+// 		Orientation: {
+// 			Equip: {
+// 				BodyPartName: BODY_PART_NAMES.MAIN.RIGHT_HAND,
+// 				Offset: new CFrame(0,0,0).mul(CFrame.Angles(-1.57, 1.57, 0))
+// 			},
+
+// 			Unequip: {
+// 				BodyPartName: BODY_PART_NAMES.R15.UPPER_TORSO,
+// 				Offset: new CFrame( 0.8, 1.2, 0.6).mul(CFrame.Angles(2.7, 0.3, -0.56))
+// 			}
+// 		},
+// 		AnimationSet: {
+// 			Run: '12814987255',
+// 			Idle: '12814840588',
+// 			Walk: '12814987255',
+// 			Jump: undefined
+// 		}
+// })
 
 export = EQUIPMENT_CONFIG_LIST

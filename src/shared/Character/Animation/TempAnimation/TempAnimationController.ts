@@ -5,13 +5,14 @@ import { RunTempAnimation } from "./RunTempAnimation";
 import { AnimationConfig } from "../AnimationConfig";
 import { IdleTempAnimation } from "./IdleTempAnimation";
 import { ITempAnimation } from "./ITempAnimation";
+import { AssetInstance } from "shared/AssetInstance/AssetInstance";
 
 export class TempAnimationController {
     private currentTempAnim: ITempAnimation | undefined
 
     private CraeteAnimationFromID(id: string){
         const anim = new Instance("Animation")
-        anim.AnimationId = AnimationConfig.ANIMATION_ASSET_ID_PREFIX+id
+        anim.AnimationId = AssetInstance.ASSET_URI_PREFIX+id
         return anim
     }
 

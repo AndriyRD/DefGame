@@ -3,9 +3,9 @@ local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_incl
 local CoverDatector = TS.import(script, script.Parent, "CoverDetector").CoverDatector
 local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
 local ReloadableAnimation = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "Animation", "ReloadableAnimation").ReloadableAnimation
-local AnimationUtility = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "Animation", "AnmationUtility").AnimationUtility
 local CoverMoveModule = TS.import(script, script.Parent, "CoverMoveModule").CoverMoveModule
 local Cover = TS.import(script, script.Parent, "Cover").Cover
+local AssetInstance = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "AssetInstance", "AssetInstance").AssetInstance
 local CoverHandler
 do
 	CoverHandler = setmetatable({}, {
@@ -25,8 +25,8 @@ do
 		self.detector.OnDetect.Event:Connect(function(res)
 			return self:OnDetectCover(res)
 		end)
-		self.hideAnimation = ReloadableAnimation.new(character, AnimationUtility:CreateByID(GlobalConfig.SHELTER.HIDE_ANIMATION_ID))
-		self.idleAnimation = ReloadableAnimation.new(character, AnimationUtility:CreateByID(GlobalConfig.SHELTER.IDLE_ANIMATION_ID))
+		self.hideAnimation = ReloadableAnimation.new(character, AssetInstance:CreateByID(GlobalConfig.SHELTER.HIDE_ANIMATION_ID, "Animation"))
+		self.idleAnimation = ReloadableAnimation.new(character, AssetInstance:CreateByID(GlobalConfig.SHELTER.IDLE_ANIMATION_ID, "Animation"))
 		self.moveModule = CoverMoveModule.new(character)
 	end
 	function CoverHandler:OnDetectCover(res)

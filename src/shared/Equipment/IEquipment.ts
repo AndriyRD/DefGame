@@ -1,3 +1,4 @@
+import { ReloadableCharacter } from "shared/Character/ReloadableCharacter"
 import { EQUIPMENT_TYPES } from "./EQUIPMENTS_TYPES"
 import { IEquipmentConfig } from "./IEquipmentConfig"
 
@@ -10,5 +11,6 @@ export interface IEquipment {
     GetGrip(): Motor6D
     GetOwner(): Player
     GetID(): string
+    GetCharacter(): ReloadableCharacter
     GetEquipmentType(): keyof typeof EQUIPMENT_TYPES
 }

@@ -33,36 +33,37 @@ _object.AnimationSet = {
 	Idle = "12814840588",
 	Jump = nil,
 }
+_object.ActionAnimations = {
+	Equip = {
+		AnimationID = "",
+		Sounds = {},
+	},
+	Uneqip = {
+		AnimationID = "14182762219",
+		Sounds = { {
+			Name = "Bolt",
+			ID = "6111897024",
+		} },
+	},
+}
 EQUIPMENT_CONFIG_LIST.AK47 = _object
-local _object_4 = {
-	EquipmentType = EQUIPMENT_TYPES.WEAPON,
-}
-local _left_5 = "Orientation"
-local _object_5 = {}
-local _left_6 = "Equip"
-local _object_6 = {
-	BodyPartName = BODY_PART_NAMES.MAIN.RIGHT_HAND,
-}
-local _left_7 = "Offset"
-local _cFrame_2 = CFrame.new(0, 0, 0)
-local _arg0_2 = CFrame.Angles(-1.57, 1.57, 0)
-_object_6[_left_7] = _cFrame_2 * _arg0_2
-_object_5[_left_6] = _object_6
-local _left_8 = "Unequip"
-local _object_7 = {
-	BodyPartName = BODY_PART_NAMES.R15.UPPER_TORSO,
-}
-local _left_9 = "Offset"
-local _cFrame_3 = CFrame.new(0.8, 1.2, 0.6)
-local _arg0_3 = CFrame.Angles(2.7, 0.3, -0.56)
-_object_7[_left_9] = _cFrame_3 * _arg0_3
-_object_5[_left_8] = _object_7
-_object_4[_left_5] = _object_5
-_object_4.AnimationSet = {
-	Run = "12814987255",
-	Idle = "12814840588",
-	Walk = "12814987255",
-	Jump = nil,
-}
-EQUIPMENT_CONFIG_LIST.RocketLauncher = _object_4
+-- EQUIPMENT_CONFIG_LIST.set('RocketLauncher', {
+-- EquipmentType: EQUIPMENT_TYPES.WEAPON,
+-- Orientation: {
+-- Equip: {
+-- BodyPartName: BODY_PART_NAMES.MAIN.RIGHT_HAND,
+-- Offset: new CFrame(0,0,0).mul(CFrame.Angles(-1.57, 1.57, 0))
+-- },
+-- Unequip: {
+-- BodyPartName: BODY_PART_NAMES.R15.UPPER_TORSO,
+-- Offset: new CFrame( 0.8, 1.2, 0.6).mul(CFrame.Angles(2.7, 0.3, -0.56))
+-- }
+-- },
+-- AnimationSet: {
+-- Run: '12814987255',
+-- Idle: '12814840588',
+-- Walk: '12814987255',
+-- Jump: undefined
+-- }
+-- })
 return EQUIPMENT_CONFIG_LIST

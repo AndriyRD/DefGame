@@ -19,6 +19,9 @@ do
 	function BaseWrappedEquipment:GetEquipmentType()
 		return EQUIPMENT_TYPES.DEFAULT
 	end
+	function BaseWrappedEquipment:GetCharacter()
+		return self.equipment:GetCharacter()
+	end
 	function BaseWrappedEquipment:Equip()
 		self.equipment:Equip()
 		return self

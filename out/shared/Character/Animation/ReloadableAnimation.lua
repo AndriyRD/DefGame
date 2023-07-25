@@ -16,12 +16,11 @@ do
 		return self:constructor(...) or self
 	end
 	function ReloadableAnimation:constructor(owner, aniamtion)
-		self.owner = owner
 		self.aniamtion = aniamtion
 		self.onLoad = Instance.new("BindableEvent")
 		self.inited = false
 		local _value = owner.UserId
-		self.char = if _value ~= 0 and (_value == _value and (_value ~= "" and _value)) then ReloadableCharacter.new(self.owner) else owner
+		self.char = if _value ~= 0 and (_value == _value and (_value ~= "" and _value)) then ReloadableCharacter.new(owner) else owner
 		self:Laod()
 	end
 	function ReloadableAnimation:Laod()

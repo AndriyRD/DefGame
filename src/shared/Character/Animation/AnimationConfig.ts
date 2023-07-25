@@ -1,6 +1,5 @@
 export class AnimationConfig {
     static ANIMATE_SCRIPT_NAME = 'Animate'
-    static ANIMATION_ASSET_ID_PREFIX = 'rbxassetid://'
     static MIN_SPEED_FOR_RUN_ANIMATION = .15
     static DEFAULT_ANIMATION_SET_LIST = {
         R16: {

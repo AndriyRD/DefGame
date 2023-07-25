@@ -1,3 +1,4 @@
+import { ReloadableCharacter } from "shared/Character/ReloadableCharacter";
 import { EQUIPMENT_TYPES } from "../EQUIPMENTS_TYPES";
 import { IEquipment } from "../IEquipment";
 import { IEquipmentConfig } from "../IEquipmentConfig";
@@ -6,6 +7,9 @@ import { IWrappedEquipment } from "../IWrappedEquipment";
 export class BaseWrappedEquipment implements IWrappedEquipment {
     GetEquipmentType(): EQUIPMENT_TYPES {
         return EQUIPMENT_TYPES.DEFAULT;
+    }
+    GetCharacter(): ReloadableCharacter {
+        return this.equipment.GetCharacter()
     }
     Equip(): IWrappedEquipment {
         this.equipment.Equip();

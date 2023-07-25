@@ -2,7 +2,7 @@
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local AnimationWithSound = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "Animation", "AnimationWithSound").AnimationWithSound
 local BaseWeaponRelaodAnimation = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Animation", "BaseWeaponRelaodAnimation").BaseWeaponRelaodAnimation
-local AnimationUtility = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "Animation", "AnmationUtility").AnimationUtility
+local AssetInstance = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "AssetInstance", "AssetInstance").AssetInstance
 local WeaponAnimation
 do
 	WeaponAnimation = setmetatable({}, {
@@ -17,7 +17,7 @@ do
 	end
 	function WeaponAnimation:constructor(weapon)
 		self.weapon = weapon
-		self.reloadAnim = BaseWeaponRelaodAnimation.new(AnimationWithSound.new(self.weapon:GetOwner(), AnimationUtility:CreateByID(self.weapon:GetConfig().AnimationSet.Relaod), self.weapon:GetAssets().Sounds.Reload), weapon:GetWeaponModel())
+		self.reloadAnim = BaseWeaponRelaodAnimation.new(AnimationWithSound.new(self.weapon:GetOwner(), AssetInstance:CreateByID(self.weapon:GetConfig().AnimationSet.Relaod, "Animation"), self.weapon:GetAssets().Sounds.Reload), weapon:GetWeaponModel())
 	end
 	function WeaponAnimation:PlayReload()
 		self.reloadAnim:Play()

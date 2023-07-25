@@ -2,9 +2,9 @@ import { ReloadableCharacter } from "shared/Character/ReloadableCharacter"
 import { CoverDatector } from "./CoverDetector"
 import { GlobalConfig } from "shared/GlobalConfig"
 import { ReloadableAnimation } from "shared/Character/Animation/ReloadableAnimation"
-import { AnimationUtility } from "shared/Character/Animation/AnmationUtility"
 import { CoverMoveModule } from "./CoverMoveModule"
 import { Cover } from "./Cover"
+import { AssetInstance } from "shared/AssetInstance/AssetInstance"
 
 export class CoverHandler {
     protected readonly moveModule
@@ -33,8 +33,8 @@ export class CoverHandler {
     constructor(protected readonly character: ReloadableCharacter){
         this.detector = new CoverDatector(character)
         this.detector.OnDetect.Event.Connect((res) => this.OnDetectCover(res))
-        this.hideAnimation = new ReloadableAnimation(character, AnimationUtility.CreateByID(GlobalConfig.SHELTER.HIDE_ANIMATION_ID))
-        this.idleAnimation = new ReloadableAnimation(character, AnimationUtility.CreateByID(GlobalConfig.SHELTER.IDLE_ANIMATION_ID))
+        this.hideAnimation = new ReloadableAnimation(character, AssetInstance.CreateByID(GlobalConfig.SHELTER.HIDE_ANIMATION_ID, "Animation"))
+        this.idleAnimation = new ReloadableAnimation(character, AssetInstance.CreateByID(GlobalConfig.SHELTER.IDLE_ANIMATION_ID, "Animation"))
         this.moveModule = new CoverMoveModule(character)
     }
 }

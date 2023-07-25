@@ -10,3 +10,4 @@ local craeteEquipmentEvent = remote:WaitForChild("CreateEquipment")
 CharacterController.new():Start()
 GameLoader.new():RegisterGameMode(TeamWarsGameMode.new()):Startup()
 craeteEquipmentEvent:FireServer("AK47")
+-- 14182762219 - EquipAK47

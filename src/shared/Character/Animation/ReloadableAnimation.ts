@@ -40,10 +40,10 @@ export class ReloadableAnimation {
     }
 
     constructor(
-        protected readonly owner: Player | ReloadableCharacter,
+        owner: Player | ReloadableCharacter,
         protected readonly aniamtion: Animation){
             this.char = (owner as any).UserId ? 
-                new ReloadableCharacter(this.owner as Player) : 
+                new ReloadableCharacter(owner as Player) : 
                 owner as ReloadableCharacter
             this.Laod()
         }

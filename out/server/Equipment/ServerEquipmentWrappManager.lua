@@ -2,7 +2,7 @@
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local EQUIPMENT_TYPES = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Equipment", "EQUIPMENTS_TYPES").EQUIPMENT_TYPES
 local EquipmentWrappManager = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Equipment", "EquipmentWrappManager").EquipmentWrappManager
-local S_WeaponWrappedEquipment = TS.import(script, game:GetService("ServerScriptService"), "TS", "Equipment", "Wrappers", "S_WeaponWrappedEquipment.ts").S_WeaponWrappedEquipment
+local ServerWeaponWrappedEquipment = TS.import(script, game:GetService("ServerScriptService"), "TS", "Equipment", "Wrappers", "ServerWeaponWrappedEquipment.ts").ServerWeaponWrappedEquipment
 local ServerEquipmentWrappManager
 do
 	ServerEquipmentWrappManager = setmetatable({}, {
@@ -20,7 +20,7 @@ do
 	end
 	function ServerEquipmentWrappManager:Init()
 		self.manager:AddFactory(EQUIPMENT_TYPES.WEAPON, function(e)
-			return S_WeaponWrappedEquipment.new(e)
+			return ServerWeaponWrappedEquipment.new(e)
 		end)
 	end
 	function ServerEquipmentWrappManager:Wrap(equipment)

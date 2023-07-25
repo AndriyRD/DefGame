@@ -1,9 +1,8 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local CharacterAnimationIdSetToMap = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "Animation", "CharacterAnimationIdSetToMap")
-local ReloadableCharacter = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "ReloadableCharacter").ReloadableCharacter
-local AnimationConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "Animation", "AnimationConfig").AnimationConfig
 local TempAnimationController = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "Animation", "TempAnimation", "TempAnimationController").TempAnimationController
+local AssetInstance = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "AssetInstance", "AssetInstance").AssetInstance
 local AnimatedCharacter
 do
 	AnimatedCharacter = setmetatable({}, {
@@ -16,18 +15,17 @@ do
 		local self = setmetatable({}, AnimatedCharacter)
 		return self:constructor(...) or self
 	end
-	function AnimatedCharacter:constructor(owner, animationIDSet, defaultAnimationIDSet)
-		self.owner = owner
+	function AnimatedCharacter:constructor(character, animationIDSet, defaultAnimationIDSet)
+		self.character = character
 		self.animationIDSet = animationIDSet
 		self.defaultAnimationIDSet = defaultAnimationIDSet
-		self.reloadableCharacter = ReloadableCharacter.new(owner)
-		self.tempAnimationController = TempAnimationController.new(self.reloadableCharacter, self.animationIDSet)
+		self.tempAnimationController = TempAnimationController.new(self.character, self.animationIDSet)
 	end
 	function AnimatedCharacter:GetContainerName(originName)
 		return string.lower(originName)
 	end
 	function AnimatedCharacter:GetCharacterAnimationContainer(name)
-		local container = self.reloadableCharacter:GetAnimateScript():WaitForChild(self:GetContainerName(name))
+		local container = self.character:GetAnimateScript():WaitForChild(self:GetContainerName(name))
 		if not container then
 			error("Not fund character animation-container: " .. name)
 		end
@@ -36,7 +34,7 @@ do
 	function AnimatedCharacter:ChangeAnimationsInContainer(container, id)
 		for _, element in container:GetChildren() do
 			if element:IsA("Animation") then
-				element.AnimationId = AnimationConfig.ANIMATION_ASSET_ID_PREFIX .. id
+				element.AnimationId = AssetInstance.ASSET_URI_PREFIX .. id
 			end
 		end
 	end

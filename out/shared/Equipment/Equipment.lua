@@ -1,17 +1,6 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local GetCharacter = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "GetCharacter")
-local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
-local ReplicatedStorage = _services.ReplicatedStorage
-local RunService = _services.RunService
-local EquipmentGlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Equipment", "EquipmentGlobalConfig").EquipmentGlobalConfig
-local weaponDir = ReplicatedStorage:WaitForChild("Equipment")
-local remote = weaponDir:WaitForChild("Remote")
-local events = {
-	equip = remote:WaitForChild("Equip"),
-	unequip = remote:WaitForChild("Unequip"),
-	craeteEquipment = remote:WaitForChild("CreateEquipment"),
-}
+local ReloadableCharacter = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "ReloadableCharacter").ReloadableCharacter
 local Equipment
 do
 	Equipment = setmetatable({}, {
@@ -30,37 +19,21 @@ do
 		self.model = model
 		self.config = config
 		self.grip = grip
-		self:InitGrip()
-		self.model.Parent = GetCharacter(owner)
+		self.character = ReloadableCharacter.new(owner)
 		self.equiped = false
-	end
-	function Equipment:Reposition(orientationData)
-		local grip = self:GetGrip()
-		local char = GetCharacter(self:GetOwner())
-		local bodyPart = char:WaitForChild(orientationData.BodyPartName)
-		grip.Part0 = bodyPart
-		grip.C0 = orientationData.Offset
-		grip.Parent = self.model.PrimaryPart
-	end
-	function Equipment:InitGrip()
-		self.grip.Name = self:GetID() .. EquipmentGlobalConfig.WEAPON_GRIP_NAME_POSTFIX
-		self.grip.Part1 = self.model.PrimaryPart
-		self:Reposition(self:GetConfig().Orientation.Unequip)
 	end
 	function Equipment:IsEquiped()
 		return self.equiped
 	end
 	function Equipment:Equip()
-		if RunService:IsServer() then
-			self:Reposition(self:GetConfig().Orientation.Equip)
-		end
+		-- if (RunService.IsServer())
+		-- this.Reposition(this.GetConfig().Orientation.Equip)
 		self.equiped = true
 		return self
 	end
 	function Equipment:Unequip()
-		if RunService:IsServer() then
-			self:Reposition(self:GetConfig().Orientation.Unequip)
-		end
+		-- if (RunService.IsServer())
+		-- this.Reposition(this.GetConfig().Orientation.Unequip)
 		self.equiped = false
 		return self
 	end
@@ -81,6 +54,9 @@ do
 	end
 	function Equipment:GetEquipmentType()
 		return self.config.EquipmentType
+	end
+	function Equipment:GetCharacter()
+		return self.character
 	end
 end
 return {

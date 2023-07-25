@@ -4,6 +4,7 @@ local GetHumanoidSpeed = TS.import(script, game:GetService("ReplicatedStorage"),
 local RunTempAnimation = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "Animation", "TempAnimation", "RunTempAnimation").RunTempAnimation
 local AnimationConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "Animation", "AnimationConfig").AnimationConfig
 local IdleTempAnimation = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "Animation", "TempAnimation", "IdleTempAnimation").IdleTempAnimation
+local AssetInstance = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "AssetInstance", "AssetInstance").AssetInstance
 local TempAnimationController
 do
 	TempAnimationController = setmetatable({}, {
@@ -22,7 +23,7 @@ do
 	end
 	function TempAnimationController:CraeteAnimationFromID(id)
 		local anim = Instance.new("Animation")
-		anim.AnimationId = AnimationConfig.ANIMATION_ASSET_ID_PREFIX .. id
+		anim.AnimationId = AssetInstance.ASSET_URI_PREFIX .. id
 		return anim
 	end
 	function TempAnimationController:Play()

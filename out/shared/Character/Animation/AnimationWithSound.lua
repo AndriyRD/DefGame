@@ -17,7 +17,6 @@ do
 	end
 	function AnimationWithSound:constructor(owner, aniamtion, soundSet)
 		super.constructor(self, owner, aniamtion)
-		self.owner = owner
 		self.aniamtion = aniamtion
 		self.soundSet = soundSet
 	end

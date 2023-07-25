@@ -1,3 +1,4 @@
+import { ReloadableCharacter } from "../ReloadableCharacter"
 import { ReloadableAnimation } from "./ReloadableAnimation"
 
 export class AnimationWithSound extends ReloadableAnimation {
@@ -10,7 +11,7 @@ export class AnimationWithSound extends ReloadableAnimation {
     }
 
     constructor(
-        protected readonly owner: Player,
+        owner: Player| ReloadableCharacter,
         protected readonly aniamtion: Animation,
         protected readonly soundSet: Map<string, Sound>){
             super(owner, aniamtion)

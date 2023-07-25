@@ -2,11 +2,11 @@ import { CollectionService, ContextActionService } from "@rbxts/services";
 import { EventProvider } from "client/EventProvider";
 import CreateStaminaUI from "client/UI/RunnerStamina/CreateStaminaUI";
 import { AnimationWithSound } from "shared/Character/Animation/AnimationWithSound";
-import { AnimationUtility } from "shared/Character/Animation/AnmationUtility";
 import { GlobalConfig } from "shared/GlobalConfig";
 import { RemoteProvider } from "shared/RemoteProvider";
 import { BaseRunner } from "shared/Runner/BaseRunner";
 import { CoverHandler } from "./CoverHandler/CoverHandler";
+import { AssetInstance } from "shared/AssetInstance/AssetInstance";
 
 export class Runner extends BaseRunner {
     private readonly animation
@@ -48,7 +48,7 @@ export class Runner extends BaseRunner {
         super(owner)
         this.animation = new AnimationWithSound(
             owner, 
-            AnimationUtility.CreateByID(runAnimationID),
+            AssetInstance.CreateByID(runAnimationID, "Animation"),
             new Map())
         CreateStaminaUI(this.stamina)
     }

@@ -1,7 +1,7 @@
 import { AnimationWithSound } from "shared/Character/Animation/AnimationWithSound";
 import { IWeapon } from "../IWeapon";
 import { BaseWeaponRelaodAnimation } from "./BaseWeaponRelaodAnimation";
-import { AnimationUtility } from "shared/Character/Animation/AnmationUtility";
+import { AssetInstance } from "shared/AssetInstance/AssetInstance";
 
 export class WeaponAnimation {
     private readonly reloadAnim: BaseWeaponRelaodAnimation;
@@ -14,7 +14,7 @@ export class WeaponAnimation {
         this.reloadAnim = new BaseWeaponRelaodAnimation(
             new AnimationWithSound(
                 this.weapon.GetOwner(),
-                AnimationUtility.CreateByID(this.weapon.GetConfig().AnimationSet.Relaod),
+                AssetInstance.CreateByID(this.weapon.GetConfig().AnimationSet.Relaod, "Animation"),
                 this.weapon.GetAssets().Sounds.Reload),
             weapon.GetWeaponModel()
         )

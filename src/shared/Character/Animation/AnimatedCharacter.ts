@@ -3,9 +3,9 @@ import CharacterAnimationIdSetToMap from "./CharacterAnimationIdSetToMap";
 import { ReloadableCharacter } from "../ReloadableCharacter";
 import { AnimationConfig } from "./AnimationConfig";
 import { TempAnimationController } from "./TempAnimation/TempAnimationController";
+import { AssetInstance } from "shared/AssetInstance/AssetInstance";
 
 export class AnimatedCharacter {
-    protected readonly reloadableCharacter: ReloadableCharacter
     protected readonly tempAnimationController: TempAnimationController
 
     protected GetContainerName(originName: string){
@@ -13,7 +13,7 @@ export class AnimatedCharacter {
     }
 
     protected GetCharacterAnimationContainer(name: string){
-        const container = this.reloadableCharacter
+        const container = this.character
             .GetAnimateScript()
             .WaitForChild(this.GetContainerName(name))
 
@@ -24,7 +24,7 @@ export class AnimatedCharacter {
     protected ChangeAnimationsInContainer(container: Instance, id: string){
         for (const element of container.GetChildren()) {
             if (element.IsA("Animation"))
-                element.AnimationId = AnimationConfig.ANIMATION_ASSET_ID_PREFIX+id
+                element.AnimationId = AssetInstance.ASSET_URI_PREFIX+id
         }
     }
 
@@ -56,14 +56,13 @@ export class AnimatedCharacter {
             CharacterAnimationIdSetToMap(
                 this.defaultAnimationIDSet))
     }
-    
+
     constructor(
-        protected readonly owner: Player,
+        protected readonly character: ReloadableCharacter,
         protected readonly animationIDSet: ICharatcerAnimationIDSet,
         protected readonly defaultAnimationIDSet: ICharatcerAnimationIDSet){
-            this.reloadableCharacter = new ReloadableCharacter(owner)     
             this.tempAnimationController = new TempAnimationController(
-                this.reloadableCharacter, 
+                this.character, 
                 this.animationIDSet
             )
     }

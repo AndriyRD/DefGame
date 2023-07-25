@@ -6,11 +6,11 @@ local ContextActionService = _services.ContextActionService
 local EventProvider = TS.import(script, script.Parent.Parent, "EventProvider").EventProvider
 local CreateStaminaUI = TS.import(script, script.Parent.Parent, "UI", "RunnerStamina", "CreateStaminaUI")
 local AnimationWithSound = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "Animation", "AnimationWithSound").AnimationWithSound
-local AnimationUtility = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "Animation", "AnmationUtility").AnimationUtility
 local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
 local RemoteProvider = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "RemoteProvider").RemoteProvider
 local BaseRunner = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Runner", "BaseRunner").BaseRunner
 local CoverHandler = TS.import(script, script.Parent, "CoverHandler", "CoverHandler").CoverHandler
+local AssetInstance = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "AssetInstance", "AssetInstance").AssetInstance
 local Runner
 do
 	local super = BaseRunner
@@ -30,7 +30,7 @@ do
 		self.bindData = GlobalConfig.BIND_DATA.Run
 		self.remote = RemoteProvider:GetForRunner()
 		self.coverHandler = CoverHandler.new(self.character)
-		self.animation = AnimationWithSound.new(owner, AnimationUtility:CreateByID(runAnimationID), {})
+		self.animation = AnimationWithSound.new(owner, AssetInstance:CreateByID(runAnimationID, "Animation"), {})
 		CreateStaminaUI(self.stamina)
 	end
 	function Runner:Bind()

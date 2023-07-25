@@ -14,7 +14,6 @@ do
 	function AnimationConfig:constructor()
 	end
 	AnimationConfig.ANIMATE_SCRIPT_NAME = "Animate"
-	AnimationConfig.ANIMATION_ASSET_ID_PREFIX = "rbxassetid://"
 	AnimationConfig.MIN_SPEED_FOR_RUN_ANIMATION = .15
 	AnimationConfig.DEFAULT_ANIMATION_SET_LIST = {
 		R16 = {
