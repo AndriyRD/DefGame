@@ -40,7 +40,7 @@ do
 	function BuildController:Cancel()
 		local _result = self.viewModel
 		if _result ~= nil then
-			_result:Destroy()
+			_result = _result:GetModel():Destroy()
 		end
 	end
 	function BuildController:Build()

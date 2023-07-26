@@ -5,7 +5,7 @@ import { GlobalConfig } from "shared/GlobalConfig"
 
 export class ViewModel {
     private model
-    private availableBuild = false
+    private availableBuild = true
     private rotateModule
     private rotation = false
 
@@ -20,7 +20,7 @@ export class ViewModel {
     private InitModel(){
         for (const item of this.model.GetDescendants()) {
             if(item.IsA("BasePart") || item.IsA("Decal")){
-                item.Transparency = this.config.Transparency
+                item.Transparency = this.vmConfig.Transparency
             }
         }
     }
@@ -38,17 +38,17 @@ export class ViewModel {
         return this
     }
 
-    Destroy(){
-        this.model.Destroy()
-        table.clear(this.config)
+    Dispose(){
+        this.model?.Destroy()
+        table.clear(this.vmConfig)
         table.clear(this)
     }
 
     ChangeState(){
-        if(this.availableBuild)
-            this.ChacngeModelColor(this.config.ModelColors.Available)
-        else this.ChacngeModelColor(this.config.ModelColors.Cancaled)
         this.availableBuild = !this.availableBuild
+        if(this.availableBuild)
+            this.ChacngeModelColor(this.vmConfig.ModelColors.Available)
+        else this.ChacngeModelColor(this.vmConfig.ModelColors.Cancaled)
     }
 
     LoadNewModel(id: string){
@@ -81,7 +81,7 @@ export class ViewModel {
         return this.rotation
     }
 
-    constructor(id: string, private readonly config: IViewModelConfiguration){
+    constructor(id: string, private readonly vmConfig: IViewModelConfiguration){
         this.model = ViewModelLoader.Load(id)
         this.InitModel()
         this.rotateModule = new RotateModule(this.model)

@@ -1,7 +1,6 @@
-import { BaseGameLoop } from "shared/BaseGameLoop"
+import { BaseGameLoop } from "shared/Loop/BaseGameLoop"
 
 export class RotateModule {
-    private root: BasePart
     private readonly loopHandler = new BaseGameLoop().SetTickRate(1/20)
     private readonly ROATATION_ANGLE = {
         RIGHT: CFrame.Angles(0,math.rad(10),0),
@@ -14,12 +13,6 @@ export class RotateModule {
 
     private StartRotation(angle: CFrame){
         this.loopHandler.AddTask('main', () => this.RotateTo(angle)).StartAsync()
-    }
-
-    private SetRoot(model: Model){
-        this.root = model.PrimaryPart as BasePart
-        if (!this.root) error(`Not found PrimaryPart in model: ${model}`)
-        return model
     }
 
     CancelIfRotateion(){
@@ -36,10 +29,9 @@ export class RotateModule {
     }
 
     SetNewModel(model: Model){
-        this.model = this.SetRoot(model)
+        this.model = model
     }
 
     constructor(private model: Model){
-        this.root = model.PrimaryPart as BasePart
     }
 }

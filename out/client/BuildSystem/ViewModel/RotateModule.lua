@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local BaseGameLoop = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "BaseGameLoop").BaseGameLoop
+local BaseGameLoop = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Loop", "BaseGameLoop").BaseGameLoop
 local RotateModule
 do
 	RotateModule = setmetatable({}, {
@@ -20,7 +20,6 @@ do
 			RIGHT = CFrame.Angles(0, math.rad(10), 0),
 			LEFT = CFrame.Angles(0, math.rad(-10), 0),
 		}
-		self.root = model.PrimaryPart
 	end
 	function RotateModule:RotateTo(angle)
 		local _fn = self.model
@@ -32,13 +31,6 @@ do
 		self.loopHandler:AddTask("main", function()
 			return self:RotateTo(angle)
 		end):StartAsync()
-	end
-	function RotateModule:SetRoot(model)
-		self.root = model.PrimaryPart
-		if not self.root then
-			error("Not found PrimaryPart in model: " .. tostring(model))
-		end
-		return model
 	end
 	function RotateModule:CancelIfRotateion()
 		self.loopHandler:Stop():ClearTaskList()
@@ -52,7 +44,7 @@ do
 		end
 	end
 	function RotateModule:SetNewModel(model)
-		self.model = self:SetRoot(model)
+		self.model = model
 	end
 end
 return {

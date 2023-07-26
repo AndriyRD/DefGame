@@ -1,4 +1,4 @@
-import { BaseGameLoop } from "shared/BaseGameLoop";
+import { BaseGameLoop } from "shared/Loop/BaseGameLoop";
 import { TempItem } from "./TempItem";
 import { RunService } from "@rbxts/services";
 

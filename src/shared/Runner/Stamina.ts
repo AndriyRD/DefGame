@@ -1,4 +1,4 @@
-import { BaseGameLoop } from "shared/BaseGameLoop";
+import { BaseGameLoop } from "shared/Loop/BaseGameLoop";
 
 export class Stamina {
     private readonly loopHandler = new BaseGameLoop()

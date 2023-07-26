@@ -15,9 +15,9 @@ do
 		local self = setmetatable({}, ViewModel)
 		return self:constructor(...) or self
 	end
-	function ViewModel:constructor(id, config)
-		self.config = config
-		self.availableBuild = false
+	function ViewModel:constructor(id, vmConfig)
+		self.vmConfig = vmConfig
+		self.availableBuild = true
 		self.rotation = false
 		self.model = ViewModelLoader:Load(id)
 		self:InitModel()
@@ -33,7 +33,7 @@ do
 	function ViewModel:InitModel()
 		for _, item in self.model:GetDescendants() do
 			if item:IsA("BasePart") or item:IsA("Decal") then
-				item.Transparency = self.config.Transparency
+				item.Transparency = self.vmConfig.Transparency
 			end
 		end
 	end
@@ -47,18 +47,21 @@ do
 		self.model.Parent = GlobalConfig.DEBRIS
 		return self
 	end
-	function ViewModel:Destroy()
-		self.model:Destroy()
-		table.clear(self.config)
+	function ViewModel:Dispose()
+		local _result = self.model
+		if _result ~= nil then
+			_result:Destroy()
+		end
+		table.clear(self.vmConfig)
 		table.clear(self)
 	end
 	function ViewModel:ChangeState()
-		if self.availableBuild then
-			self:ChacngeModelColor(self.config.ModelColors.Available)
-		else
-			self:ChacngeModelColor(self.config.ModelColors.Cancaled)
-		end
 		self.availableBuild = not self.availableBuild
+		if self.availableBuild then
+			self:ChacngeModelColor(self.vmConfig.ModelColors.Available)
+		else
+			self:ChacngeModelColor(self.vmConfig.ModelColors.Cancaled)
+		end
 	end
 	function ViewModel:LoadNewModel(id)
 		if self.model then

@@ -13,4 +13,9 @@ table.insert(PRODUCT_LIST.Building, {
 	Icon = "",
 	Price = 80,
 })
+table.insert(PRODUCT_LIST.Building, {
+	ID = "TestBuilding",
+	Icon = "",
+	Price = 80,
+})
 return PRODUCT_LIST

@@ -10,17 +10,26 @@ export class MouseMoveHandler implements IMoveHandler {
     private readonly rayParams = new RaycastParams()
     private readonly camera = Workspace.CurrentCamera!
     private readonly maxDistance = 200
+    private currentModelPlaceOffset = new Vector3()
     private connection: RBXScriptConnection | undefined
 
     private Move(viewModel: ViewModel, pos: Vector3){
         const model = viewModel.GetModel()
-        model.PivotTo(new CFrame(pos).mul(model.GetPivot().Rotation))
+        model.PivotTo(new CFrame(pos)
+            .add(this.currentModelPlaceOffset)
+            .mul(model.GetPivot().Rotation))
+        
         if(CanBuild(viewModel.GetModel(), viewModel.GetCF())){
             if(!viewModel.IsAvailableBuild())
                 viewModel.ChangeState()
         } else
             if(viewModel.IsAvailableBuild())
                 viewModel.ChangeState()
+        print(CanBuild(viewModel.GetModel(), viewModel.GetCF()))
+    }
+
+    private GetModelPlaceOffset(model: Model){
+        return new Vector3(0,model.GetBoundingBox()[1].Y/2,0)
     }
 
     private OnRender(viewModel: ViewModel){
@@ -34,6 +43,7 @@ export class MouseMoveHandler implements IMoveHandler {
 
     Start(viewModel: ViewModel): IMoveHandler {
         this.rayParams.FilterDescendantsInstances.push(viewModel.GetModel())
+        this.currentModelPlaceOffset = this.GetModelPlaceOffset(viewModel.GetModel())
         this.connection = RunService.Heartbeat.Connect(() => this.OnRender(viewModel))
         viewModel.ChangeState()
         return this

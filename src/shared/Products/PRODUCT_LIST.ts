@@ -17,4 +17,10 @@ PRODUCT_LIST.Building.push({
     Price: 80
 })
 
+PRODUCT_LIST.Building.push({
+    ID: 'TestBuilding',
+    Icon: '',
+    Price: 80
+})
+
 export = PRODUCT_LIST

@@ -1,4 +1,4 @@
-import { BaseGameLoop } from "shared/BaseGameLoop"
+import { BaseGameLoop } from "shared/Loop/BaseGameLoop"
 import { IHitResult } from "client/Weapon/IHitResult"
 
 export class HitPackage {

@@ -1,4 +1,4 @@
-import { BaseGameLoop } from "shared/BaseGameLoop";
+import { BaseGameLoop } from "shared/Loop/BaseGameLoop";
 import { IWeapon } from "./IWeapon";
 import { WeaponContainer } from "./WeaponContainer/WeaponContainer";
 

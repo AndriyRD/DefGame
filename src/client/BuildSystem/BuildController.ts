@@ -26,7 +26,7 @@ export class BuildController {
     }
 
     Cancel(){
-        this.viewModel?.Destroy()
+        this.viewModel?.GetModel().Destroy()
     }
 
     Build(){

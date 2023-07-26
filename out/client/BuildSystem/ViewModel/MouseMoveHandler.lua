@@ -24,6 +24,7 @@ do
 		self.rayParams = RaycastParams.new()
 		self.camera = Workspace.CurrentCamera
 		self.maxDistance = 200
+		self.currentModelPlaceOffset = Vector3.new()
 		self.rayParams.FilterDescendantsInstances = { GlobalConfig.DEBRIS }
 		self.rayParams.FilterType = Enum.RaycastFilterType.Exclude
 	end
@@ -31,8 +32,9 @@ do
 		local model = viewModel:GetModel()
 		local _fn = model
 		local _cFrame = CFrame.new(pos)
+		local _currentModelPlaceOffset = self.currentModelPlaceOffset
 		local _rotation = model:GetPivot().Rotation
-		_fn:PivotTo(_cFrame * _rotation)
+		_fn:PivotTo((_cFrame + _currentModelPlaceOffset) * _rotation)
 		if CanBuild(viewModel:GetModel(), viewModel:GetCF()) then
 			if not viewModel:IsAvailableBuild() then
 				viewModel:ChangeState()
@@ -40,6 +42,10 @@ do
 		elseif viewModel:IsAvailableBuild() then
 			viewModel:ChangeState()
 		end
+		print(CanBuild(viewModel:GetModel(), viewModel:GetCF()))
+	end
+	function MouseMoveHandler:GetModelPlaceOffset(model)
+		return Vector3.new(0, (select(2, model:GetBoundingBox())).Y / 2, 0)
 	end
 	function MouseMoveHandler:OnRender(viewModel)
 		local cameraPos = self.camera.CFrame.Position
@@ -56,6 +62,7 @@ do
 		local _filterDescendantsInstances = self.rayParams.FilterDescendantsInstances
 		local _arg0 = viewModel:GetModel()
 		table.insert(_filterDescendantsInstances, _arg0)
+		self.currentModelPlaceOffset = self:GetModelPlaceOffset(viewModel:GetModel())
 		self.connection = RunService.Heartbeat:Connect(function()
 			return self:OnRender(viewModel)
 		end)
