@@ -8,6 +8,7 @@ import { EquipmentService } from "server/Equipment/FrontLayer/EquipmentService";
 import { RunnerEventListener } from "server/Runner/RunnerEventListener";
 import { GAME_MODE_IDS } from "shared/GameLoader/GAME_MODE_IDS";
 import { MapManager } from "server/GameLoader/GameMap/MapManager";
+import { BuildingEventListener } from "server/BuildSystem/FrontLayer/BuildingEventListener";
 
 export class TeamWarsGameMode extends GameModeLoader{
     readonly ID = GAME_MODE_IDS.TEAM_WARS
@@ -23,6 +24,7 @@ export class TeamWarsGameMode extends GameModeLoader{
             .Register(new WeaponEventListener())
             .Register(new EquipmentEventListener())
             .Register(new RunnerEventListener())
+            .Register(new BuildingEventListener())
     }
 
     private RunApiServices(){

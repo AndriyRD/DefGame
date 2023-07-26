@@ -25,7 +25,6 @@ export class MouseMoveHandler implements IMoveHandler {
         } else
             if(viewModel.IsAvailableBuild())
                 viewModel.ChangeState()
-        print(CanBuild(viewModel.GetModel(), viewModel.GetCF()))
     }
 
     private GetModelPlaceOffset(model: Model){

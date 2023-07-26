@@ -18,7 +18,7 @@ PRODUCT_LIST.Building.push({
 })
 
 PRODUCT_LIST.Building.push({
-    ID: 'TestBuilding',
+    ID: 'MachineGun',
     Icon: '',
     Price: 80
 })

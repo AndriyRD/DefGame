@@ -33,6 +33,9 @@ do
 			})
 		end)
 		self:Bind()
+		self:setState({
+			Enabled = false,
+		})
 	end
 	function BuildingMenu:render()
 		return Roact.createElement("ScreenGui", {

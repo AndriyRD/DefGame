@@ -23,5 +23,5 @@ export class EventProvider {
     static readonly Weapon = {
         Equip: new Instance('BindableEvent'),
         Unequip: new Instance('BindableEvent')
-    } 
+    }
 }

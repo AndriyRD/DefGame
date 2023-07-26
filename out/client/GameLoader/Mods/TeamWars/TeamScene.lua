@@ -1,8 +1,10 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
+local Players = _services.Players
 local ReplicatedStorage = _services.ReplicatedStorage
 local Workspace = _services.Workspace
+local ReloadableCharacter = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "ReloadableCharacter").ReloadableCharacter
 local TeamScene
 do
 	TeamScene = setmetatable({}, {
@@ -16,14 +18,20 @@ do
 		return self:constructor(...) or self
 	end
 	function TeamScene:constructor()
+		self.charcter = ReloadableCharacter.new(Players.LocalPlayer)
 		self.sceneModel = ReplicatedStorage:WaitForChild("SelectTeamScene")
 		self.camera = Workspace.CurrentCamera
 		self.sceneCF = CFrame.new(0, -100, 0)
 		self.cameraOffset = CFrame.new(0, 0, -8)
 		self.rigsContainerName = "Rigs"
 		self.scaleSeletcedRig = 1.08
+		self.OnSelect = Instance.new("BindableEvent")
+		self.scene = self:PlaceScene()
 	end
 	function TeamScene:SetCameraToScene()
+		task.wait(5)
+		print("SetCF")
+		self.camera.CameraSubject = self.scene.PrimaryPart
 		self.camera.CFrame = self.sceneCF:ToWorldSpace(self.cameraOffset)
 		local _cFrame = self.camera.CFrame
 		local _arg0 = CFrame.lookAt(self.camera.CFrame.Position, self.sceneCF.Position)
@@ -34,6 +42,10 @@ do
 		newScene.Parent = Workspace
 		newScene:PivotTo(self.sceneCF)
 		return newScene
+	end
+	function TeamScene:OnSelectTeam(name)
+		print("Select team: " .. name)
+		self.OnSelect:Fire(name)
 	end
 	function TeamScene:SetClickDetectorToRigs(model)
 		local rigs = model:WaitForChild(self.rigsContainerName)
@@ -47,15 +59,14 @@ do
 					return item:ScaleTo(1)
 				end)
 				detector.MouseClick:Connect(function()
-					return print("Select team: " .. item.Name)
+					return self:OnSelectTeam(item.Name)
 				end)
 			end
 		end
 	end
 	function TeamScene:Show()
-		local scene = self:PlaceScene()
 		self:SetCameraToScene()
-		self:SetClickDetectorToRigs(scene)
+		self:SetClickDetectorToRigs(self.scene)
 		print("Show scene")
 	end
 end

@@ -4,6 +4,7 @@ local RemoteProvider = TS.import(script, game:GetService("ReplicatedStorage"), "
 local BaseViewModelConfig = TS.import(script, script.Parent, "ViewModel", "BaseViewModelConfig")
 local ViewModel = TS.import(script, script.Parent, "ViewModel", "ViewModel").ViewModel
 local MouseMoveHandler = TS.import(script, script.Parent, "ViewModel", "MouseMoveHandler").MouseMoveHandler
+local ClientBuildingManger = TS.import(script, script.Parent, "ClinetBuildingManager").ClientBuildingManger
 local BuildController
 do
 	BuildController = setmetatable({}, {
@@ -20,6 +21,10 @@ do
 		self.moveHandler = MouseMoveHandler.new()
 		self.viewModelConfig = BaseViewModelConfig
 		self.buildEvent = RemoteProvider:GetForBuild().Build
+		self.buildnigManager = ClientBuildingManger.new()
+		RemoteProvider:GetForBuild().Build.OnClientEvent:Connect(function(m)
+			return self.buildnigManager:Build(m)
+		end)
 	end
 	function BuildController:RotationMode(toRight)
 		if self.viewModel then

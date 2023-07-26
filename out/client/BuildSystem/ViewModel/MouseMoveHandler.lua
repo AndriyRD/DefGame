@@ -42,7 +42,6 @@ do
 		elseif viewModel:IsAvailableBuild() then
 			viewModel:ChangeState()
 		end
-		print(CanBuild(viewModel:GetModel(), viewModel:GetCF()))
 	end
 	function MouseMoveHandler:GetModelPlaceOffset(model)
 		return Vector3.new(0, (select(2, model:GetBoundingBox())).Y / 2, 0)

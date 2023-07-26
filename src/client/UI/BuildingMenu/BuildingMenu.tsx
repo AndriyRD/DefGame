@@ -25,6 +25,7 @@ export class BuildingMenu extends Component<{}, State>{
     protected didMount(): void {
         EventProvider.Build.PreviewMode.Event.Connect(() => this.setState({Enabled: false}))
         this.Bind()
+        this.setState({Enabled: false})
     }
 
     public render(): Roact.Element | undefined {

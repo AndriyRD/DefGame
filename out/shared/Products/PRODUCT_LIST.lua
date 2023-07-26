@@ -14,7 +14,7 @@ table.insert(PRODUCT_LIST.Building, {
 	Price = 80,
 })
 table.insert(PRODUCT_LIST.Building, {
-	ID = "TestBuilding",
+	ID = "MachineGun",
 	Icon = "",
 	Price = 80,
 })

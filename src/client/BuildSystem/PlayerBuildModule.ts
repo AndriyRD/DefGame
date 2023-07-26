@@ -1,6 +1,7 @@
 import { EventProvider } from "client/EventProvider";
 import { BuildBindModule } from "./BuildBindModule";
 import { BuildController } from "./BuildController";
+import { RemoteProvider } from "shared/RemoteProvider";
 
 export class PlayerBuildModule {
     private readonly controller = new BuildController()

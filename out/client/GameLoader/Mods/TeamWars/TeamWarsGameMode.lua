@@ -3,6 +3,7 @@ local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_incl
 local GAME_MODE_IDS = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GameLoader", "GAME_MODE_IDS").GAME_MODE_IDS
 local BaseGameMode = TS.import(script, script.Parent.Parent, "BaseGameMode").BaseGameMode
 local TeamScene = TS.import(script, script.Parent, "TeamScene").TeamScene
+local EventProvider = TS.import(script, script.Parent.Parent.Parent.Parent, "EventProvider").EventProvider
 local TeamWarsGameMode
 do
 	local super = BaseGameMode
@@ -24,8 +25,15 @@ do
 	function TeamWarsGameMode:GetID()
 		return GAME_MODE_IDS.TEAM_WARS
 	end
+	function TeamWarsGameMode:OnSelectTeam(name)
+		EventProvider.CharatcerController.Camera.Enable:Fire()
+	end
 	function TeamWarsGameMode:Run()
-		-- TODO: this.teamScene.Show()
+		EventProvider.CharatcerController.Camera.Disable:Fire()
+		self.teamScene:Show()
+		self.teamScene.OnSelect.Event:Connect(function(name)
+			return self:OnSelectTeam(name)
+		end)
 		return super.Run(self)
 	end
 end

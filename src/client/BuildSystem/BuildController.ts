@@ -2,13 +2,15 @@ import { RemoteProvider } from "shared/RemoteProvider";
 import BaseViewModelConfig from "./ViewModel/BaseViewModelConfig";
 import { ViewModel } from "./ViewModel/ViewModel";
 import { MouseMoveHandler } from "./ViewModel/MouseMoveHandler";
+import { ClientBuildingManger } from "./ClinetBuildingManager";
 
 export class BuildController {
     private viewModel: ViewModel | undefined
     private readonly moveHandler = new MouseMoveHandler()
     private readonly viewModelConfig = BaseViewModelConfig
     private readonly buildEvent = RemoteProvider.GetForBuild().Build
-    
+    private readonly buildnigManager = new ClientBuildingManger()
+
     RotationMode(toRight: boolean | void){
         if(this.viewModel){
             if(this.viewModel.IsRotation())
@@ -37,5 +39,9 @@ export class BuildController {
                 this.viewModel.GetCF())
             this.moveHandler.Stop()
             }
+    }
+
+    constructor(){
+        RemoteProvider.GetForBuild().Build.OnClientEvent.Connect((m) => this.buildnigManager.Build(m))
     }
 }

@@ -1,12 +1,19 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local ReplicatedStorage = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").ReplicatedStorage
+local Workspace = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Workspace
+local BaseEventListener = TS.import(script, game:GetService("ServerScriptService"), "TS", "Core", "EventSystem", "BaseEventListener").BaseEventListener
+local ServerBuildingManager = TS.import(script, game:GetService("ServerScriptService"), "TS", "BuildSystem", "ServerBuildingManager").ServerBuildingManager
+local CanBuild = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "BuildSystem", "CanBuild")
+local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
+local RemoteProvider = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "RemoteProvider").RemoteProvider
 local BuildingEventListener
 do
+	local super = BaseEventListener
 	BuildingEventListener = setmetatable({}, {
 		__tostring = function()
 			return "BuildingEventListener"
 		end,
+		__index = super,
 	})
 	BuildingEventListener.__index = BuildingEventListener
 	function BuildingEventListener.new(...)
@@ -14,22 +21,37 @@ do
 		return self:constructor(...) or self
 	end
 	function BuildingEventListener:constructor()
-		self.EventHandler = {}
-		self.dir = ReplicatedStorage:WaitForChild("Build"):WaitForChild("Remote")
+		super.constructor(self)
+		self.buildManger = ServerBuildingManager.new()
+		self.modelContaiener = Workspace
+		self.buildBuildingEvent = RemoteProvider:GetForBuild().Build
 		local _eventHandler = self.EventHandler
-		local _arg1 = function(p, id, cf)
-			return self:OnBuild(p, id, cf)
+		local _arg1 = function(plr, id, cf)
+			return self:OnBuild(plr, id, cf)
 		end
 		_eventHandler.Build = _arg1
 	end
 	function BuildingEventListener:GetId()
-		return "build"
+		return "Build"
 	end
-	function BuildingEventListener:GetEventDirecotry()
-		return self.dir
+	function BuildingEventListener:GetModel(id)
+		return GlobalConfig.BUILDING_MODEL_STORAGE:FindFirstChild(id)
 	end
 	function BuildingEventListener:OnBuild(plr, id, cf)
-		print("Player: " .. (tostring(plr) .. (" wanna build: " .. id)))
+		local model = self:GetModel(id)
+		local canBuild = CanBuild(model, cf)
+		print(canBuild)
+		if canBuild then
+			local model = self.buildManger:Build(id, cf)
+			model.Parent = self.modelContaiener
+			model:PivotTo(cf)
+			local _result = model.PrimaryPart
+			if _result ~= nil then
+				_result:SetNetworkOwner(plr)
+			end
+			print("Model: " .. tostring(model))
+			self.buildBuildingEvent:FireAllClients(model)
+		end
 	end
 end
 return {
