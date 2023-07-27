@@ -22,11 +22,18 @@ do
 		return self:constructor(...) or self
 	end
 	function ServerBuildingManager:constructor()
-		super.constructor(self, FactoryMap.new():Set(BUILDINGS_IDS.MACHINE_GUN, function(m)
-			return MachineGun.new(m)
-		end):Set(BUILDINGS_IDS.BASE_WALL, function(m)
-			return Wall.new(m)
+		super.constructor(self, FactoryMap.new():Set(BUILDINGS_IDS.MACHINE_GUN, function(v)
+			return MachineGun.new(v)
+		end):Set(BUILDINGS_IDS.BASE_WALL, function(v)
+			return Wall.new(v)
 		end))
+	end
+	function ServerBuildingManager:CreateGlobalIDInstance(buildingModel)
+		local idInstance = Instance.new("StringValue")
+		idInstance.Parent = buildingModel
+		idInstance.Name = GlobalConfig.BUILDING_GLOBAL_ID_INSTANCE_NAME
+		idInstance.Value = tostring(buildingModel)
+		return idInstance
 	end
 	function ServerBuildingManager:Build(id, cf)
 		local createBuilding = self.factories:Find(id)
@@ -38,10 +45,16 @@ do
 			error("Nor found model for buildnig: " .. id)
 		end
 		local model = buidlignModel:Clone()
-		local building = createBuilding(model)
+		self:CreateGlobalIDInstance(model)
+		local gId = tick()
+		local createData = {
+			Model = model,
+			ID = gId,
+		}
+		local building = createBuilding(createData)
 		self.buildings[model] = building
 		building:OnBuild()
-		return model
+		return createData
 	end
 	function ServerBuildingManager:UseAction(plr, model, actionName)
 		local _exp = Reflection:ConvertObjectToMap(self:FindBuildingByModel(model))

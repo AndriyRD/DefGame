@@ -4,6 +4,7 @@ local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts
 local Players = _services.Players
 local ReplicatedStorage = _services.ReplicatedStorage
 local Workspace = _services.Workspace
+local EventProvider = TS.import(script, script.Parent.Parent.Parent.Parent, "EventProvider").EventProvider
 local ReloadableCharacter = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "ReloadableCharacter").ReloadableCharacter
 local TeamScene
 do
@@ -29,9 +30,6 @@ do
 		self.scene = self:PlaceScene()
 	end
 	function TeamScene:SetCameraToScene()
-		task.wait(5)
-		print("SetCF")
-		self.camera.CameraSubject = self.scene.PrimaryPart
 		self.camera.CFrame = self.sceneCF:ToWorldSpace(self.cameraOffset)
 		local _cFrame = self.camera.CFrame
 		local _arg0 = CFrame.lookAt(self.camera.CFrame.Position, self.sceneCF.Position)
@@ -65,6 +63,7 @@ do
 		end
 	end
 	function TeamScene:Show()
+		EventProvider.CharatcerController.Camera.Disable:Fire()
 		self:SetCameraToScene()
 		self:SetClickDetectorToRigs(self.scene)
 		print("Show scene")

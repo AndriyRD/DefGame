@@ -4,6 +4,7 @@ import { BUILDINGS_IDS } from "./BUILDINGS_IDS";
 import { GlobalConfig } from "shared/GlobalConfig";
 import { Reflection } from "shared/Reflection";
 import { Building } from "./Building";
+import { IBuildingCreateData } from "../IBuildingCreateData";
 
 export abstract class BuildingManager {
     protected readonly buildings = new Map<Model, Building>
@@ -14,12 +15,12 @@ export abstract class BuildingManager {
         return building
     }
 
-    abstract Build(...params: any): Model
+    abstract Build(...params: any): IBuildingCreateData
 
     Destroy(){
         //TODO: Destroy building
         warn()
     }
 
-    constructor(protected readonly factories: FactoryMap<BUILDINGS_IDS, Building, Model>){}
+    constructor(protected readonly factories: FactoryMap<BUILDINGS_IDS, Building, IBuildingCreateData>){}
 }

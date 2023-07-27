@@ -3,6 +3,7 @@ import { Building } from "shared/BuildSystem/Building/Building";
 import CreateActivateButton from "./Common/CreateActivateButton";
 import { ReloadableCharacter } from "shared/Character/ReloadableCharacter";
 import { Players } from "@rbxts/services";
+import { IBuildingCreateData } from "shared/BuildSystem/IBuildingCreateData";
 
 export class MachineGun extends Building {
     private readonly seat
@@ -22,10 +23,10 @@ export class MachineGun extends Building {
         this.activateBtn.Triggered.Connect(() => this.OnActivate())
     }
 
-    constructor(model: Model){
-        super(model)
+    constructor(data: IBuildingCreateData){
+        super(data)
         this.activateBtn = CreateActivateButton()
-        this.seat = model.FindFirstAncestorOfClass('Seat') as Seat
-        this.activateBtn.Parent = model.PrimaryPart
+        this.seat = this.model.FindFirstAncestorOfClass('Seat') as Seat
+        this.activateBtn.Parent = this.model.PrimaryPart
     }
 }

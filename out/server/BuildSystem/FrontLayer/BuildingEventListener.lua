@@ -38,19 +38,14 @@ do
 		return GlobalConfig.BUILDING_MODEL_STORAGE:FindFirstChild(id)
 	end
 	function BuildingEventListener:OnBuild(plr, id, cf)
-		local model = self:GetModel(id)
-		local canBuild = CanBuild(model, cf)
+		local originModel = self:GetModel(id)
+		local canBuild = CanBuild(originModel, cf)
 		print(canBuild)
 		if canBuild then
-			local model = self.buildManger:Build(id, cf)
-			model.Parent = self.modelContaiener
-			model:PivotTo(cf)
-			local _result = model.PrimaryPart
-			if _result ~= nil then
-				_result:SetNetworkOwner(plr)
-			end
-			print("Model: " .. tostring(model))
-			self.buildBuildingEvent:FireAllClients(model)
+			local data = self.buildManger:Build(id, cf)
+			data.Model.Parent = self.modelContaiener
+			data.Model:PivotTo(cf)
+			self.buildBuildingEvent:FireAllClients(data.Model)
 		end
 	end
 end

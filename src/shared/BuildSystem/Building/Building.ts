@@ -1,8 +1,10 @@
+import { IBuildingCreateData } from "../IBuildingCreateData";
 import { BUILDINGS_IDS } from "./BUILDINGS_IDS";
 
 export abstract class Building {
+    protected readonly model
     abstract GetID(): BUILDINGS_IDS
-
+    protected readonly globalID: number
     abstract OnBuild(): void
 
     OnDestroy(){
@@ -11,5 +13,12 @@ export abstract class Building {
         table.clear(this)
     }
 
-    constructor(protected readonly model: Model){}
+    GetGlobalID(){
+        return this.globalID
+    }
+
+    constructor(data: IBuildingCreateData){
+        this.model = data.Model
+        this.globalID = data.ID
+    }
 }

@@ -67,6 +67,11 @@ do
 		self:RemoveWhenDestroying(item)
 		return self
 	end
+	function InstanceCache:Exist(k)
+		local _items = self.items
+		local _k = k
+		return _items[_k] ~= nil
+	end
 	function InstanceCache:Take()
 		local res = nil
 		local resLifeTime = 0

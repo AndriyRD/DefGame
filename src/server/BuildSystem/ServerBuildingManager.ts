@@ -6,18 +6,32 @@ import { MachineGun } from "./Buildings/ServerMachineGun";
 import { Reflection } from "shared/Reflection";
 import { GlobalConfig } from "shared/GlobalConfig";
 import { Wall } from "./Buildings/ServerWall";
+import { IBuildingCreateData } from "shared/BuildSystem/IBuildingCreateData";
 
 export class ServerBuildingManager extends BuildingManager{
-    Build(id: BUILDINGS_IDS, cf: CFrame): Model {
+    private CreateGlobalIDInstance(buildingModel: Model){
+        const idInstance = new Instance("StringValue")
+        idInstance.Parent = buildingModel
+        idInstance.Name = GlobalConfig.BUILDING_GLOBAL_ID_INSTANCE_NAME
+        idInstance.Value = tostring(buildingModel)
+        return idInstance
+    }
+
+    Build(id: BUILDINGS_IDS, cf: CFrame) {
         const createBuilding = this.factories.Find(id)
         if(!createBuilding) error(`Not found building by id: ${id}`)
         const buidlignModel = GlobalConfig.BUILDING_MODEL_STORAGE.WaitForChild(id) as Model
         if(!buidlignModel) error(`Nor found model for buildnig: ${id}`)
+
         const model = buidlignModel.Clone()
-        const building = createBuilding(model)
+        this.CreateGlobalIDInstance(model)
+        const gId = tick()
+        const createData = {Model: model as Model, ID: gId}
+
+        const building = createBuilding(createData)
         this.buildings.set(model, building)
         building.OnBuild()
-        return model
+        return createData
     }
     
     UseAction(plr: Player, model: Model, actionName: string){
@@ -28,9 +42,9 @@ export class ServerBuildingManager extends BuildingManager{
     }
 
     constructor(){
-        super(new FactoryMap<BUILDINGS_IDS, IActionBuilding, Model>()
-            .Set(BUILDINGS_IDS.MACHINE_GUN, (m) => new MachineGun(m)) 
-            .Set(BUILDINGS_IDS.BASE_WALL, (m) => new Wall(m)) 
-        )
+        super(new FactoryMap<BUILDINGS_IDS, IActionBuilding, IBuildingCreateData>()
+        .Set(BUILDINGS_IDS.MACHINE_GUN, (v: IBuildingCreateData) => new MachineGun(v)) 
+        .Set(BUILDINGS_IDS.BASE_WALL, (v: IBuildingCreateData) => new Wall(v))
+    )
     }
 }

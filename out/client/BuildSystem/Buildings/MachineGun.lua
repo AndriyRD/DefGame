@@ -19,12 +19,12 @@ do
 		local self = setmetatable({}, MachineGun)
 		return self:constructor(...) or self
 	end
-	function MachineGun:constructor(model)
-		super.constructor(self, model)
+	function MachineGun:constructor(data)
+		super.constructor(self, data)
 		self.charatcer = ReloadableCharacter.new(Players.LocalPlayer)
 		self.activateBtn = CreateActivateButton()
-		self.seat = model:FindFirstAncestorOfClass("Seat")
-		self.activateBtn.Parent = model.PrimaryPart
+		self.seat = self.model:FindFirstAncestorOfClass("Seat")
+		self.activateBtn.Parent = self.model.PrimaryPart
 	end
 	function MachineGun:OnActivate()
 		self.seat:Sit(self.charatcer:GetHumanoid())

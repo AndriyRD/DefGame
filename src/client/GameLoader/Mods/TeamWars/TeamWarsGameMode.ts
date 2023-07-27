@@ -15,9 +15,8 @@ export class TeamWarsGameMode extends BaseGameMode {
     }
 
     Run(): IGameMode {
-        EventProvider.CharatcerController.Camera.Disable.Fire()
-        this.teamScene.Show()
-        this.teamScene.OnSelect.Event.Connect((name) => this.OnSelectTeam(name))
+        // this.teamScene.Show()
+        // this.teamScene.OnSelect.Event.Connect((name) => this.OnSelectTeam(name))
         return super.Run()
     }
 }

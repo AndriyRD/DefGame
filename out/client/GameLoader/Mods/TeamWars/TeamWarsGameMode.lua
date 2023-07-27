@@ -29,11 +29,8 @@ do
 		EventProvider.CharatcerController.Camera.Enable:Fire()
 	end
 	function TeamWarsGameMode:Run()
-		EventProvider.CharatcerController.Camera.Disable:Fire()
-		self.teamScene:Show()
-		self.teamScene.OnSelect.Event:Connect(function(name)
-			return self:OnSelectTeam(name)
-		end)
+		-- this.teamScene.Show()
+		-- this.teamScene.OnSelect.Event.Connect((name) => this.OnSelectTeam(name))
 		return super.Run(self)
 	end
 end

@@ -79,4 +79,5 @@ export class GlobalConfig {
     static HP_ATTRIBUtE_NAME = 'HP'
     static UI_MAIN_SCREEN_NAME = 'MainUI'
     static RUN_STATE_TAG_NAME = 'Running'
+    static BUILDING_GLOBAL_ID_INSTANCE_NAME = 'GlobalID'
 }

@@ -1,4 +1,5 @@
 import { Players, ReplicatedStorage, Workspace } from "@rbxts/services";
+import { EventProvider } from "client/EventProvider";
 import { ReloadableCharacter } from "shared/Character/ReloadableCharacter";
 
 export class TeamScene {
@@ -43,6 +44,7 @@ export class TeamScene {
     }
 
     Show(){
+        EventProvider.CharatcerController.Camera.Disable.Fire()
         this.SetCameraToScene()
         this.SetClickDetectorToRigs(this.scene)
         print('Show scene')

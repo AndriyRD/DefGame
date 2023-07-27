@@ -42,6 +42,10 @@ export class InstanceCache<T extends IDestroying>{
         return this
     }
 
+    Exist(k: string){
+        return this.items.get(k) !== undefined
+    }
+
     Take(){
         let res = undefined
         let resLifeTime = 0

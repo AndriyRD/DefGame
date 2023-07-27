@@ -20,16 +20,14 @@ export class BuildingEventListener extends BaseEventListener {
     }
 
     protected OnBuild(plr: Player, id: BUILDINGS_IDS, cf: CFrame){
-        const model = this.GetModel(id)
-        const canBuild = CanBuild(model, cf)
+        const originModel = this.GetModel(id)
+        const canBuild = CanBuild(originModel, cf)
         print(canBuild)
         if(canBuild){
-            const model = this.buildManger.Build(id, cf)
-            model.Parent = this.modelContaiener
-            model.PivotTo(cf)
-            model.PrimaryPart?.SetNetworkOwner(plr)
-            print(`Model: ${model}`)
-            this.buildBuildingEvent.FireAllClients(model)
+            const data = this.buildManger.Build(id, cf)
+            data.Model.Parent = this.modelContaiener
+            data.Model.PivotTo(cf)
+            this.buildBuildingEvent.FireAllClients(data.Model)
         }
     }
 

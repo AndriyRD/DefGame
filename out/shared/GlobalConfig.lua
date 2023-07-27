@@ -85,6 +85,7 @@ do
 	GlobalConfig.HP_ATTRIBUtE_NAME = "HP"
 	GlobalConfig.UI_MAIN_SCREEN_NAME = "MainUI"
 	GlobalConfig.RUN_STATE_TAG_NAME = "Running"
+	GlobalConfig.BUILDING_GLOBAL_ID_INSTANCE_NAME = "GlobalID"
 end
 return {
 	GlobalConfig = GlobalConfig,
