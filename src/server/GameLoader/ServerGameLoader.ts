@@ -4,5 +4,4 @@ export class GameLoader implements IGameLoader {
     Startup(): void {
         
     }
-
 }

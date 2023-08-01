@@ -24,16 +24,14 @@ do
 		local self = setmetatable({}, TeamWarsGameMode)
 		return self:constructor(...) or self
 	end
-	function TeamWarsGameMode:constructor()
-		super.constructor(self)
+	function TeamWarsGameMode:constructor(...)
+		super.constructor(self, ...)
 		self.ID = GAME_MODE_IDS.TEAM_WARS
 		self.description = {
 			TeamOptions = nil,
 			ProductOptions = nil,
-			MapIDList = { "Test" },
 		}
-		self.mapManager = MapManager.new(self.description.MapIDList)
-		print(self.description.MapIDList[1])
+		self.mapManager = MapManager.new()
 	end
 	function TeamWarsGameMode:RunEventListeners()
 		EventRegister.new():Register(WeaponEventListener.new()):Register(EquipmentEventListener.new()):Register(RunnerEventListener.new()):Register(BuildingEventListener.new())

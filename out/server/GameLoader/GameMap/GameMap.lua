@@ -18,21 +18,19 @@ do
 		self.id = id
 		self.ParentContainer = Workspace
 		self.SpawnCF = CFrame.new()
-		self.options = {
-			TeamOptions = nil,
-		}
 		local origin = GlobalConfig.MAP_MODEL_STORAGE:WaitForChild(id)
 		self.model = origin:Clone()
 	end
 	function GameMap:GetModel()
 		return self.model
 	end
-	function GameMap:GetOptions()
-		return self.options
-	end
 	function GameMap:Sapwn()
 		self.model.Parent = Workspace
 		self.model:PivotTo(self.SpawnCF)
+		self.model.Name = GlobalConfig.LAODED_MAP_NAME
+	end
+	function GameMap:GetID()
+		return self.id
 	end
 	function GameMap:Destory()
 		self.model:Destroy()

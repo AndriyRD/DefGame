@@ -34,6 +34,9 @@ do
 		Equip = Instance.new("BindableEvent"),
 		Unequip = Instance.new("BindableEvent"),
 	}
+	EventProvider.Team = {
+		SelectTeam = Instance.new("BindableEvent"),
+	}
 end
 return {
 	EventProvider = EventProvider,

@@ -8,7 +8,6 @@ do
 		self.description = {
 			TeamOptions = nil,
 			ProductOptions = nil,
-			MapIDList = { "" },
 		}
 	end
 	function GameModeLoader:Load(mapID)

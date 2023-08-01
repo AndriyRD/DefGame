@@ -1,9 +1,4 @@
 -- Compiled with roblox-ts v2.1.0
-local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local FactoryMap = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "FactoryMap").FactoryMap
-local GameMap = TS.import(script, game:GetService("ServerScriptService"), "TS", "GameLoader", "GameMap", "GameMap").GameMap
-local Workspace = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Workspace
-local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
 local MapManager
 do
 	MapManager = setmetatable({}, {
@@ -16,17 +11,13 @@ do
 		local self = setmetatable({}, MapManager)
 		return self:constructor(...) or self
 	end
-	function MapManager:constructor(list)
-		self.list = list
-		self.factories = FactoryMap.new()
-		for _, name in list do
-			self.factories:Set(name, function()
-				return GameMap.new(name)
-			end)
-		end
+	function MapManager:constructor()
+		self.gameMaps = {}
 	end
 	function MapManager:Select(id)
-		local newMap = self.factories:Find(id)
+		local _gameMaps = self.gameMaps
+		local _id = id
+		local newMap = _gameMaps[_id]
 		if not newMap then
 			error("Not found game-map: " .. id)
 		end
@@ -34,11 +25,16 @@ do
 		if _result ~= nil then
 			_result:Destory()
 		end
-		self.currentMap = newMap()
-		local model = self.currentMap:GetModel()
-		model.Parent = Workspace
-		model.Name = GlobalConfig.LAODED_MAP_NAME
+		self.currentMap = newMap
+		self.currentMap:Sapwn()
 		return self.currentMap
+	end
+	function MapManager:RegisterMap(gameMap)
+		local _gameMaps = self.gameMaps
+		local _arg0 = gameMap:GetID()
+		local _gameMap = gameMap
+		_gameMaps[_arg0] = _gameMap
+		return self
 	end
 end
 return {

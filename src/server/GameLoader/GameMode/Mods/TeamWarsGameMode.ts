@@ -15,9 +15,8 @@ export class TeamWarsGameMode extends GameModeLoader{
     protected readonly description: IGameModeDescription = {
         TeamOptions: undefined,
         ProductOptions: undefined,
-        MapIDList: ['Test']
     }
-    protected mapManager: MapManager = new MapManager(this.description.MapIDList);
+    protected mapManager: MapManager = new MapManager();
 
     private RunEventListeners(){
         new EventRegister()
@@ -40,10 +39,5 @@ export class TeamWarsGameMode extends GameModeLoader{
 
     Unload(): void {
         
-    }
-
-    constructor(){
-        super()
-        print(this.description.MapIDList[0])
     }
 }

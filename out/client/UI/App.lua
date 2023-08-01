@@ -4,6 +4,7 @@ local Roact = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_inc
 local Players = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Players
 local BuildingMenu = TS.import(script, script.Parent, "BuildingMenu", "BuildingMenu").BuildingMenu
 local CreateAmmoFrame = TS.import(script, script.Parent, "Ammo", "CreateAmmoFrame")
+local TeamScene = TS.import(script, script.Parent, "SelectTeamScene", "TeamScene").TeamScene
 local playerGui = Players.LocalPlayer:FindFirstChild("PlayerGui")
 return function()
 	local app = (Roact.createElement("ScreenGui", {
@@ -13,6 +14,10 @@ return function()
 	}, {
 		Roact.createElement(BuildingMenu),
 	}))
+	local teamScene = function()
+		return Roact.createElement(TeamScene)
+	end
 	CreateAmmoFrame()
 	Roact.mount(app, playerGui, "MainUI")
+	Roact.mount(teamScene(), playerGui)
 end

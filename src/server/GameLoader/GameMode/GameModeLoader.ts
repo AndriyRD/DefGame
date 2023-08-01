@@ -8,7 +8,6 @@ export abstract class GameModeLoader {
     protected readonly description: IGameModeDescription = {
         TeamOptions: undefined,
         ProductOptions: undefined,
-        MapIDList: ['']
     }
     protected abstract readonly mapManager: MapManager
 

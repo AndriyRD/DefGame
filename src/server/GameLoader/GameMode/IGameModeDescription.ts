@@ -9,6 +9,4 @@ export interface IGameModeDescription {
             FilterType: Enum.RaycastFilterType
         }
     } | undefined
-
-    MapIDList: [string]
 }

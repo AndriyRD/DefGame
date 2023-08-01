@@ -24,4 +24,8 @@ export class EventProvider {
         Equip: new Instance('BindableEvent'),
         Unequip: new Instance('BindableEvent')
     }
+
+    static readonly Team = {
+        SelectTeam: new Instance('BindableEvent')
+    }
 }

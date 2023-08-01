@@ -1,26 +1,23 @@
 import { GlobalConfig } from "shared/GlobalConfig"
-import { IMapOptions } from "./IMapOptions"
 import { Workspace } from "@rbxts/services"
 
 export class GameMap {
     protected readonly model
     protected readonly ParentContainer = Workspace
     protected readonly SpawnCF = new CFrame
-    protected readonly options: IMapOptions = {
-        TeamOptions: undefined
-    }
 
     GetModel(){
         return this.model
     }
 
-    GetOptions(){
-        return this.options
-    }
-
     Sapwn(){
         this.model.Parent = Workspace
         this.model.PivotTo(this.SpawnCF)
+        this.model.Name = GlobalConfig.LAODED_MAP_NAME
+    }
+
+    GetID(){
+        return this.id
     }
 
     Destory(){
@@ -28,7 +25,7 @@ export class GameMap {
         table.clear(this)
     }
 
-    constructor(private readonly id: string){
+    constructor(protected readonly id: string){
         const origin = GlobalConfig.MAP_MODEL_STORAGE.WaitForChild(id) as Model
         this.model = origin.Clone()
     }
