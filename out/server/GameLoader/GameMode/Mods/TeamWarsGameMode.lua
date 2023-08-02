@@ -8,8 +8,8 @@ local ApiServiceRegister = TS.import(script, game:GetService("ServerScriptServic
 local EquipmentService = TS.import(script, game:GetService("ServerScriptService"), "TS", "Equipment", "FrontLayer", "EquipmentService").EquipmentService
 local RunnerEventListener = TS.import(script, game:GetService("ServerScriptService"), "TS", "Runner", "RunnerEventListener").RunnerEventListener
 local GAME_MODE_IDS = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GameLoader", "GAME_MODE_IDS").GAME_MODE_IDS
-local MapManager = TS.import(script, game:GetService("ServerScriptService"), "TS", "GameLoader", "GameMap", "MapManager").MapManager
 local BuildingEventListener = TS.import(script, game:GetService("ServerScriptService"), "TS", "BuildSystem", "FrontLayer", "BuildingEventListener").BuildingEventListener
+local Test = TS.import(script, game:GetService("ServerScriptService"), "TS", "GameLoader", "GameMap", "Maps", "TeamWars", "Test").Test
 local TeamWarsGameMode
 do
 	local super = GameModeLoader
@@ -31,13 +31,15 @@ do
 			TeamOptions = nil,
 			ProductOptions = nil,
 		}
-		self.mapManager = MapManager.new()
 	end
 	function TeamWarsGameMode:RunEventListeners()
 		EventRegister.new():Register(WeaponEventListener.new()):Register(EquipmentEventListener.new()):Register(RunnerEventListener.new()):Register(BuildingEventListener.new())
 	end
 	function TeamWarsGameMode:RunApiServices()
 		ApiServiceRegister.new():Register(EquipmentService.new())
+	end
+	function TeamWarsGameMode:LaodMaps()
+		self.mapManager:RegisterMap(Test.new())
 	end
 	function TeamWarsGameMode:Load(mapID)
 		self:RunApiServices()

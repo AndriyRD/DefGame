@@ -9,7 +9,9 @@ export abstract class GameModeLoader {
         TeamOptions: undefined,
         ProductOptions: undefined,
     }
-    protected abstract readonly mapManager: MapManager
+    protected readonly mapManager = new MapManager()
+
+    abstract LaodMaps(): void
 
     Load(mapID: string){
         const map = this.mapManager.Select(mapID).GetModel()
@@ -19,4 +21,8 @@ export abstract class GameModeLoader {
     }
     
     abstract Unload(): void
+
+    constructor(){
+        this.LaodMaps()
+    }
 }

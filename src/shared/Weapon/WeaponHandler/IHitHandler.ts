@@ -1,4 +1,4 @@
-import { IEntity } from "shared/IEntity"
+import { IEntity } from "shared/Entity/IEntity"
 import { IWeapon } from "../IWeapon"
 
 export interface IHitHandler {

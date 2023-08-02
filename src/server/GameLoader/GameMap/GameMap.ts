@@ -1,7 +1,7 @@
 import { GlobalConfig } from "shared/GlobalConfig"
 import { Workspace } from "@rbxts/services"
 
-export class GameMap {
+export abstract class GameMap {
     protected readonly model
     protected readonly ParentContainer = Workspace
     protected readonly SpawnCF = new CFrame

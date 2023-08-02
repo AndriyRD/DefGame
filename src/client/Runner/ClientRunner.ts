@@ -30,7 +30,7 @@ export class Runner extends BaseRunner {
         this.stamina.SetConsuptionMode(true)
         this.animation.Play()
         EventProvider.Runner.Run.Fire()
-        CollectionService.AddTag(this.owner, GlobalConfig.RUN_STATE_TAG_NAME)
+        CollectionService.AddTag(this.owner, GlobalConfig.TAGS.RUN_STATE)
         // this.coverHandler.Start()
         return this
     }
@@ -39,7 +39,7 @@ export class Runner extends BaseRunner {
         this.remote.Stop.FireServer()
         this.stamina.SetConsuptionMode(false)
         this.animation.GetTrack()?.Stop()
-        CollectionService.RemoveTag(this.owner, GlobalConfig.RUN_STATE_TAG_NAME)
+        CollectionService.RemoveTag(this.owner, GlobalConfig.TAGS.RUN_STATE)
         EventProvider.Runner.Stop.Fire()
         return this
     }

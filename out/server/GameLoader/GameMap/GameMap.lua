@@ -4,16 +4,7 @@ local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS
 local Workspace = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Workspace
 local GameMap
 do
-	GameMap = setmetatable({}, {
-		__tostring = function()
-			return "GameMap"
-		end,
-	})
-	GameMap.__index = GameMap
-	function GameMap.new(...)
-		local self = setmetatable({}, GameMap)
-		return self:constructor(...) or self
-	end
+	GameMap = {}
 	function GameMap:constructor(id)
 		self.id = id
 		self.ParentContainer = Workspace

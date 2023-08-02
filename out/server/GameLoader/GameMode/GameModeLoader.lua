@@ -1,6 +1,7 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
+local MapManager = TS.import(script, game:GetService("ServerScriptService"), "TS", "GameLoader", "GameMap", "MapManager").MapManager
 local GameModeLoader
 do
 	GameModeLoader = {}
@@ -9,6 +10,8 @@ do
 			TeamOptions = nil,
 			ProductOptions = nil,
 		}
+		self.mapManager = MapManager.new()
+		self:LaodMaps()
 	end
 	function GameModeLoader:Load(mapID)
 		local map = self.mapManager:Select(mapID):GetModel()

@@ -11,7 +11,7 @@ export class BindedHotInventory extends HotInventory {
     private readonly bindInventoryData = EquipmentGlobalConfig.GetBindData()
 
     private CanEquip(){
-        return !CollectionService.HasTag(this.owner, GlobalConfig.RUN_STATE_TAG_NAME)
+        return !CollectionService.HasTag(this.owner, GlobalConfig.TAGS.RUN_STATE)
     }
 
     private OnRun(){

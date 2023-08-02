@@ -9,6 +9,7 @@ import { RunnerEventListener } from "server/Runner/RunnerEventListener";
 import { GAME_MODE_IDS } from "shared/GameLoader/GAME_MODE_IDS";
 import { MapManager } from "server/GameLoader/GameMap/MapManager";
 import { BuildingEventListener } from "server/BuildSystem/FrontLayer/BuildingEventListener";
+import { Test } from "server/GameLoader/GameMap/Maps/TeamWars/Test";
 
 export class TeamWarsGameMode extends GameModeLoader{
     readonly ID = GAME_MODE_IDS.TEAM_WARS
@@ -16,7 +17,6 @@ export class TeamWarsGameMode extends GameModeLoader{
         TeamOptions: undefined,
         ProductOptions: undefined,
     }
-    protected mapManager: MapManager = new MapManager();
 
     private RunEventListeners(){
         new EventRegister()
@@ -31,9 +31,15 @@ export class TeamWarsGameMode extends GameModeLoader{
             .Register(new EquipmentService())
     }
 
+    LaodMaps(): void {
+        this.mapManager
+            .RegisterMap(new Test())
+    }
+
     Load(mapID: string){
         this.RunApiServices()
         this.RunEventListeners()
+
         return super.Load(mapID)
     }
 

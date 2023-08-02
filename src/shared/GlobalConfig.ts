@@ -69,7 +69,14 @@ export class GlobalConfig {
 
     static ATTRIBUTES_NAMES = {
         GAME_MODE: 'GameMode',
-        IS_STARTING_GAME: 'IsStarting'
+        IS_STARTING_GAME: 'IsStarting',
+        MAX_HEALTH_ATTRIBUTE_NAME: 'MaxHP'
+    }
+
+    static TAGS = {
+        RUN_STATE: 'Running',
+        ENTITY: 'Entity',
+        ENEMY_ENTITY: 'EnemyEntity'
     }
 
     static MAP_MODEL_STORAGE = ReplicatedStorage.WaitForChild('Maps')
@@ -78,6 +85,7 @@ export class GlobalConfig {
     static LAODED_MAP_NAME = 'Map'
     static HP_ATTRIBUtE_NAME = 'HP'
     static UI_MAIN_SCREEN_NAME = 'MainUI'
-    static RUN_STATE_TAG_NAME = 'Running'
     static BUILDING_GLOBAL_ID_INSTANCE_NAME = 'GlobalID'
+    static REGEN_HEALTH_PAUSE_AFTER_DAMAGE = 2
+    static ROOT_INSTANCES = ['Folder', 'Workspace']
 }
