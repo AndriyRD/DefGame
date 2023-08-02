@@ -9,5 +9,4 @@ return function(char)
 			return plr
 		end
 	end
-	error("Not found player with by character: " .. tostring(char))
 end

@@ -47,16 +47,13 @@ do
 	function ShotTrace:Destroy()
 		self.attachContainer:Destroy()
 	end
-	function ShotTrace:Create(parent, pos)
+	function ShotTrace:Create(pos)
 		local mainAttach = self:CreateAttachment(self.attachContainer, self.weaponModel.Muzzle.Position)
-		local tragetAttach = self:CreateAttachment(parent, pos)
+		local tragetAttach = self:CreateAttachment(self.attachContainer, pos)
 		local beam = self:SpawnBeam(mainAttach, tragetAttach)
 		self.beamAnimation:Animate(beam, function()
 			return tragetAttach:Destroy()
 		end)
-	end
-	function ShotTrace:CreateWithoutParent(pos)
-		self:Create(self.attachContainer, pos)
 	end
 end
 return {

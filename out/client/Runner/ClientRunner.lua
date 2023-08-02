@@ -49,7 +49,7 @@ do
 		self.stamina:SetConsuptionMode(true)
 		self.animation:Play()
 		EventProvider.Runner.Run:Fire()
-		CollectionService:AddTag(self.owner, GlobalConfig.RUN_STATE_TAG_NAME)
+		CollectionService:AddTag(self.owner, GlobalConfig.TAGS.RUN_STATE)
 		-- this.coverHandler.Start()
 		return self
 	end
@@ -60,7 +60,7 @@ do
 		if _result ~= nil then
 			_result:Stop()
 		end
-		CollectionService:RemoveTag(self.owner, GlobalConfig.RUN_STATE_TAG_NAME)
+		CollectionService:RemoveTag(self.owner, GlobalConfig.TAGS.RUN_STATE)
 		EventProvider.Runner.Stop:Fire()
 		return self
 	end

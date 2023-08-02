@@ -1,21 +1,15 @@
 import { ReloadableCharacter } from "shared/Character/ReloadableCharacter";
 import { IEntity } from "./IEntity";
-import { IEntityEvents } from "./IEntityEvents";
+import { HumanoidEntity } from "./HumanoidEntity";
+import GetCharacter from "shared/Character/GetCharacter";
 
-export class PlayerEntity implements IEntity {
+export class PlayerEntity extends HumanoidEntity {
     private readonly character
 
-    private OnDied(){
-        this.Events.Died.Fire(this.character.GetCharacter())
-    }
-
-    private OnChangeHealth(){
-        this.Events.ChangeHealth.Fire(this.character.GetCharacter())
-    }
-
-    readonly Events = {
-        ChangeHealth: new Instance('BindableEvent'),
-        Died: new Instance('BindableEvent')
+    protected OnDied(): void {
+        super.OnDied()
+        this.model = this.character.GetCharacter()
+        this.humanoid = this.character.GetHumanoid()
     }
 
     GetModel(): Model {
@@ -28,8 +22,7 @@ export class PlayerEntity implements IEntity {
     }
 
     constructor(private readonly owner: Player){
+        super(GetCharacter(owner))
         this.character = new ReloadableCharacter(owner)
-        this.character.GetHumanoid().Died.Connect(() => this.OnDied())
-        this.character.GetHumanoid().GetPropertyChangedSignal('Health').Connect(()=>this.OnChangeHealth())
     }
 }

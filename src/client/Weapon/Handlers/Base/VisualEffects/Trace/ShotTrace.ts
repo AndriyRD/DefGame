@@ -32,15 +32,11 @@ export class ShotTrace {
         this.attachContainer.Destroy()
     }
 
-    Create(parent: BasePart, pos: Vector3){
+    Create(pos: Vector3){
         const mainAttach = this.CreateAttachment(this.attachContainer, this.weaponModel.Muzzle.Position)
-        const tragetAttach = this.CreateAttachment(parent, pos)
+        const tragetAttach = this.CreateAttachment(this.attachContainer, pos)
         const beam = this.SpawnBeam(mainAttach, tragetAttach)
         this.beamAnimation.Animate(beam, () => tragetAttach.Destroy())
-    }
-
-    CreateWithoutParent(pos: Vector3){
-        this.Create(this.attachContainer, pos)
     }
 
     constructor(private readonly weaponModel: IWeaponModel){

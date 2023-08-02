@@ -76,7 +76,7 @@ export class GlobalConfig {
     static TAGS = {
         RUN_STATE: 'Running',
         ENTITY: 'Entity',
-        ENEMY_ENTITY: 'EnemyEntity'
+        DAMAGEBLE_ENTITY: 'DamagebleEntity'
     }
 
     static MAP_MODEL_STORAGE = ReplicatedStorage.WaitForChild('Maps')

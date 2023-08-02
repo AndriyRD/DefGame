@@ -34,7 +34,7 @@ do
 		super.constructor(self, owner, size)
 	end
 	function BindedHotInventory:CanEquip()
-		return not CollectionService:HasTag(self.owner, GlobalConfig.RUN_STATE_TAG_NAME)
+		return not CollectionService:HasTag(self.owner, GlobalConfig.TAGS.RUN_STATE)
 	end
 	function BindedHotInventory:OnRun()
 		if self.CurrentCell then

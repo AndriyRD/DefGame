@@ -6,5 +6,4 @@ export = (char: Model) => {
         const plrChar = GetCharacter(plr)
         if(char === plrChar) return plr
     }
-    error(`Not found player with by character: ${char}`)
 }

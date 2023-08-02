@@ -77,6 +77,12 @@ do
 	GlobalConfig.ATTRIBUTES_NAMES = {
 		GAME_MODE = "GameMode",
 		IS_STARTING_GAME = "IsStarting",
+		MAX_HEALTH_ATTRIBUTE_NAME = "MaxHP",
+	}
+	GlobalConfig.TAGS = {
+		RUN_STATE = "Running",
+		ENTITY = "Entity",
+		DAMAGEBLE_ENTITY = "DamagebleEntity",
 	}
 	GlobalConfig.MAP_MODEL_STORAGE = ReplicatedStorage:WaitForChild("Maps")
 	GlobalConfig.BUILDING_MODEL_STORAGE = ReplicatedStorage:WaitForChild("Build"):WaitForChild("Models")
@@ -84,8 +90,9 @@ do
 	GlobalConfig.LAODED_MAP_NAME = "Map"
 	GlobalConfig.HP_ATTRIBUtE_NAME = "HP"
 	GlobalConfig.UI_MAIN_SCREEN_NAME = "MainUI"
-	GlobalConfig.RUN_STATE_TAG_NAME = "Running"
 	GlobalConfig.BUILDING_GLOBAL_ID_INSTANCE_NAME = "GlobalID"
+	GlobalConfig.REGEN_HEALTH_PAUSE_AFTER_DAMAGE = 2
+	GlobalConfig.ROOT_INSTANCES = { "Folder", "Workspace" }
 end
 return {
 	GlobalConfig = GlobalConfig,

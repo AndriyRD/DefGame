@@ -1,8 +1,10 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local WeaponRayCasting = TS.import(script, script.Parent, "WeaponRayCasting").WeaponRayCasting
-local BulletHit = TS.import(script, script.Parent, "VisualEffects", "HitEffect", "BulletHit").BulletHit
 local ShotTrace = TS.import(script, script.Parent, "VisualEffects", "Trace", "ShotTrace").ShotTrace
+local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
+local EntityStorageUnpacked = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Entity", "EntityStorage", "EntityStorageUnpacked").EntityStorageUnpacked
+local EntityStorageFactory = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Entity", "EntityStorage", "EntityStorageFactory").EntityStorageFactory
 local BaseFireHandler
 do
 	BaseFireHandler = setmetatable({}, {
@@ -20,35 +22,23 @@ do
 		self.hitHandler = hitHandler
 		self.caster = WeaponRayCasting.new(weapon:GetOwner())
 		self.shotTrace = ShotTrace.new(self.weapon:GetWeaponModel())
-		self.bulletHit = BulletHit.new()
 		self.fireSound = self.weapon:GetAssets().Sounds.Fire
-	end
-	function BaseFireHandler:OnHit(res)
-		self.hitHandler:OnHit(res)
-		local parent = res.Instance.Parent
-		if parent and parent:IsA("Model") then
-			local hum = parent:FindFirstChildOfClass("Humanoid")
-			if hum then
-				self.hitHandler:OnHitEnity({
-					Charatcer = parent,
-					Humanoid = hum,
-				}, res)
-			else
-				self.hitHandler:OnHitPart(res)
-			end
-		end
+		self.entityStorage = EntityStorageUnpacked.new(EntityStorageFactory:CreateByOtherTeams(self.weapon:GetOwner().Team, GlobalConfig.TAGS.DAMAGEBLE_ENTITY):AutoRegisterMode(true))
 	end
 	function BaseFireHandler:Fire()
 		local res = self.caster:Cast()
 		local rayRes = res.RaycastResult
 		if rayRes then
-			self:OnHit(rayRes)
-			coroutine.wrap(function()
-				self.shotTrace:Create(rayRes.Instance, rayRes.Position)
-				self.bulletHit:Spawn(rayRes.Instance, rayRes.Position)
-			end)()
+			self.hitHandler:OnHit(rayRes)
+			local entityGetRes = self.entityStorage:GetEntityByDescendant(rayRes.Instance)
+			if entityGetRes.Result then
+				self.hitHandler:OnHitEnity(entityGetRes.Entity, rayRes)
+			else
+				self.hitHandler:OnHitPart(rayRes)
+			end
+			self.shotTrace:Create(rayRes.Position)
 		else
-			self.shotTrace:CreateWithoutParent(res.EndPoint)
+			self.shotTrace:Create(res.EndPoint)
 		end
 		self.fireSound:Play()
 		return self
