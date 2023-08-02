@@ -16,28 +16,53 @@ do
 	function RegenebleStat:constructor(maxValue)
 		self.maxValue = maxValue
 		self.canNegetiveValue = true
+		self.regemSpeed = 10
 		self.currentValue = 0
+		self.paused = false
+		self.pauseTimer = 0
+		self.usePause = Instance.new("BindableEvent")
 		self.Updated = Instance.new("BindableEvent")
 		self.currentValue = maxValue
+	end
+	function RegenebleStat:SetPauseRegen(pauseTime)
+		if self.paused then
+			return self.usePause:Fire(pauseTime)
+		end
+		self.paused = true
+		self.pauseTimer = 0
+		local connection
+		connection = RunService.Heartbeat:Connect(function(dt)
+			self.pauseTimer += dt
+			if self.pauseTimer >= pauseTime then
+				self.paused = false
+				connection:Disconnect()
+				connection = nil
+				self:EnableRegen()
+			end
+		end)
+		self.usePause.Event:Connect(function(newPauseTime)
+			self.pauseTimer = 0
+			pauseTime = newPauseTime
+		end)
 	end
 	function RegenebleStat:EnableRegen()
 		if self.connection then
 			self:DisableRegen()
 		end
 		self.connection = RunService.Heartbeat:Connect(function(dt)
-			self.currentValue += math.clamp(self.currentValue + dt, 0, self.maxValue)
-			return self.currentValue
+			if self.currentValue < self.maxValue then
+				self.currentValue += dt * self.regemSpeed
+				if self.currentValue > self.maxValue then
+					self.currentValue = self.maxValue
+				end
+				self.Updated:Fire(self.currentValue)
+			end
 		end)
 		return self
 	end
 	function RegenebleStat:RegenPause(pauseTime)
-		if self.connection and self.connection.Connected then
-			coroutine.wrap(function()
-				self:DisableRegen()
-				task.wait(pauseTime)
-				self:EnableRegen()
-			end)()
-		end
+		self:DisableRegen()
+		self:SetPauseRegen(pauseTime)
 		return self
 	end
 	function RegenebleStat:DisableRegen()
@@ -50,6 +75,10 @@ do
 	end
 	function RegenebleStat:GetValue()
 		return self.currentValue
+	end
+	function RegenebleStat:SetRegenSpeed(value)
+		self.regemSpeed = value
+		return self
 	end
 	function RegenebleStat:Update(update)
 		self.currentValue = update(self.currentValue)

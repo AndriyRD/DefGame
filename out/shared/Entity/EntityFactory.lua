@@ -3,6 +3,7 @@ local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_incl
 local GetPlayerByCharacter = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "GetPlayerByCharacter")
 local PlayerEntity = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Entity", "PlayerEntity").PlayerEntity
 local Entity = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Entity", "Entity").Entity
+local NpcEntity = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Entity", "NpcEntity").NpcEntity
 local EntityFactory
 do
 	EntityFactory = setmetatable({}, {
@@ -18,9 +19,14 @@ do
 	function EntityFactory:constructor()
 	end
 	function EntityFactory:Create(model)
+		local hum = model:FindFirstChildOfClass("Humanoid")
 		local plr = GetPlayerByCharacter(model)
-		if plr then
-			return PlayerEntity.new(plr)
+		if hum then
+			if plr then
+				return PlayerEntity.new(plr)
+			else
+				return NpcEntity.new(model)
+			end
 		else
 			return Entity.new(model)
 		end

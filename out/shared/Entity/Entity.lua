@@ -21,11 +21,22 @@ do
 			ChangeHealth = Instance.new("BindableEvent"),
 			Died = Instance.new("BindableEvent"),
 		}
-		self.healthStat = RegenebleStat.new(self:GetHealthMaxValue())
+		self.healthStat = RegenebleStat.new(self:GetHealthMaxValue()):EnableRegen()
 		CollectionService:AddTag(self.model, GlobalConfig.TAGS.ENTITY)
+		self.Events.ChangeHealth.Event:Connect(function(m, v)
+			return print(v)
+		end)
+		self.healthStat.Updated.Event:Connect(function(v)
+			return self.Events.ChangeHealth:Fire(v)
+		end)
 	end
 	function Entity:GetHealthMaxValue()
-		return self.model:GetAttribute(GlobalConfig.ATTRIBUTES_NAMES.MAX_HEALTH_ATTRIBUTE_NAME)
+		local value = self.model:GetAttribute(GlobalConfig.ATTRIBUTES_NAMES.MAX_HEALTH_ATTRIBUTE_NAME)
+		if not (value ~= 0 and (value == value and value)) then
+			error("Not found " .. (GlobalConfig.ATTRIBUTES_NAMES.MAX_HEALTH_ATTRIBUTE_NAME .. ([[
+                attribute for entity: ]] .. tostring(self.model))))
+		end
+		return value
 	end
 	function Entity:GetModel()
 		return self.model

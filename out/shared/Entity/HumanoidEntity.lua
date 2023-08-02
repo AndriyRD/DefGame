@@ -9,7 +9,10 @@ do
 			Died = Instance.new("BindableEvent"),
 		}
 		self.model = model
-		self.humanoid = self.model:FindFirstAncestorOfClass("Humanoid")
+		self.humanoid = self.model:FindFirstChildOfClass("Humanoid")
+		if not self.humanoid then
+			error("Not found Humanoid instance in entity: " .. tostring(model))
+		end
 		self:SetEventsHandles()
 	end
 	function HumanoidEntity:OnDied()

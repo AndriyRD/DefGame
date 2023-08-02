@@ -2,7 +2,9 @@ import { EntityStorage } from "./EntityStorage";
 
 export class EntityStorageUnpacked {
     protected UnpackEntityModel(model: Model){
-        model.GetDescendants().forEach((item) => item.Parent = model)
+        model.GetDescendants().forEach((item) => {
+            if(item.IsA("BasePart")) item.Parent = model
+        })
         print(`Added new entity: ${model}`)
     }
     

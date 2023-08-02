@@ -20,8 +20,9 @@ do
 	function EntityStorageUnpacked:UnpackEntityModel(model)
 		local _exp = model:GetDescendants()
 		local _arg0 = function(item)
-			item.Parent = model
-			return item.Parent
+			if item:IsA("BasePart") then
+				item.Parent = model
+			end
 		end
 		for _k, _v in _exp do
 			_arg0(_v, _k - 1, _exp)

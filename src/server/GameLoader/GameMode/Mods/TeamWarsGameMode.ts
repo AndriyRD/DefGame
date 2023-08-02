@@ -7,7 +7,6 @@ import { ApiServiceRegister } from "server/Core/ApiService/ApiServiceRegister";
 import { EquipmentService } from "server/Equipment/FrontLayer/EquipmentService";
 import { RunnerEventListener } from "server/Runner/RunnerEventListener";
 import { GAME_MODE_IDS } from "shared/GameLoader/GAME_MODE_IDS";
-import { MapManager } from "server/GameLoader/GameMap/MapManager";
 import { BuildingEventListener } from "server/BuildSystem/FrontLayer/BuildingEventListener";
 import { Test } from "server/GameLoader/GameMap/Maps/TeamWars/Test";
 

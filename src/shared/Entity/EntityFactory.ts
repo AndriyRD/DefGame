@@ -1,11 +1,11 @@
 import GetPlayerByCharacter from "shared/Character/GetPlayerByCharacter";
 import { PlayerEntity } from "./PlayerEntity";
 import { Entity } from "./Entity";
-import { NpcEntity } from "./NPCEntity";
+import { NpcEntity } from "./NpcEntity"
 
 export class EntityFactory{
     static Create(model: Model){
-        const hum = model.FindFirstAncestorOfClass('Humanoid')
+        const hum = model.FindFirstChildOfClass('Humanoid')
         const plr = GetPlayerByCharacter(model)
         if(hum)
             if(plr) return new PlayerEntity(plr)

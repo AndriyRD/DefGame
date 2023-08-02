@@ -11,8 +11,12 @@ export class Entity implements IEntity{
     }
 
     protected GetHealthMaxValue(){
-        return this.model.GetAttribute(
+        const value = this.model.GetAttribute(
             GlobalConfig.ATTRIBUTES_NAMES.MAX_HEALTH_ATTRIBUTE_NAME) as number
+        if(!value) 
+            error(`Not found ${GlobalConfig.ATTRIBUTES_NAMES.MAX_HEALTH_ATTRIBUTE_NAME}
+                attribute for entity: ${this.model}`)
+        return value
     }
 
     GetModel(): Model {
@@ -29,7 +33,9 @@ export class Entity implements IEntity{
     }
 
     constructor(protected readonly model: Model){
-        this.healthStat = new RegenebleStat(this.GetHealthMaxValue())
+        this.healthStat = new RegenebleStat(this.GetHealthMaxValue()).EnableRegen()
         CollectionService.AddTag(this.model, GlobalConfig.TAGS.ENTITY)
+        this.Events.ChangeHealth.Event.Connect((m,v) => print(v))
+        this.healthStat.Updated.Event.Connect(v => this.Events.ChangeHealth.Fire(v))
     }
 }

@@ -86,6 +86,6 @@ export class GlobalConfig {
     static HP_ATTRIBUtE_NAME = 'HP'
     static UI_MAIN_SCREEN_NAME = 'MainUI'
     static BUILDING_GLOBAL_ID_INSTANCE_NAME = 'GlobalID'
-    static REGEN_HEALTH_PAUSE_AFTER_DAMAGE = 2
+    static REGEN_HEALTH_PAUSE_AFTER_DAMAGE = 4
     static ROOT_INSTANCES = ['Folder', 'Workspace']
 }

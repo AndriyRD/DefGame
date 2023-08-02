@@ -32,7 +32,8 @@ export class RemoteProvider {
 
     static GetForBuild(){
         return {
-            Build: RemoteProvider.dirs.Build.WaitForChild('Build') as RemoteEvent
+            Build: RemoteProvider.dirs.Build.WaitForChild('Build') as RemoteEvent,
+            BuildingAction: RemoteProvider.dirs.Build.WaitForChild('BuildingAction') as RemoteEvent 
         }
     }
 

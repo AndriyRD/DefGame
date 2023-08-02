@@ -35,6 +35,7 @@ do
 	function RemoteProvider:GetForBuild()
 		return {
 			Build = RemoteProvider.dirs.Build:WaitForChild("Build"),
+			BuildingAction = RemoteProvider.dirs.Build:WaitForChild("BuildingAction"),
 		}
 	end
 	function RemoteProvider:GetForRunner()

@@ -40,7 +40,8 @@ export abstract class HumanoidEntity implements IEntity {
 
     constructor(protected model: Model){
         this.model = model
-        this.humanoid = this.model.FindFirstAncestorOfClass('Humanoid') as Humanoid
+        this.humanoid = this.model.FindFirstChildOfClass('Humanoid') as Humanoid
+        if(!this.humanoid) error(`Not found Humanoid instance in entity: ${model}`)
         this.SetEventsHandles()
     }
 }

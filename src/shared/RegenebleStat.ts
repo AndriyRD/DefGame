@@ -3,25 +3,50 @@ import { RunService } from "@rbxts/services"
 export class RegenebleStat {
     protected canNegetiveValue = true
     protected connection: RBXScriptConnection|undefined
+    protected regemSpeed = 10
     protected currentValue = 0
+    protected paused = false
+    protected pauseTimer = 0
+    protected readonly usePause = new Instance('BindableEvent')
     readonly Updated = new Instance('BindableEvent')
+
+    protected SetPauseRegen(pauseTime: number){
+        if(this.paused) return this.usePause.Fire(pauseTime)
+
+        this.paused = true
+        this.pauseTimer = 0
+
+        let connection = RunService.Heartbeat.Connect((dt) => {
+            this.pauseTimer += dt
+            if(this.pauseTimer >= pauseTime){
+                this.paused = false
+                connection.Disconnect()
+                connection = undefined as any
+                this.EnableRegen()
+            }
+        })
+
+        this.usePause.Event.Connect((newPauseTime) => {
+            this.pauseTimer = 0
+            pauseTime = newPauseTime
+        })
+    }
 
     EnableRegen(){
         if(this.connection) this.DisableRegen()
-        this.connection = RunService.Heartbeat.Connect((dt) => 
-            this.currentValue += math.clamp(this.currentValue+dt, 0, this.maxValue))
+        this.connection = RunService.Heartbeat.Connect((dt) => {
+            if(this.currentValue < this.maxValue){  
+                this.currentValue += dt*this.regemSpeed
+                if(this.currentValue > this.maxValue) this.currentValue = this.maxValue
+                this.Updated.Fire(this.currentValue)
+            }
+        })
         return this
     }
 
     RegenPause(pauseTime: number){
-        if(this.connection && this.connection.Connected){
-            coroutine.wrap(() => {
-                this.DisableRegen()
-                task.wait(pauseTime)
-                this.EnableRegen()
-            })()
-        }
-            
+        this.DisableRegen()
+        this.SetPauseRegen(pauseTime)
         return this
     }
 
@@ -33,6 +58,11 @@ export class RegenebleStat {
 
     GetValue(){
         return this.currentValue
+    }
+
+    SetRegenSpeed(value: number){
+        this.regemSpeed = value
+        return this
     }
 
     Update(update: (oldValue: number) => number){

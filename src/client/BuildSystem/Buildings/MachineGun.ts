@@ -4,6 +4,7 @@ import CreateActivateButton from "./Common/CreateActivateButton";
 import { ReloadableCharacter } from "shared/Character/ReloadableCharacter";
 import { Players } from "@rbxts/services";
 import { IBuildingCreateData } from "shared/BuildSystem/IBuildingCreateData";
+import { GlobalConfig } from "shared/GlobalConfig";
 
 export class MachineGun extends Building {
     private readonly seat
@@ -28,5 +29,6 @@ export class MachineGun extends Building {
         this.activateBtn = CreateActivateButton()
         this.seat = this.model.FindFirstAncestorOfClass('Seat') as Seat
         this.activateBtn.Parent = this.model.PrimaryPart
+        this.model.AddTag(GlobalConfig.TAGS.DAMAGEBLE_ENTITY)
     }
 }
