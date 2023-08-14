@@ -7,7 +7,9 @@ export class EventProvider {
     static readonly CharatcerController = {
         Camera: {
             Enable: new Instance('BindableEvent'),
-            Disable: new Instance('BindableEvent')
+            Disable: new Instance('BindableEvent'),
+            Shake: new Instance('BindableEvent'),
+            StopShake: new Instance('BindableEvent')
         },
 
         Rotation: {

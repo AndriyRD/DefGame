@@ -1,6 +1,7 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local RunService = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").RunService
+local CHARACTER_LOAD_EVENT_NAMES = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "ReloadableCharacter").CHARACTER_LOAD_EVENT_NAMES
 local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
 local RotateModule
 do
@@ -20,6 +21,14 @@ do
 		self.connection = nil
 		self.alignInstance = GlobalConfig.CHARACTER_ALIGHT_ISNTANCE:Clone()
 		self.mouse = self.owner:GetMouse()
+		local _events = character.Events
+		local _cHARACTER = CHARACTER_LOAD_EVENT_NAMES.CHARACTER
+		local _result = _events[_cHARACTER]
+		if _result ~= nil then
+			_result = _result.Event:Connect(function()
+				self:Enable()
+			end)
+		end
 	end
 	function RotateModule:GetTargetPoint(target)
 		local pos = self.mouse.Hit.Position

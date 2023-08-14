@@ -23,6 +23,9 @@ do
 		self.events = EventProvider.CharatcerController
 		self.rotateModule = RotateModule.new(self.owner, self.character)
 		self.cameraModule = CameraModule.new(self.owner, self.character)
+		self.events.Camera.Shake.Event:Connect(function()
+			return self.cameraModule:Shake()
+		end)
 		self.events.Camera.Enable.Event:Connect(function()
 			return self.cameraModule:Enable()
 		end)
@@ -34,6 +37,9 @@ do
 		end)
 		self.events.Rotation.Disable.Event:Connect(function()
 			return self.rotateModule:Disable()
+		end)
+		self.events.Camera.StopShake.Event:Connect(function()
+			return self.cameraModule:StopShake()
 		end)
 	end
 	function CharacterController:Start()

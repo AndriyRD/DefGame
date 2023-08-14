@@ -35,7 +35,6 @@ do
 		return BUILDINGS_IDS.MACHINE_GUN
 	end
 	function MachineGun:OnBuild()
-		print("Client on build")
 		self.activateBtn.Triggered:Connect(function()
 			return self:OnActivate()
 		end)

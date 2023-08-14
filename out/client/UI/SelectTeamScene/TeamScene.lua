@@ -2,12 +2,11 @@
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local Roact = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "roact", "src")
 local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
-local Players = _services.Players
 local ReplicatedStorage = _services.ReplicatedStorage
-local Teams = _services.Teams
 local Workspace = _services.Workspace
 local GetPlayerGui = TS.import(script, script.Parent.Parent, "GetPlayerGui")
 local AnimatedTeamScene = TS.import(script, script.Parent, "AnimatedTeamScene").AnimatedTeamScene
+local RemoteProvider = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "RemoteProvider").RemoteProvider
 local TeamScene
 do
 	TeamScene = Roact.Component:extend("TeamScene")
@@ -39,21 +38,7 @@ do
 		})
 	end
 	function TeamScene:OnSelectTeam(name)
-		local plr = Players.LocalPlayer
-		local _exp = Teams:GetTeams()
-		local _arg0 = function(v)
-			local _result
-			if name == v.Name then
-				plr.Team = v
-				_result = plr.Team
-			else
-				_result = nil
-			end
-			return _result
-		end
-		for _k, _v in _exp do
-			_arg0(_v, _k - 1, _exp)
-		end
+		RemoteProvider:GetTeam().JoinToTeam:FireServer(name)
 		self:setState({
 			Enabled = false,
 		})

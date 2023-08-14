@@ -1,24 +1,18 @@
-import { BaseEventListener } from "server/Core/EventSystem/BaseEventListener";
 import { RunnerStorageContainer } from "./RunnerStorage";
+import { IEventListener } from "server/Core/EventSystem/IEventListener";
 
-export class RunnerEventListener extends BaseEventListener {
+export class RunnerEventListener implements IEventListener {
     private storage = new RunnerStorageContainer()
 
     GetId(): string {
         return 'Runner'
     }
 
-    protected OnRun(player: Player){
+    OnRun = (player: Player) => {
         this.storage.Get(player).Run()
     }
 
-    protected OnStop(player: Player){
+    OnStop = (player: Player) => {
         this.storage.Get(player).Stop()
-    }
-
-    constructor(){
-        super()
-        this.EventHandler.set('Run', (plr: Player) => this.OnRun(plr))
-        this.EventHandler.set('Stop', (plr: Player) => this.OnStop(plr))
     }
 }

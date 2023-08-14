@@ -92,7 +92,7 @@ do
 	GlobalConfig.UI_MAIN_SCREEN_NAME = "MainUI"
 	GlobalConfig.BUILDING_GLOBAL_ID_INSTANCE_NAME = "GlobalID"
 	GlobalConfig.REGEN_HEALTH_PAUSE_AFTER_DAMAGE = 4
-	GlobalConfig.ROOT_INSTANCES = { "Folder", "Workspace" }
+	GlobalConfig.MAP_SPAWNS_CONTAINER_NAME = "Spawns"
 end
 return {
 	GlobalConfig = GlobalConfig,

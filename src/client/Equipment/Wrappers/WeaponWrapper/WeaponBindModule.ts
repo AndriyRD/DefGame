@@ -1,4 +1,5 @@
 import { ContextActionService } from "@rbxts/services"
+import { EventProvider } from "client/EventProvider"
 import { GlobalConfig } from "shared/GlobalConfig"
 import { RemoteProvider } from "shared/RemoteProvider"
 import { AutoFireModule } from "shared/Weapon/AutoFireModule"
@@ -7,6 +8,7 @@ import { IWeapon } from "shared/Weapon/IWeapon"
 export class WeaponBindModule {
     private readonly bindData = GlobalConfig.BIND_DATA.Weapon
     private readonly remote = RemoteProvider.GetForWeapon()
+    private readonly cameraEvents = EventProvider.CharatcerController.Camera
 
     Bind(){
         ContextActionService.BindAction(this.bindData.Fire.Action, (name, state) => {
@@ -14,10 +16,12 @@ export class WeaponBindModule {
                 if (state === Enum.UserInputState.Begin){
                     this.remote.StartFire.FireServer(this.weapon.GetName())
                     this.autoFireModule.StartFire()
+                    this.cameraEvents.Shake.Fire()
                 }
                 else if (state === Enum.UserInputState.End){
                     this.remote.StopFire.FireServer(this.weapon.GetName())
                     this.autoFireModule.StopFire()
+                    this.cameraEvents.StopShake.Fire()
                 }
             }
         }, false, this.bindData.Fire.PC.Input)
@@ -35,6 +39,7 @@ export class WeaponBindModule {
         this.remote.StopFire.FireServer(this.weapon.GetName())
         ContextActionService.UnbindAction(this.bindData.Fire.Action)
         ContextActionService.UnbindAction(this.bindData.Reload.Action)
+        this.cameraEvents.StopShake.Fire()
     }
 
     constructor(

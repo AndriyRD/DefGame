@@ -20,7 +20,6 @@ export class MachineGun extends Building {
     }
 
     OnBuild(): void {
-        print('Client on build')
         this.activateBtn.Triggered.Connect(() => this.OnActivate())
     }
 

@@ -3,6 +3,7 @@ local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_incl
 local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
 local RunService = _services.RunService
 local Workspace = _services.Workspace
+local CameraShaker = TS.import(script, script.Parent, "CameraShaker").CameraShaker
 local CameraModule
 do
 	CameraModule = setmetatable({}, {
@@ -24,8 +25,10 @@ do
 		self.cameraSensitivity = 20
 		self.direction = Vector3.new(0, -1, 0)
 		self.renderStepName = "Camera"
+		self.enableShake = false
 		self.mouse = self.owner:GetMouse()
 		self.screenGui.Parent = owner:WaitForChild("PlayerGui")
+		self.shaker = CameraShaker.new(character)
 	end
 	function CameraModule:getMouseScreenPositionCentered()
 		return Vector2.new(self.mouse.X - self.screenGui.AbsoluteSize.X / 2, self.mouse.Y - self.screenGui.AbsoluteSize.Y / 2)
@@ -35,7 +38,7 @@ do
 		local _absoluteSize = self.screenGui.AbsoluteSize
 		return _pixelV2 / _absoluteSize
 	end
-	function CameraModule:OnRender()
+	function CameraModule:GetCameraCFrame()
 		local rootPart = self.character:GetRoot()
 		local _position = rootPart.Position
 		local _vector3 = Vector3.new(0, 0, 3)
@@ -47,7 +50,13 @@ do
 		local _arg0 = axis * _cameraSensitivity
 		local cameraPos = cameraoffset + _arg0
 		local _direction = self.direction
-		self.camera.CFrame = CFrame.new(cameraPos, cameraPos + _direction)
+		return CFrame.new(cameraPos, cameraPos + _direction)
+	end
+	function CameraModule:OnRender()
+		-- let cf = this.GetCameraCFrame()
+		-- if(this.enableShake)
+		-- cf = this.shaker.Next(cf)
+		self.camera.CFrame = self:GetCameraCFrame()
 	end
 	function CameraModule:Enable()
 		RunService:BindToRenderStep(self.renderStepName, Enum.RenderPriority.Camera.Value, function()
@@ -57,6 +66,12 @@ do
 	end
 	function CameraModule:Disable()
 		RunService:UnbindFromRenderStep(self.renderStepName)
+	end
+	function CameraModule:Shake()
+		self.enableShake = true
+	end
+	function CameraModule:StopShake()
+		self.enableShake = false
 	end
 end
 return {

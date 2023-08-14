@@ -24,6 +24,14 @@ do
 			return getAxis()
 		end)
 	end
+	function VectorUtility:CreateRendomVectorInteger(min, max)
+		local getAxis = function()
+			return self.random:NextInteger(min, max)
+		end
+		return self:CreateVectorByAxis(function()
+			return getAxis()
+		end)
+	end
 	function VectorUtility:NormalToFaceID(cf, normal)
 		local THETA = .001
 		for _, noramlID in VectorUtility.FaceNormalIDs do

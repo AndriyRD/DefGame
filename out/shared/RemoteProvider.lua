@@ -26,6 +26,7 @@ do
 	function RemoteProvider:GetForWeapon()
 		return {
 			CreateWeapon = RemoteProvider.dirs.Weapon:WaitForChild("CreateWeapon"),
+			HitPackage = RemoteProvider.dirs.Weapon:WaitForChild("HitPackage"),
 			StartFire = RemoteProvider.dirs.Weapon:WaitForChild("StartFire"),
 			StopFire = RemoteProvider.dirs.Weapon:WaitForChild("StopFire"),
 			Reload = RemoteProvider.dirs.Weapon:WaitForChild("Reload"),
@@ -49,6 +50,11 @@ do
 			NewSession = RemoteProvider.dirs.GameLoader:WaitForChild("NewSession"),
 		}
 	end
+	function RemoteProvider:GetTeam()
+		return {
+			JoinToTeam = RemoteProvider.dirs.Team:WaitForChild("JoinToTeam"),
+		}
+	end
 	RemoteProvider.REMOTE_DIR_NAME = "Remote"
 	RemoteProvider.dirs = {
 		Runner = RemoteProvider:GetRemoteFolder("Runner"),
@@ -56,6 +62,7 @@ do
 		Weapon = RemoteProvider:GetRemoteFolder("Weapon"),
 		Build = RemoteProvider:GetRemoteFolder("Build"),
 		GameLoader = RemoteProvider:GetRemoteFolder("GameLoader"),
+		Team = RemoteProvider:GetRemoteFolder("Team"),
 	}
 end
 return {

@@ -18,7 +18,7 @@ do
 	end
 	function WeaponAssetParser:ParseSounds(soundsDir)
 		local sounds = {}
-		for _, dirName in self.options.SoundsForAnimations do
+		for _, dirName in WeaponAssetParser.options.SoundsForAnimations do
 			local soundDir = soundsDir:WaitForChild(dirName)
 			if soundDir then
 				local soundSet = {}
@@ -33,27 +33,38 @@ do
 		end
 		return sounds
 	end
+	function WeaponAssetParser:ParseParticles()
+		return {
+			FireSmoke = WeaponAssetParser.options.CommonParticlesDir:WaitForChild("FireSmoke"):GetChildren(),
+		}
+	end
 	function WeaponAssetParser:Parse(name)
-		local assetsDir = self.ASSET_DIR:WaitForChild(name)
-		local soundsDir = assetsDir:WaitForChild(self.options.SoundDirName)
+		local assetsDir = WeaponAssetParser.ASSET_DIR:WaitForChild(name)
+		local soundsDir = assetsDir:WaitForChild(WeaponAssetParser.options.SoundDirName)
 		if not soundsDir then
 			error("Not found sound-directory in assets for: " .. tostring(assetsDir))
 		end
-		local sounds = self:ParseSounds(soundsDir)
+		local sounds = WeaponAssetParser:ParseSounds(soundsDir)
+		local particles = WeaponAssetParser:ParseParticles()
 		return {
 			Sounds = {
-				Fire = soundsDir:WaitForChild(self.options.FireSoundName),
+				Fire = soundsDir:WaitForChild(WeaponAssetParser.options.FireSoundName),
 				Equip = sounds.Equip,
 				Unequip = sounds.Unequip,
 				Reload = sounds.Reload,
 			},
+			Particles = {
+				FireSmoke = particles.FireSmoke,
+			},
 		}
 	end
 	WeaponAssetParser.ASSET_DIR = weaponDir:WaitForChild("Assets")
+	WeaponAssetParser.COMMON_ASSETS_DIR = WeaponAssetParser.ASSET_DIR:WaitForChild("Common")
 	WeaponAssetParser.options = {
 		SoundDirName = "Sounds",
 		SoundsForAnimations = { "Reload", "Equip", "Unequip" },
 		FireSoundName = "Fire",
+		CommonParticlesDir = WeaponAssetParser.COMMON_ASSETS_DIR:WaitForChild("Particles"),
 	}
 end
 return {

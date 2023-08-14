@@ -23,11 +23,8 @@ do
 		}
 		self.healthStat = RegenebleStat.new(self:GetHealthMaxValue()):EnableRegen()
 		CollectionService:AddTag(self.model, GlobalConfig.TAGS.ENTITY)
-		self.Events.ChangeHealth.Event:Connect(function(m, v)
-			return print(v)
-		end)
 		self.healthStat.Updated.Event:Connect(function(v)
-			return self.Events.ChangeHealth:Fire(v)
+			return self.Events.ChangeHealth:Fire(self.model, v)
 		end)
 	end
 	function Entity:GetHealthMaxValue()

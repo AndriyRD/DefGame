@@ -10,6 +10,7 @@ local RunnerEventListener = TS.import(script, game:GetService("ServerScriptServi
 local GAME_MODE_IDS = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GameLoader", "GAME_MODE_IDS").GAME_MODE_IDS
 local BuildingEventListener = TS.import(script, game:GetService("ServerScriptService"), "TS", "BuildSystem", "FrontLayer", "BuildingEventListener").BuildingEventListener
 local Test = TS.import(script, game:GetService("ServerScriptService"), "TS", "GameLoader", "GameMap", "Maps", "TeamWars", "Test").Test
+local TeamEventListener = TS.import(script, game:GetService("ServerScriptService"), "TS", "Team", "TeamEventListener").TeamEventListener
 local TeamWarsGameMode
 do
 	local super = GameModeLoader
@@ -33,7 +34,7 @@ do
 		}
 	end
 	function TeamWarsGameMode:RunEventListeners()
-		EventRegister.new():Register(WeaponEventListener.new()):Register(EquipmentEventListener.new()):Register(RunnerEventListener.new()):Register(BuildingEventListener.new())
+		EventRegister.new():Register(WeaponEventListener.new()):Register(EquipmentEventListener.new()):Register(RunnerEventListener.new()):Register(BuildingEventListener.new()):Register(TeamEventListener.new())
 	end
 	function TeamWarsGameMode:RunApiServices()
 		ApiServiceRegister.new():Register(EquipmentService.new())

@@ -47,7 +47,7 @@ export class LifeCicle {
         return this
     }
 
-    constructor(mode: LIFE_CICLE_MODS | undefined){
+    constructor(mode: LIFE_CICLE_MODS = LIFE_CICLE_MODS.HEARTBEAT){
         this.mode = mode ? mode : LIFE_CICLE_MODS.HEARTBEAT
     }
 }

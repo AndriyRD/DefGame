@@ -1,5 +1,5 @@
 import { GlobalConfig } from "shared/GlobalConfig"
-import { Workspace } from "@rbxts/services"
+import { Teams, Workspace } from "@rbxts/services"
 
 export abstract class GameMap {
     protected readonly model

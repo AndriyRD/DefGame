@@ -5,6 +5,7 @@ local ShotTrace = TS.import(script, script.Parent, "VisualEffects", "Trace", "Sh
 local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
 local EntityStorageUnpacked = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Entity", "EntityStorage", "EntityStorageUnpacked").EntityStorageUnpacked
 local EntityStorageFactory = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Entity", "EntityStorage", "EntityStorageFactory").EntityStorageFactory
+local BaseParticleSet = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "ParticleEmitterSet", "BaseParticleSet").BaseParticleSet
 local BaseFireHandler
 do
 	BaseFireHandler = setmetatable({}, {
@@ -23,6 +24,11 @@ do
 		self.caster = WeaponRayCasting.new(weapon:GetOwner())
 		self.shotTrace = ShotTrace.new(self.weapon:GetWeaponModel())
 		self.fireSound = self.weapon:GetAssets().Sounds.Fire
+		self.smokeParticleSet = BaseParticleSet.new(Instance.new("Attachment", self.weapon:GetWeaponModel().Muzzle)):AddByOrigin(weapon:GetAssets().Particles.FireSmoke[1], {
+			EmitParticleCount = 5,
+		}):AddByOrigin(weapon:GetAssets().Particles.FireSmoke[2], {
+			EmitParticleCount = 10,
+		})
 		self.entityStorage = EntityStorageUnpacked.new(EntityStorageFactory:CreateByOtherTeams(self.weapon:GetOwner().Team, GlobalConfig.TAGS.DAMAGEBLE_ENTITY):AutoRegisterMode(true))
 	end
 	function BaseFireHandler:Fire()
@@ -41,6 +47,7 @@ do
 			self.shotTrace:Create(res.EndPoint)
 		end
 		self.fireSound:Play()
+		self.smokeParticleSet:Emit()
 		return self
 	end
 end

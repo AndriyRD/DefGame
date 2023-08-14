@@ -35,7 +35,6 @@ export class Entity implements IEntity{
     constructor(protected readonly model: Model){
         this.healthStat = new RegenebleStat(this.GetHealthMaxValue()).EnableRegen()
         CollectionService.AddTag(this.model, GlobalConfig.TAGS.ENTITY)
-        this.Events.ChangeHealth.Event.Connect((m,v) => print(v))
-        this.healthStat.Updated.Event.Connect(v => this.Events.ChangeHealth.Fire(v))
+        this.healthStat.Updated.Event.Connect(v => this.Events.ChangeHealth.Fire(this.model, v))
     }
 }

@@ -1,6 +1,7 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local ContextActionService = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").ContextActionService
+local EventProvider = TS.import(script, script.Parent.Parent.Parent.Parent, "EventProvider").EventProvider
 local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
 local RemoteProvider = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "RemoteProvider").RemoteProvider
 local WeaponBindModule
@@ -20,6 +21,7 @@ do
 		self.autoFireModule = autoFireModule
 		self.bindData = GlobalConfig.BIND_DATA.Weapon
 		self.remote = RemoteProvider:GetForWeapon()
+		self.cameraEvents = EventProvider.CharatcerController.Camera
 	end
 	function WeaponBindModule:Bind()
 		ContextActionService:BindAction(self.bindData.Fire.Action, function(name, state)
@@ -27,9 +29,11 @@ do
 				if state == Enum.UserInputState.Begin then
 					self.remote.StartFire:FireServer(self.weapon:GetName())
 					self.autoFireModule:StartFire()
+					self.cameraEvents.Shake:Fire()
 				elseif state == Enum.UserInputState.End then
 					self.remote.StopFire:FireServer(self.weapon:GetName())
 					self.autoFireModule:StopFire()
+					self.cameraEvents.StopShake:Fire()
 				end
 			end
 		end, false, self.bindData.Fire.PC.Input)
@@ -45,6 +49,7 @@ do
 		self.remote.StopFire:FireServer(self.weapon:GetName())
 		ContextActionService:UnbindAction(self.bindData.Fire.Action)
 		ContextActionService:UnbindAction(self.bindData.Reload.Action)
+		self.cameraEvents.StopShake:Fire()
 	end
 end
 return {

@@ -24,6 +24,7 @@ do
 		self:Laod()
 	end
 	function ReloadableAnimation:Laod()
+		task.wait()
 		self.track = self.char:GetAnimator():LoadAnimation(self.aniamtion)
 		self.onLoad:Fire()
 	end

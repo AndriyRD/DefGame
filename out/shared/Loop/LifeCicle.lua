@@ -16,6 +16,9 @@ do
 		return self:constructor(...) or self
 	end
 	function LifeCicle:constructor(mode)
+		if mode == nil then
+			mode = LIFE_CICLE_MODS.HEARTBEAT
+		end
 		self.taskList = {}
 		self.connection = nil
 		self.running = false

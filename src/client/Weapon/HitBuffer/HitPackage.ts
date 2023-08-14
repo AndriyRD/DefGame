@@ -1,27 +1,30 @@
-import { BaseGameLoop } from "shared/Loop/BaseGameLoop"
-import { IHitResult } from "client/Weapon/IHitResult"
+import { IHitResult } from "shared/Weapon/IHitResult"
+import { LifeCicle } from "shared/Loop/LifeCicle"
 
 export class HitPackage {
     private readonly packageSize: number
     private readonly maxLifeTime: number
     private readonly results = new Array<IHitResult>()
-    private readonly tickRate = 1/20
-    private readonly lifeHanlder = new BaseGameLoop()
-    private readonly resultList = new Array<IHitResult>()
+    private readonly lifeHanlder = new LifeCicle()
     public readonly OnReady = new Instance('BindableEvent')
     private firstItemLifeTime = 0
 
-    private OnTick(){
-        if (this.resultList.size() <= 0) return
-        this.firstItemLifeTime += this.tickRate
-        if (this.firstItemLifeTime >= this.maxLifeTime) 
-        this.OnReady.Fire(this)
+    private Send(){
+        this.OnReady.Fire()
+        this.results.clear()
+        this.firstItemLifeTime = 0
+    }
+
+    private OnTick(dt: number){
+        if (this.results.size() <= 0) return
+        this.firstItemLifeTime += dt
+        if (this.firstItemLifeTime >= this.maxLifeTime)
+            this.Send()
     }
 
     private Init(){
-        this.lifeHanlder.AddTask('main', () => this.OnTick())
-        this.lifeHanlder.SetTickRate(this.tickRate)
-        this.lifeHanlder.StartAsync()
+        this.lifeHanlder.AddTask('main', (dt) => this.OnTick(dt))
+        this.lifeHanlder.Run()
     }
 
     Reset(){
@@ -30,11 +33,11 @@ export class HitPackage {
     }
 
     Push(res: IHitResult){
-        if(this.resultList.push(res) >= this.packageSize) this.OnReady.Fire(this)
+        if(this.results.push(res) >= this.packageSize) this.Send()
     }
 
     GetResults(){
-        return this.resultList 
+        return this.results 
     }
 
     constructor(_packageSize: number | undefined, _maxLifeTime: number | undefined){

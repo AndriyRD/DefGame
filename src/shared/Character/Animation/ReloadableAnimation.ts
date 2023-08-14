@@ -7,6 +7,7 @@ export class ReloadableAnimation {
     private inited = false
 
     protected Laod(){
+        task.wait()
         this.track = this.char.GetAnimator().LoadAnimation(this.aniamtion)
         this.onLoad.Fire()
     }

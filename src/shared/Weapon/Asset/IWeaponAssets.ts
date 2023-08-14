@@ -5,4 +5,8 @@ export interface IWeaponAssets {
         Unequip: Map<string, Sound>
         Reload: Map<string, Sound>
     }
+
+    readonly Particles: {
+        FireSmoke: ParticleEmitter[]
+    }
 }

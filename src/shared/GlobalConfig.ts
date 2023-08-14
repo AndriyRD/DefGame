@@ -87,5 +87,5 @@ export class GlobalConfig {
     static UI_MAIN_SCREEN_NAME = 'MainUI'
     static BUILDING_GLOBAL_ID_INSTANCE_NAME = 'GlobalID'
     static REGEN_HEALTH_PAUSE_AFTER_DAMAGE = 4
-    static ROOT_INSTANCES = ['Folder', 'Workspace']
+    static MAP_SPAWNS_CONTAINER_NAME = 'Spawns'
 }

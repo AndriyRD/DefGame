@@ -21,6 +21,8 @@ do
 		Camera = {
 			Enable = Instance.new("BindableEvent"),
 			Disable = Instance.new("BindableEvent"),
+			Shake = Instance.new("BindableEvent"),
+			StopShake = Instance.new("BindableEvent"),
 		},
 		Rotation = {
 			Enable = Instance.new("BindableEvent"),

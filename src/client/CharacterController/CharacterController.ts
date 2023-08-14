@@ -20,9 +20,11 @@ export class CharacterController {
         this.rotateModule = new RotateModule(this.owner, this.character)
         this.cameraModule = new CameraModule(this.owner, this.character)
 
+        this.events.Camera.Shake.Event.Connect(() => this.cameraModule.Shake())
         this.events.Camera.Enable.Event.Connect(() => this.cameraModule.Enable())
         this.events.Camera.Disable.Event.Connect(() => this.cameraModule.Disable())
         this.events.Rotation.Enable.Event.Connect(() => this.rotateModule.Enable())
         this.events.Rotation.Disable.Event.Connect(() => this.rotateModule.Disable())
+        this.events.Camera.StopShake.Event.Connect(() => this.cameraModule.StopShake())
     }
 }

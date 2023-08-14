@@ -1,4 +1,4 @@
-import { ReplicatedStorage } from "@rbxts/services";
+import { ReplicatedStorage, Teams } from "@rbxts/services";
 
 export class RemoteProvider {
     private static readonly REMOTE_DIR_NAME = 'Remote'
@@ -7,7 +7,8 @@ export class RemoteProvider {
         Equipment: RemoteProvider.GetRemoteFolder('Equipment'),
         Weapon: RemoteProvider.GetRemoteFolder('Weapon'),
         Build: RemoteProvider.GetRemoteFolder('Build'),
-        GameLoader: RemoteProvider.GetRemoteFolder('GameLoader')
+        GameLoader: RemoteProvider.GetRemoteFolder('GameLoader'),
+        Team: RemoteProvider.GetRemoteFolder('Team')
     }
 
     private static GetRemoteFolder(dirName: string){
@@ -23,6 +24,7 @@ export class RemoteProvider {
     static GetForWeapon(){
         return {
             CreateWeapon: RemoteProvider.dirs.Weapon.WaitForChild('CreateWeapon') as RemoteEvent,
+            HitPackage: RemoteProvider.dirs.Weapon.WaitForChild('HitPackage') as RemoteEvent,
             StartFire: RemoteProvider.dirs.Weapon.WaitForChild('StartFire') as RemoteEvent,
             StopFire: RemoteProvider.dirs.Weapon.WaitForChild('StopFire') as RemoteEvent,
             Reload: RemoteProvider.dirs.Weapon.WaitForChild('Reload') as RemoteEvent,
@@ -47,6 +49,12 @@ export class RemoteProvider {
     static GetForGameLoader(){
         return {
             NewSession: RemoteProvider.dirs.GameLoader.WaitForChild('NewSession') as RemoteEvent
+        }
+    }
+
+    static GetTeam(){
+        return {
+            JoinToTeam: RemoteProvider.dirs.Team.WaitForChild('JoinToTeam') as RemoteEvent
         }
     }
 }

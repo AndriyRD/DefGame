@@ -7,10 +7,12 @@ import { ShotTrace } from "./VisualEffects/Trace/ShotTrace";
 import { GlobalConfig } from "shared/GlobalConfig";
 import { EntityStorageUnpacked } from "shared/Entity/EntityStorage/EntityStorageUnpacked";
 import { EntityStorageFactory } from "shared/Entity/EntityStorage/EntityStorageFactory";
+import { BaseParticleSet } from "shared/ParticleEmitterSet/BaseParticleSet";
 
 export class BaseFireHandler implements IFireHandler{
     private readonly entityStorage
     private readonly shotTrace
+    private readonly smokeParticleSet
 
     private readonly caster
     private readonly fireSound
@@ -32,6 +34,7 @@ export class BaseFireHandler implements IFireHandler{
         else
             this.shotTrace.Create(res.EndPoint)
         this.fireSound.Play()
+        this.smokeParticleSet.Emit()
 
         return this;
     }
@@ -42,6 +45,9 @@ export class BaseFireHandler implements IFireHandler{
             this.caster = new WeaponRayCasting(weapon.GetOwner())
             this.shotTrace = new ShotTrace(this.weapon.GetWeaponModel())
             this.fireSound = this.weapon.GetAssets().Sounds.Fire
+            this.smokeParticleSet = new BaseParticleSet(new Instance('Attachment', this.weapon.GetWeaponModel().Muzzle))
+                .AddByOrigin(weapon.GetAssets().Particles.FireSmoke[0], {EmitParticleCount: 5})
+                .AddByOrigin(weapon.GetAssets().Particles.FireSmoke[1], {EmitParticleCount: 10})
 
             this.entityStorage = new EntityStorageUnpacked(
                 EntityStorageFactory.CreateByOtherTeams(

@@ -2,6 +2,7 @@ import Roact from "@rbxts/roact";
 import { Players, ReplicatedStorage, Teams, Workspace } from "@rbxts/services";
 import GetPlayerGui from "../GetPlayerGui";
 import { AnimatedTeamScene } from "./AnimatedTeamScene";
+import { RemoteProvider } from "shared/RemoteProvider";
 
 type State = {
     Enabled: boolean
@@ -36,8 +37,7 @@ export class TeamScene extends Roact.Component<{}, State>{
     }
 
     private OnSelectTeam(name: string){
-        const plr = Players.LocalPlayer
-        Teams.GetTeams().forEach((v) => name === v.Name ? plr.Team = v : undefined)
+        RemoteProvider.GetTeam().JoinToTeam.FireServer(name)
         this.setState({Enabled: false})
     }
 

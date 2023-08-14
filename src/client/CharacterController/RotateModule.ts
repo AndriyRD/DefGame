@@ -1,5 +1,5 @@
 import { RunService } from "@rbxts/services"
-import { ReloadableCharacter } from "shared/Character/ReloadableCharacter"
+import { CHARACTER_LOAD_EVENT_NAMES, ReloadableCharacter } from "shared/Character/ReloadableCharacter"
 import { GlobalConfig } from "shared/GlobalConfig"
 
 export class RotateModule {
@@ -37,5 +37,9 @@ export class RotateModule {
     constructor(private readonly owner: Player,
         private readonly character: ReloadableCharacter){
             this.mouse = this.owner.GetMouse()
+
+            character.Events.get(CHARACTER_LOAD_EVENT_NAMES.CHARACTER)?.Event.Connect(()=>{
+                this.Enable()
+            })
     }
 }

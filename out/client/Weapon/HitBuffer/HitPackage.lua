@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local BaseGameLoop = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Loop", "BaseGameLoop").BaseGameLoop
+local LifeCicle = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Loop", "LifeCicle").LifeCicle
 local HitPackage
 do
 	HitPackage = setmetatable({}, {
@@ -15,45 +15,47 @@ do
 	end
 	function HitPackage:constructor(_packageSize, _maxLifeTime)
 		self.results = {}
-		self.tickRate = 1 / 20
-		self.lifeHanlder = BaseGameLoop.new()
-		self.resultList = {}
+		self.lifeHanlder = LifeCicle.new()
 		self.OnReady = Instance.new("BindableEvent")
 		self.firstItemLifeTime = 0
 		self.maxLifeTime = if _maxLifeTime ~= 0 and (_maxLifeTime == _maxLifeTime and _maxLifeTime) then _maxLifeTime else 1
 		self.packageSize = if _packageSize ~= 0 and (_packageSize == _packageSize and _packageSize) then _packageSize else 4
 		self:Init()
 	end
-	function HitPackage:OnTick()
-		if #self.resultList <= 0 then
+	function HitPackage:Send()
+		self.OnReady:Fire()
+		table.clear(self.results)
+		self.firstItemLifeTime = 0
+	end
+	function HitPackage:OnTick(dt)
+		if #self.results <= 0 then
 			return nil
 		end
-		self.firstItemLifeTime += self.tickRate
+		self.firstItemLifeTime += dt
 		if self.firstItemLifeTime >= self.maxLifeTime then
-			self.OnReady:Fire(self)
+			self:Send()
 		end
 	end
 	function HitPackage:Init()
-		self.lifeHanlder:AddTask("main", function()
-			return self:OnTick()
+		self.lifeHanlder:AddTask("main", function(dt)
+			return self:OnTick(dt)
 		end)
-		self.lifeHanlder:SetTickRate(self.tickRate)
-		self.lifeHanlder:StartAsync()
+		self.lifeHanlder:Run()
 	end
 	function HitPackage:Reset()
 		table.clear(self.results)
 		self.firstItemLifeTime = 0
 	end
 	function HitPackage:Push(res)
-		local _resultList = self.resultList
+		local _results = self.results
 		local _res = res
-		table.insert(_resultList, _res)
-		if #_resultList >= self.packageSize then
-			self.OnReady:Fire(self)
+		table.insert(_results, _res)
+		if #_results >= self.packageSize then
+			self:Send()
 		end
 	end
 	function HitPackage:GetResults()
-		return self.resultList
+		return self.results
 	end
 end
 return {
