@@ -14,6 +14,7 @@ export class Magazine {
     Take(){
         this.currentAmmo--
         this.Changed.Fire(this.currentAmmo)
+        return this.currentAmmo
     }
 
     AddAmmo(value: number){

@@ -32,4 +32,19 @@ local _arg1_1 = {
 	},
 }
 WEAPON_CONFIG_LIST.RocketLauncher = _arg1_1
+local _arg1_2 = {
+	Damage = 7,
+	FireSpeed = 20,
+	HandlerType = WEAPON_HANDLER_TYPES.BASE,
+	AmmoConfig = {
+		MagazineSize = 180,
+		MaxAmmo = 180,
+	},
+	AnimationSet = {
+		Equip = "",
+		Unequip = "",
+		Relaod = "14110068229",
+	},
+}
+WEAPON_CONFIG_LIST.MachineGun = _arg1_2
 return WEAPON_CONFIG_LIST

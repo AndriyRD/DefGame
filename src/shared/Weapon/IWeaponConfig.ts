@@ -1,5 +1,4 @@
 import { IAmmoConfig } from "./Ammo/IAmmoConfig";
-import { IWeaponAnimationSet } from "./Animation/IWeaponAnimationSet";
 import { WEAPON_HANDLER_TYPES } from "./WEAPON_HANDLER_TYPES";
 
 export interface IWeaponConfig {
@@ -7,5 +6,4 @@ export interface IWeaponConfig {
 	Damage: number,
 	HandlerType: WEAPON_HANDLER_TYPES,
 	AmmoConfig: IAmmoConfig,
-	AnimationSet: IWeaponAnimationSet
 }

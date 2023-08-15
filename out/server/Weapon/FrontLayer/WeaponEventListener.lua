@@ -20,6 +20,9 @@ do
 		self.OnStopFire = function(plr, name)
 			WeaponServiceAPI:StopFire(plr, name)
 		end
+		self.OnCreateWeapon = function(plr, model)
+			WeaponServiceAPI:Create(plr, model)
+		end
 		self.OnHitPackage = function(plr, results)
 			print("Hited results: " .. tostring(#results))
 			for _, res in results do

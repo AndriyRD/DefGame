@@ -1,15 +1,11 @@
-import { AmmoContainer } from "./Ammo/AmmoContainer"
 import { IWeaponAssets } from "./Asset/IWeaponAssets"
-import { IWeaponConfig } from "./IWeaponConfig"
-import { IWeaponModel } from "./IWeaponModel"
+import { WeaponState } from "./WeaponState"
 
-export interface IWeapon {
+export interface IWeapon<ConfigType, ModelType>{
+    readonly State: WeaponState
+    readonly WeaponModel: ModelType
     GetName(): string
-    GetOwner(): Player
-    GetWeaponModel(): IWeaponModel
-    GetConfig(): IWeaponConfig
-    GetAmmoContainer(): AmmoContainer
-    GetFireDelay(): number
+    GetConfig(): ConfigType
     GetAssets(): IWeaponAssets
-    Relaod(): IWeapon
+    ChangeFireState(val: boolean): boolean
 }

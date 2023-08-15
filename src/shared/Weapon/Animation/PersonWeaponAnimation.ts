@@ -2,15 +2,16 @@ import { AnimationWithSound } from "shared/Character/Animation/AnimationWithSoun
 import { IWeapon } from "../IWeapon";
 import { BaseWeaponRelaodAnimation } from "./BaseWeaponRelaodAnimation";
 import { AssetInstance } from "shared/AssetInstance/AssetInstance";
+import { PersonWeapon } from "../PersonWeapon";
 
-export class WeaponAnimation {
+export class PersonWeaponAnimation {
     private readonly reloadAnim: BaseWeaponRelaodAnimation;
 
     PlayReload(){
         this.reloadAnim.Play()
     }
 
-    constructor(private readonly weapon: IWeapon){
+    constructor(private readonly weapon: PersonWeapon){
         this.reloadAnim = new BaseWeaponRelaodAnimation(
             new AnimationWithSound(
                 this.weapon.GetOwner(),

@@ -1,7 +1,7 @@
 import { AnimationWithSound } from "shared/Character/Animation/AnimationWithSound"
 import { GlobalConfig } from "shared/GlobalConfig"
 import { Debris } from "@rbxts/services"
-import { IWeaponModel } from "../IWeaponModel"
+import { IWeaponModel } from "../WeaponModel/IWeaponModel"
 
 export class BaseWeaponRelaodAnimation{
     private readonly DROP_MAG_FRAME_NAME = 'DropMag'

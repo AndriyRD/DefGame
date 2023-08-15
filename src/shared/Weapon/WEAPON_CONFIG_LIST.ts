@@ -33,4 +33,19 @@ WEAPON_CONFIG_LIST.set('RocketLauncher', {
     }
 })
 
+WEAPON_CONFIG_LIST.set('MachineGun', {
+    Damage: 7,
+    FireSpeed: 20,
+    HandlerType: WEAPON_HANDLER_TYPES.BASE,
+    AmmoConfig: {
+        MagazineSize: 180,
+        MaxAmmo: 180
+    },
+    AnimationSet: {
+        Equip: '',
+        Unequip: '',
+        Relaod: '14110068229'
+    }
+})
+
 export = WEAPON_CONFIG_LIST

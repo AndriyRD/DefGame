@@ -1,5 +1,5 @@
 import { ReplicatedStorage, Workspace } from "@rbxts/services";
-import { IWeaponModel } from "shared/Weapon/IWeaponModel";
+import { IWeaponModel } from "shared/Weapon/WeaponModel/IWeaponModel";
 import { TraceBeamTransparencyAnimation } from "./TraceBeamTransparencyAnimation";
 import { GlobalConfig } from "shared/GlobalConfig";
 const weaponDir = ReplicatedStorage.WaitForChild('Weapon')

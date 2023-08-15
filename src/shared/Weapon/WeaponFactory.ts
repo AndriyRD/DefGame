@@ -3,9 +3,9 @@ import { BaseWeapon } from "./BaseWeapon";
 import { WeaponModelParser } from "./WeaponModelParser";
 import { AmmoContainer } from "./Ammo/AmmoContainer";
 import { IWeaponConfig } from "./IWeaponConfig";
-const modelParser = new WeaponModelParser
 
 export class WeaponFactory {
+    private readonly modelParser = new WeaponModelParser
     private GetConfig(name: string){
         const config = WEAPON_CONFIG_LIST.get(name) as IWeaponConfig
         if (!config) error(`Not found config for weapon: ${name}`)
@@ -18,7 +18,7 @@ export class WeaponFactory {
         return new BaseWeapon(
             owner,
             name,
-            modelParser.ByOriginal(name),
+            this.modelParser.ByOriginal(name),
             config,
             new AmmoContainer(config.AmmoConfig))
     }
@@ -30,7 +30,7 @@ export class WeaponFactory {
         return new BaseWeapon(
             owner,
             name,
-            modelParser.Parse(model),
+            this.modelParser.Parse(model),
             config,
             new AmmoContainer(config.AmmoConfig))
     }

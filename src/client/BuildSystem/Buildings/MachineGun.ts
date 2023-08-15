@@ -5,6 +5,7 @@ import { ReloadableCharacter } from "shared/Character/ReloadableCharacter";
 import { Players } from "@rbxts/services";
 import { IBuildingCreateData } from "shared/BuildSystem/IBuildingCreateData";
 import { GlobalConfig } from "shared/GlobalConfig";
+import { RemoteProvider } from "shared/RemoteProvider";
 
 export class MachineGun extends Building {
     private readonly seat
@@ -13,6 +14,20 @@ export class MachineGun extends Building {
 
     protected OnActivate(){
         this.seat.Sit(this.charatcer.GetHumanoid())
+    }
+
+    protected OnUp(){
+
+    }
+
+    protected OnSeat(){
+        this.seat.Sit(this.charatcer.GetHumanoid())
+        let connection = this.seat.GetPropertyChangedSignal("Occupant").Connect(() => {
+            if(this.seat.Occupant) return
+            this.OnUp()
+            connection.Disconnect()
+        })
+        RemoteProvider.GetForWeapon().CreateWeapon.FireServer(this.model)
     }
 
     GetID(): BUILDINGS_IDS {
@@ -26,8 +41,11 @@ export class MachineGun extends Building {
     constructor(data: IBuildingCreateData){
         super(data)
         this.activateBtn = CreateActivateButton()
-        this.seat = this.model.FindFirstAncestorOfClass('Seat') as Seat
+        this.seat = this.model.FindFirstChild('Seat', true) as Seat
+        this.seat.Disabled = true
         this.activateBtn.Parent = this.model.PrimaryPart
+        this.activateBtn.TriggerEnded.Connect(
+            (plr) => plr === Players.LocalPlayer ? this.OnSeat(): undefined)
         this.model.AddTag(GlobalConfig.TAGS.DAMAGEBLE_ENTITY)
     }
 }
