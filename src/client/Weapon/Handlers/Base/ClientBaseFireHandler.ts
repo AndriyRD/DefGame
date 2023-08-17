@@ -1,4 +1,4 @@
-import { IWeapon } from "shared/Weapon/IWeapon";
+import { IWeapon } from "shared/Weapon/Weapon";
 import { IFireHandler } from "shared/Weapon/WeaponHandler/IFireHandler";
 import { WeaponRayCasting } from "./WeaponRayCasting";
 import { IHitHandler } from "shared/Weapon/WeaponHandler/IHitHandler";

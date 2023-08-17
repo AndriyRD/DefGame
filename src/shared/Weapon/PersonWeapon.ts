@@ -1,7 +1,7 @@
 import { RunService } from "@rbxts/services";
 import { AmmoContainer } from "./Ammo/AmmoContainer";
-import { BaseWeapon } from "./BaseWeapon";
-import { IWeapon } from "./IWeapon";
+import { BaseWeapon } from "./Weapons/BaseWeapon";
+import { IWeapon } from "./Weapon";
 import { IWeaponModel } from "./WeaponModel/IWeaponModel";
 import { PersonWeaponAnimation } from "./Animation/PersonWeaponAnimation";
 import { IPresonWeaponConfig } from "./IPresonWeaponConfig";

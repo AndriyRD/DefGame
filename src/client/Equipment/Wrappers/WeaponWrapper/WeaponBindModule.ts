@@ -3,7 +3,7 @@ import { EventProvider } from "client/EventProvider"
 import { GlobalConfig } from "shared/GlobalConfig"
 import { RemoteProvider } from "shared/RemoteProvider"
 import { AutoFireModule } from "shared/Weapon/AutoFireModule"
-import { IWeapon } from "shared/Weapon/IWeapon"
+import { IWeapon } from "shared/Weapon/Weapon"
 
 export class WeaponBindModule {
     private readonly bindData = GlobalConfig.BIND_DATA.Weapon

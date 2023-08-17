@@ -1,4 +1,4 @@
-import { IWeapon } from "../IWeapon";
+import { IWeapon } from "../Weapon";
 import { WEAPON_HANDLER_TYPES } from "../WEAPON_HANDLER_TYPES";
 import { WeaponContainer } from "./WeaponContainer";
 import { WeaponFactory } from "../WeaponFactory";

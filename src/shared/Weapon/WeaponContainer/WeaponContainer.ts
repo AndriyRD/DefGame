@@ -1,4 +1,4 @@
-import { IWeapon } from "../IWeapon"
+import { IWeapon } from "../Weapon"
 import { IFireHandler } from "../WeaponHandler/IFireHandler"
 import { IHitHandler } from "../WeaponHandler/IHitHandler"
 

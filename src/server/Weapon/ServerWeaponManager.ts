@@ -1,5 +1,5 @@
 import { FactoryMap } from "shared/FactoryMap";
-import { IWeapon } from "shared/Weapon/IWeapon";
+import { IWeapon } from "shared/Weapon/Weapon";
 import { WEAPON_HANDLER_TYPES } from "shared/Weapon/WEAPON_HANDLER_TYPES";
 import { WeaponHandlerFactory } from "shared/Weapon/WeaponContainer/WeaponContainerFactory";
 import { WeaponManager } from "shared/Weapon/WeaponManager";

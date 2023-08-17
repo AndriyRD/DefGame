@@ -1,23 +1,23 @@
 import { IBaseProduct } from "./IBaseProduct"
 
 const PRODUCT_LIST = {
-    Weapon: new Array<IBaseProduct>,
-    Building: new Array<IBaseProduct>
+    Weapons: new Array<IBaseProduct>,
+    Buildings: new Array<IBaseProduct>
 }
 
-PRODUCT_LIST.Weapon.push({
+PRODUCT_LIST.Weapons.push({
     ID: 'AK47',
     Icon: '',
     Price: 150
 })
 
-PRODUCT_LIST.Building.push({
+PRODUCT_LIST.Buildings.push({
     ID: 'BaseWall',
     Icon: '',
     Price: 80
 })
 
-PRODUCT_LIST.Building.push({
+PRODUCT_LIST.Buildings.push({
     ID: 'MachineGun',
     Icon: '',
     Price: 80

@@ -1,5 +1,5 @@
 import { BaseGameLoop } from "shared/Loop/BaseGameLoop";
-import { IWeapon } from "./IWeapon";
+import { IWeapon } from "./Weapon";
 import { WeaponContainer } from "./WeaponContainer/WeaponContainer";
 
 export class AutoFireModule {

@@ -1,4 +1,4 @@
-import { IWeaponConfig } from "./IWeaponConfig";
+import { IWeaponConfig } from "./WeaponConfigurations/IWeaponConfig";
 import { WEAPON_HANDLER_TYPES } from "./WEAPON_HANDLER_TYPES";
 
 const WEAPON_CONFIG_LIST = new Map<string, IWeaponConfig>()

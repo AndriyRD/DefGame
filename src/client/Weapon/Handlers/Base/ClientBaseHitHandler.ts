@@ -1,5 +1,5 @@
 import { IEntity } from "shared/Entity/IEntity";
-import { IWeapon } from "shared/Weapon/IWeapon";
+import { IWeapon } from "shared/Weapon/Weapon";
 import { IHitHandler } from "shared/Weapon/WeaponHandler/IHitHandler";
 import { BulletHit } from "./VisualEffects/HitEffect/BulletHit";
 import { HitPackage } from "client/Weapon/HitBuffer/HitPackage";

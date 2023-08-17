@@ -1,5 +1,5 @@
 import { IEntity } from "shared/Entity/IEntity"
-import { IWeapon } from "../IWeapon"
+import { IWeapon } from "../Weapon"
 
 export interface IHitHandler {
     OnHit(res: RaycastResult): void

@@ -1,8 +1,8 @@
 import WEAPON_CONFIG_LIST from "shared/Weapon/WEAPON_CONFIG_LIST";
-import { BaseWeapon } from "./BaseWeapon";
-import { WeaponModelParser } from "./WeaponModelParser";
+import { BaseWeapon } from "./Weapons/BaseWeapon";
+import { WeaponModelParser } from "./ModelParsers/WeaponModelParser";
 import { AmmoContainer } from "./Ammo/AmmoContainer";
-import { IWeaponConfig } from "./IWeaponConfig";
+import { IWeaponConfig } from "./WeaponConfigurations/IWeaponConfig";
 
 export class WeaponFactory {
     private readonly modelParser = new WeaponModelParser

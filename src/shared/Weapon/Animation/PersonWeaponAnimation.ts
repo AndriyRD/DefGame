@@ -1,5 +1,5 @@
 import { AnimationWithSound } from "shared/Character/Animation/AnimationWithSound";
-import { IWeapon } from "../IWeapon";
+import { IWeapon } from "../Weapon";
 import { BaseWeaponRelaodAnimation } from "./BaseWeaponRelaodAnimation";
 import { AssetInstance } from "shared/AssetInstance/AssetInstance";
 import { PersonWeapon } from "../PersonWeapon";
