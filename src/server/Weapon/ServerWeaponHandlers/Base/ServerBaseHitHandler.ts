@@ -1,6 +1,5 @@
 import { IEntity } from "shared/Entity/IEntity";
-import { IWeapon } from "shared/Weapon/Weapon";
-import { IHitHandler } from "shared/Weapon/WeaponHandler/IHitHandler";
+import { IHitHandler } from "shared/Weapon/FireModule/IHitHandler";
 
 export class BaseHitHandler implements IHitHandler {
     OnHit(res: RaycastResult): void {
@@ -12,6 +11,4 @@ export class BaseHitHandler implements IHitHandler {
     OnHitEnity(entity: IEntity, res: RaycastResult): void {
 
     }
-    constructor(private readonly waepon: IWeapon){}
-
 }

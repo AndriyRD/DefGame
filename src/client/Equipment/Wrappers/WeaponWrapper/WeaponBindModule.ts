@@ -2,7 +2,7 @@ import { ContextActionService } from "@rbxts/services"
 import { EventProvider } from "client/EventProvider"
 import { GlobalConfig } from "shared/GlobalConfig"
 import { RemoteProvider } from "shared/RemoteProvider"
-import { AutoFireModule } from "shared/Weapon/AutoFireModule"
+import { AutoFireModule } from "shared/Weapon/FireModule/AutoFire"
 import { IWeapon } from "shared/Weapon/Weapon"
 
 export class WeaponBindModule {

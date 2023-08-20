@@ -1,6 +1,6 @@
-import { AutoFireModule } from "shared/Weapon/AutoFireModule";
+import { AutoFire } from "shared/Weapon/FireModule/AutoFire";
 
-type ModulesList = Array<{ID: string, FireModule: AutoFireModule}>
+type ModulesList = Array<{ID: string, FireModule: AutoFire}>
 
 export class PlayerFireModules {
     private readonly list = new Map<Player, ModulesList>()
@@ -21,7 +21,7 @@ export class PlayerFireModules {
         error(`Not found weapon fire-module for: ${id}`)
     }
 
-    Add(plr: Player, id: string, fireModule: AutoFireModule){
+    Add(plr: Player, id: string, fireModule: AutoFire){
         this.GetOrCreateModules(plr).push({ID: id, FireModule: fireModule})
     }
 }

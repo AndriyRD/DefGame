@@ -1,9 +1,8 @@
 import { BaseGameLoop } from "shared/Loop/BaseGameLoop";
-import { IWeapon } from "./Weapon";
-import { WeaponContainer } from "./WeaponContainer/WeaponContainer";
+import { FireModule } from "./FireModule";
+import { IWeaponModel } from "../WeaponModel/IWeaponModel";
 
-export class AutoFireModule {
-    protected readonly weapon: IWeapon
+export class AutoFire {
     private readonly handleLoop: BaseGameLoop
     private work = false
 
@@ -19,11 +18,12 @@ export class AutoFireModule {
         this.work = false
     }
 
-    constructor(private readonly weaponContainer: WeaponContainer){
-        this.weapon = weaponContainer.GetWeapon()
-        this.handleLoop = new BaseGameLoop().SetTickRate(this.weapon.GetFireDelay())
+    constructor(private readonly fireModule: FireModule<IWeaponModel>){
+        this.handleLoop = new BaseGameLoop()
+            .SetTickRate(this.fireModule.weponData.FireDelay)
+
         this.handleLoop.AddTask('main', () => { 
-            weaponContainer.Fire()
+            fireModule.Fire()
         })
     }
 }

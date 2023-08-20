@@ -1,7 +1,6 @@
-import { IWeaponAnimationSet } from "./Animation/IWeaponAnimationSet";
+import { IPersonWeaponAnimationSet } from "../Animation/IPersonWeaponAnimationSet";
 import { IWeaponConfig } from "./IWeaponConfig";
 
 export interface IPresonWeaponConfig extends IWeaponConfig {
-   
-    AnimationSet: IWeaponAnimationSet
+    AnimationSet: IPersonWeaponAnimationSet
 }

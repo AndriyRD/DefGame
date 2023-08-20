@@ -1,6 +1,6 @@
 import { IEventListener } from "server/Core/EventSystem/IEventListener"
 import { WeaponServiceAPI } from "./WeaponServiceAPI"
-import { IHitResult } from "shared/Weapon/IHitResult"
+import { IHitResult } from "shared/Weapon/FireModule/IHitResult"
 
 export class WeaponEventListener implements IEventListener{
 

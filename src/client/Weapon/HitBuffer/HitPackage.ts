@@ -1,4 +1,4 @@
-import { IHitResult } from "shared/Weapon/IHitResult"
+import { IHitResult } from "shared/Weapon/FireModule/IHitResult"
 import { LifeCicle } from "shared/Loop/LifeCicle"
 
 export class HitPackage {

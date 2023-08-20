@@ -1,4 +1,4 @@
-export interface IWeaponAnimationSet {
+export interface IPersonWeaponAnimationSet {
     Equip: string,
     Unequip: string,
     Relaod: string

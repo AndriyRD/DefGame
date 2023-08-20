@@ -1,4 +1,3 @@
-import { IFireModule } from "../IFireModule";
 import { IWeaponConfig } from "../WeaponConfigurations/IWeaponConfig";
 import { IWeaponModel } from "../WeaponModel/IWeaponModel";
 

@@ -4,7 +4,7 @@ import { IWeaponBuilder } from "./IWeaponBuilder";
 import { IWeaponConfig } from "../WeaponConfigurations/IWeaponConfig";
 import { IWeaponModel } from "../WeaponModel/IWeaponModel";
 import { Weapon } from "../Weapon";
-import { FireModuleFactory } from "./FireModuleFactory";
+import { FireModuleFactory } from "./FireModuleFactoryType";
 import { BaseWeapon } from "../Weapons/BaseWeapon";
 import { WeaponModelParser } from "../ModelParsers/WeaponModelParser";
 import WEAPON_CONFIG_LIST from "../WEAPON_CONFIG_LIST";
@@ -31,9 +31,7 @@ export class WeaponBuilder<T extends IWeaponBuildData> implements IWeaponBuilder
         return this
     }
 
-    ParseConfig(id: string){
-        const config = WEAPON_CONFIG_LIST.get(id)
-        if(config) error(`Not found config for weapon: ${id}`)
+    SetConfig(config: IWeaponConfig){
         this.buildData.Config = config
         return this
     }

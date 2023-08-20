@@ -1,9 +1,9 @@
-import { AutoFireModule } from "shared/Weapon/AutoFireModule";
-import { WeaponProvider } from "../WeaponProvider";
 import { PlayerFireModules } from "../../../shared/Weapon/PlayerFireModules";
 import { RemoteProvider } from "shared/RemoteProvider";
 import GetCharacter from "shared/Character/GetCharacter";
 import { Players } from "@rbxts/services";
+import { AutoFire } from "shared/Weapon/FireModule/AutoFire";
+import { WeaponProvider } from "../WeaponProvider";
 
 export class WeaponReplicator {
     private readonly list = new PlayerFireModules()
@@ -13,8 +13,8 @@ export class WeaponReplicator {
     private OnCreateWeapon(plr: Player, id: string){
         if (this.IsLocalPlayer(plr)) return
         const model = GetCharacter(plr).WaitForChild(id) as Model
-        const weaponContainer = WeaponProvider.weaponManager.RegisterWeapon(plr, model)
-        const fireModule = new AutoFireModule(weaponContainer)
+        const weapon = WeaponProvider.RegisterWeapon(plr, model)
+        const fireModule = new AutoFire(weapon.fireModule)
         this.list.Add(plr, model.Name, fireModule)
     }
 

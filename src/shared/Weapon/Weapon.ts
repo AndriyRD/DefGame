@@ -1,4 +1,4 @@
-import { IFireModule } from "./IFireModule"
+import { FireModule } from "./FireModule/FireModule"
 import { IWeaponConfig } from "./WeaponConfigurations/IWeaponConfig"
 import { WeaponDataObject } from "./WeaponDataObject"
 import { IWeaponModel } from "./WeaponModel/IWeaponModel"
@@ -24,9 +24,9 @@ export abstract class Weapon<ConfigType extends IWeaponConfig, ModelType extends
     }
 
     constructor(
-        protected readonly WeaponModel: IWeaponModel,
-        protected readonly config: IWeaponConfig,
-        protected readonly fireModule: IFireModule
+        readonly WeaponModel: ModelType,
+        protected readonly config: ConfigType,
+        readonly fireModule: FireModule<ModelType>
     ){
             this.DataObject = new WeaponDataObject(this.WeaponModel, config)
             this.OwnerState = new WeaponOwnerState()

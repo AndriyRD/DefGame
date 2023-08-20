@@ -39,7 +39,7 @@ export class BuildingMenu extends Component<{}, State>{
                     Transparency={Styles.Menu.Transparency}>
 
                     <Navbar categories={[BUILDING_CATEGORIES.BASE]}></Navbar>
-                    <ContantList items={PRODUCT_LIST.Building}></ContantList>
+                    <ContantList items={PRODUCT_LIST.Buildings}></ContantList>
                 </frame>
             </screengui>
         )

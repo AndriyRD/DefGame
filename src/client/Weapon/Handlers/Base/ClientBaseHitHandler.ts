@@ -1,13 +1,12 @@
 import { IEntity } from "shared/Entity/IEntity";
-import { IWeapon } from "shared/Weapon/Weapon";
-import { IHitHandler } from "shared/Weapon/WeaponHandler/IHitHandler";
+import { IHitHandler } from "shared/Weapon/FireModule/IHitHandler";
 import { BulletHit } from "./VisualEffects/HitEffect/BulletHit";
 import { HitPackage } from "client/Weapon/HitBuffer/HitPackage";
 import { RemoteProvider } from "shared/RemoteProvider";
 
 export class BaseHitHandler implements IHitHandler {
     private readonly bulletHit
-    private readonly dmg
+    private readonly dmg = 7
     private readonly hitPackage = new HitPackage(5, 2)
     private readonly sendHitPackegeEvent = RemoteProvider.GetForWeapon().HitPackage
 
@@ -23,9 +22,9 @@ export class BaseHitHandler implements IHitHandler {
         this.hitPackage.Push({Damage: this.dmg, Instance: res.Instance})
     }
 
-    constructor(private readonly weapon: IWeapon){
+    constructor(){
         this.bulletHit = new BulletHit()
-        this.dmg = this.weapon.GetConfig().Damage
+        // this.dmg = this.weapon.GetConfig().Damage
         this.hitPackage.OnReady.Event.Connect(() =>
             this.sendHitPackegeEvent.FireServer(this.hitPackage.GetResults()))
     }

@@ -1,7 +1,7 @@
 import { PlayerStorageContainer } from "server/Core/PlayerStorage/PlayerStorageContainer";
 import { RemoteProvider } from "shared/RemoteProvider";
 import { PlayerFireModules } from "shared/Weapon/PlayerFireModules";
-import { AutoFireModule } from "shared/Weapon/AutoFireModule";
+import { AutoFireModule } from "shared/Weapon/FireModule/AutoFire";
 import { WeaponContainer } from "shared/Weapon/WeaponContainer/WeaponContainer";
 import { ServerWeaponManager } from "./ServerWeaponManager";
 

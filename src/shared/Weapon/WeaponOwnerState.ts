@@ -16,4 +16,8 @@ export class WeaponOwnerState {
         this.owner = undefined
         return this
     }
+
+    GetCurrent(){
+        return this.owner
+    }
 }

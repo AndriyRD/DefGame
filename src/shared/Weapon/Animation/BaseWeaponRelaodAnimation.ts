@@ -2,6 +2,7 @@ import { AnimationWithSound } from "shared/Character/Animation/AnimationWithSoun
 import { GlobalConfig } from "shared/GlobalConfig"
 import { Debris } from "@rbxts/services"
 import { IWeaponModel } from "../WeaponModel/IWeaponModel"
+import { IPersonWeaponModel } from "../WeaponModel/IPersonWeaponModel"
 
 export class BaseWeaponRelaodAnimation{
     private readonly DROP_MAG_FRAME_NAME = 'DropMag'
@@ -44,7 +45,7 @@ export class BaseWeaponRelaodAnimation{
 
     constructor(
         private readonly soundAnimation: AnimationWithSound,
-        private readonly weaponModel: IWeaponModel)
+        private readonly weaponModel: IPersonWeaponModel)
     {
         this.soundAnimation.onLoad.Event.Connect(() => this.Laod())
         this.Laod()

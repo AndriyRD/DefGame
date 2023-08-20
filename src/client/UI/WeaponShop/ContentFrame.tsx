@@ -19,7 +19,7 @@ export = () => {
                 Padding={new UDim(.1)}>
             </uilistlayout>
 
-            {PRODUCT_LIST.Weapon.map((product) => 
+            {PRODUCT_LIST.Weapons.map((product) => 
                 <ProductCard title={product.ID} price={product.Price} size={cardSize} onSelect={undefined}/>
             )}
         </frame>

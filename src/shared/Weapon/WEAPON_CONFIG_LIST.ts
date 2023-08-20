@@ -1,7 +1,7 @@
 import { IWeaponConfig } from "./WeaponConfigurations/IWeaponConfig";
 import { WEAPON_HANDLER_TYPES } from "./WEAPON_HANDLER_TYPES";
 
-const WEAPON_CONFIG_LIST = new Map<string, IWeaponConfig>()
+const WEAPON_CONFIG_LIST = new Map<string, IWeaponConfig & any>()
 
 WEAPON_CONFIG_LIST.set('AK47', {
     Damage: 7,
@@ -41,11 +41,6 @@ WEAPON_CONFIG_LIST.set('MachineGun', {
         MagazineSize: 180,
         MaxAmmo: 180
     },
-    AnimationSet: {
-        Equip: '',
-        Unequip: '',
-        Relaod: '14110068229'
-    }
 })
 
 export = WEAPON_CONFIG_LIST

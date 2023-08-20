@@ -2,10 +2,11 @@ import { Weapon } from "./Weapon";
 import { WEAPON_HANDLER_TYPES } from "./WEAPON_HANDLER_TYPES";
 import { IWeaponConfig } from "./WeaponConfigurations/IWeaponConfig";
 import { IWeaponModel } from "./WeaponModel/IWeaponModel";
-import { FireModuleFactory } from "./WeponBuilder/FireModuleFactory";
+import { FireModuleFactory } from "./WeponBuilder/FireModuleFactoryType";
 import { WeaponBuilder } from "./WeponBuilder/WeaponBuilder";
 import { PersonWeaponBuilder } from "./WeponBuilder/PersonWeaponBuilder";
 import { WEAPON_CLASSES } from "./WEAPON_CLASSES";
+import WEAPON_CONFIG_LIST from "./WEAPON_CONFIG_LIST";
 
 export abstract class WeaponManager {
     protected builders = {
@@ -21,14 +22,15 @@ export abstract class WeaponManager {
         return factory
     }
 
-    RegisterWeapon(plaeyr: Player, model: Model, weaponClass: WEAPON_CLASSES){
+    RegisterWeapon(plaeyr: Player, model: Model){
         let playerWeaponList = this.weaponList.get(plaeyr)
         const name = model.Name
-        const builder = this.builders[weaponClass]
-        builder.ParseConfig(name).ParseModel(model)
-
-        const config = builder.GetConfig()!
-        const newWeapon = builder
+        const config = WEAPON_CONFIG_LIST.get(name)!
+        if(!config) error(`Not found config for weapon: ${name}`)
+        
+        const newWeapon = this.builders[config.WeaponClass]
+            .SetConfig(config)
+            .ParseModel(model)
             .SetFireModuleFactory(this.FindHandlerFactory(config.HandlerType))
             .Build()
 
@@ -36,6 +38,7 @@ export abstract class WeaponManager {
             playerWeaponList = new Array()
         playerWeaponList.push(newWeapon)
         this.weaponList.set(plaeyr, playerWeaponList)
+        return newWeapon
     }
 
     UnregisterWeapon(){
