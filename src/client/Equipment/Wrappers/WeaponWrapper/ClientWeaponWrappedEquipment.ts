@@ -5,16 +5,17 @@ import { ClientBaseWrapperEquipment } from "../BaseWrapper/ClientBaseWrapperEqui
 import { EventProvider } from "client/EventProvider";
 import { WeaponProvider } from "client/Weapon/WeaponProvider";
 import { AutoFire } from "shared/Weapon/FireModule/AutoFire";
+import { PersonWeapon } from "shared/Weapon/Weapons/PersonWeapon";
 
 export class WeaponWrappedEquipment extends ClientBaseWrapperEquipment{
     private readonly events = EventProvider.Weapon
-    private readonly weapon = WeaponProvider.RegisterWeapon(
+    private readonly weapon = WeaponProvider.RegisterWeapon<PersonWeapon>(
         this.GetOwner(),
         this.GetModel())
 
     private readonly bindWeaponModule = new WeaponBindModule(
-        this.weapon.WeaponModel,
-        new AutoFire(this.weapon))
+        this.weapon,
+        new AutoFire(this.weapon.fireModule))
 
     GetEquipmentType(): EQUIPMENT_TYPES {
         return EQUIPMENT_TYPES.WEAPON

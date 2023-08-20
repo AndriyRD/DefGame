@@ -1,7 +1,7 @@
 import { IWeaponConfig } from "../WeaponConfigurations/IWeaponConfig";
 import { IWeaponModel } from "../WeaponModel/IWeaponModel";
 
-export interface IWeaponBuildData {
-    Config: IWeaponConfig | undefined
-    WeaponModel: IWeaponModel | undefined
+export interface IWeaponBuildData<T extends IWeaponConfig, U extends IWeaponModel> {
+    Config: T | undefined
+    WeaponModel: U | undefined
 }

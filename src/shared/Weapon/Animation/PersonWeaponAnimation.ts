@@ -2,6 +2,8 @@ import { AnimationWithSound } from "shared/Character/Animation/AnimationWithSoun
 import { BaseWeaponRelaodAnimation } from "./BaseWeaponRelaodAnimation";
 import { AssetInstance } from "shared/AssetInstance/AssetInstance";
 import { IPersonWeaponAnimationSet } from "./IPersonWeaponAnimationSet";
+import { IPersonWeaponAssets } from "../Asset/IPersonWeaponAssets";
+import { IPersonWeaponModel } from "../WeaponModel/IPersonWeaponModel";
 
 export class PersonWeaponAnimation {
     private readonly reloadAnim: BaseWeaponRelaodAnimation;
@@ -13,14 +15,15 @@ export class PersonWeaponAnimation {
     constructor(
         protected readonly owner: Player,
         protected readonly animationSet: IPersonWeaponAnimationSet,
-        protected readonly assets: IPErs){
+        protected readonly assets: IPersonWeaponAssets,
+        protected readonly model: IPersonWeaponModel){
 
             this.reloadAnim = new BaseWeaponRelaodAnimation(
                 new AnimationWithSound(
                     owner,
                     AssetInstance.CreateByID(animationSet.Relaod, "Animation"),
-                    this.weapon.GetAssets().Sounds.Reload),
-                weapon.GetWeaponModel()
+                    this.assets.Sounds.Reload),
+                this.model
             )
     }
 }

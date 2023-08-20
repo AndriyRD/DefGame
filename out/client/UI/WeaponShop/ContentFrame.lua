@@ -5,7 +5,7 @@ local ProductCard = TS.import(script, script.Parent.Parent, "Product", "ProductC
 local PRODUCT_LIST = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Products", "PRODUCT_LIST")
 return function()
 	local cardSize = UDim2.new(.2, 0, .45, 0)
-	local _weapon = PRODUCT_LIST.Weapon
+	local _weapons = PRODUCT_LIST.Weapons
 	local _arg0 = function(product)
 		return Roact.createElement(ProductCard, {
 			title = product.ID,
@@ -15,9 +15,9 @@ return function()
 		})
 	end
 	-- ▼ ReadonlyArray.map ▼
-	local _newValue = table.create(#_weapon)
-	for _k, _v in _weapon do
-		_newValue[_k] = _arg0(_v, _k - 1, _weapon)
+	local _newValue = table.create(#_weapons)
+	for _k, _v in _weapons do
+		_newValue[_k] = _arg0(_v, _k - 1, _weapons)
 	end
 	-- ▲ ReadonlyArray.map ▲
 	local _attributes = {

@@ -1,0 +1,34 @@
+-- Compiled with roblox-ts v2.1.0
+local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
+local RunService = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").RunService
+local BaseWeapon = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Weapons", "BaseWeapon").BaseWeapon
+local PersonWeaponAnimation = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Animation", "PersonWeaponAnimation").PersonWeaponAnimation
+local PersonWeaponAssetParser = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Asset", "PersonWeaponAssetParser").PersonWeaponAssetParser
+local PersonWeapon
+do
+	local super = BaseWeapon
+	PersonWeapon = setmetatable({}, {
+		__tostring = function()
+			return "PersonWeapon"
+		end,
+		__index = super,
+	})
+	PersonWeapon.__index = PersonWeapon
+	function PersonWeapon.new(...)
+		local self = setmetatable({}, PersonWeapon)
+		return self:constructor(...) or self
+	end
+	function PersonWeapon:constructor(model, config, fireModule)
+		super.constructor(self, model, config, fireModule, PersonWeaponAssetParser.new())
+		self.animation = PersonWeaponAnimation.new(self.OwnerState:GetCurrent(), self.config.AnimationSet, self.DataObject.Assets, self.WeaponModel)
+	end
+	function PersonWeapon:Reload()
+		if RunService:IsClient() then
+			self.animation:PlayReload()
+		end
+		return super.Reload(self)
+	end
+end
+return {
+	PersonWeapon = PersonWeapon,
+}

@@ -15,12 +15,12 @@ do
 		local self = setmetatable({}, BaseHitHandler)
 		return self:constructor(...) or self
 	end
-	function BaseHitHandler:constructor(weapon)
-		self.weapon = weapon
+	function BaseHitHandler:constructor()
+		self.dmg = 7
 		self.hitPackage = HitPackage.new(5, 2)
 		self.sendHitPackegeEvent = RemoteProvider:GetForWeapon().HitPackage
 		self.bulletHit = BulletHit.new()
-		self.dmg = self.weapon:GetConfig().Damage
+		-- this.dmg = this.weapon.GetConfig().Damage
 		self.hitPackage.OnReady.Event:Connect(function()
 			return self.sendHitPackegeEvent:FireServer(self.hitPackage:GetResults())
 		end)

@@ -53,7 +53,7 @@ do
 					categories = { BUILDING_CATEGORIES.BASE },
 				}),
 				Roact.createElement(ContantList, {
-					items = PRODUCT_LIST.Building,
+					items = PRODUCT_LIST.Buildings,
 				}),
 			}),
 		})

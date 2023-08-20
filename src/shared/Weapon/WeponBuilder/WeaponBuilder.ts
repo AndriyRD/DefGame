@@ -7,11 +7,13 @@ import { Weapon } from "../Weapon";
 import { FireModuleFactory } from "./FireModuleFactoryType";
 import { BaseWeapon } from "../Weapons/BaseWeapon";
 import { WeaponModelParser } from "../ModelParsers/WeaponModelParser";
-import WEAPON_CONFIG_LIST from "../WEAPON_CONFIG_LIST";
+import { IWeaponAssets } from "../Asset/IWeaponAssets";
+import { IAssetParser } from "../Asset/IAssetParser";
 
-export class WeaponBuilder<T extends IWeaponBuildData> implements IWeaponBuilder<IWeaponConfig, IWeaponModel>{
-    protected readonly buildData = {} as T 
-    protected fireModuleFactory: FireModuleFactory<IWeaponModel> | undefined
+export class WeaponBuilder implements IWeaponBuilder<IWeaponConfig, IWeaponModel, IWeaponAssets>{
+    protected readonly buildData = {} as IWeaponBuildData<IWeaponConfig, IWeaponModel>
+    protected fireModuleFactory: FireModuleFactory<IWeaponModel, IWeaponAssets> | undefined
+    protected assetsParser: IAssetParser<IWeaponAssets> | undefined
     protected modelParser = new WeaponModelParser()
     private classInstanceProps = Reflection.ConvertObjectToMap(this)
 
@@ -27,7 +29,7 @@ export class WeaponBuilder<T extends IWeaponBuildData> implements IWeaponBuilder
     }
 
     ParseModel(model: Model){
-        this.buildData.WeaponModel = this.modelParser.Parse(model)
+        this.buildData.WeaponModel = this.modelParser.Parse(model) as any
         return this
     }
 
@@ -40,22 +42,28 @@ export class WeaponBuilder<T extends IWeaponBuildData> implements IWeaponBuilder
         return this.buildData.Config
     }
 
-    SetFireModuleFactory(factory: FireModuleFactory<IWeaponModel>) {
+    SetFireModuleFactory(factory: FireModuleFactory<IWeaponModel, IWeaponAssets>) {
         this.fireModuleFactory = factory
         return this
     }
 
-    Build(): Weapon<IWeaponConfig, IWeaponModel> {
+    SetWeaponParser(parser: IAssetParser<IWeaponAssets>){
+        this.assetsParser = parser
+        return this
+    }
+
+    Build(): Weapon<IWeaponConfig, IWeaponModel, IWeaponAssets> {
         const weaponModel = this.buildData.WeaponModel
         const config = this.buildData.Config
 
-        if(!weaponModel || !config || !this.fireModuleFactory)
+        if(!weaponModel || !config || !this.fireModuleFactory || !this.assetsParser)
             error(`Not inited parameters for ${script.Name}.Build()`)
 
-        const weapon = new BaseWeapon(
+        const weapon = new BaseWeapon<IWeaponConfig, IWeaponModel, IWeaponAssets>(
             weaponModel, 
             config, 
-            this.fireModuleFactory(weaponModel))
+            this.fireModuleFactory(weaponModel),
+            this.assetsParser)
 
         table.clear(this.buildData)
         return weapon

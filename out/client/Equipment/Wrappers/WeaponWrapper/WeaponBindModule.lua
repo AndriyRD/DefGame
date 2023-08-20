@@ -22,16 +22,17 @@ do
 		self.bindData = GlobalConfig.BIND_DATA.Weapon
 		self.remote = RemoteProvider:GetForWeapon()
 		self.cameraEvents = EventProvider.CharatcerController.Camera
+		self.name = weapon.DataObject.Name
 	end
 	function WeaponBindModule:Bind()
 		ContextActionService:BindAction(self.bindData.Fire.Action, function(name, state)
 			if name == self.bindData.Fire.Action then
 				if state == Enum.UserInputState.Begin then
-					self.remote.StartFire:FireServer(self.weapon:GetName())
+					self.remote.StartFire:FireServer(self.name)
 					self.autoFireModule:StartFire()
 					self.cameraEvents.Shake:Fire()
 				elseif state == Enum.UserInputState.End then
-					self.remote.StopFire:FireServer(self.weapon:GetName())
+					self.remote.StopFire:FireServer(self.name)
 					self.autoFireModule:StopFire()
 					self.cameraEvents.StopShake:Fire()
 				end
@@ -39,14 +40,14 @@ do
 		end, false, self.bindData.Fire.PC.Input)
 		ContextActionService:BindAction(self.bindData.Reload.Action, function(name, state)
 			if name == self.bindData.Reload.Action and state == Enum.UserInputState.Begin then
-				self.remote.Reload:FireServer(self.weapon:GetName())
-				self.weapon:Relaod()
+				self.remote.Reload:FireServer(self.name)
+				self.weapon:Reload()
 			end
 		end, false, self.bindData.Reload.PC.Input)
 	end
 	function WeaponBindModule:Unbind()
 		self.autoFireModule:StopFire()
-		self.remote.StopFire:FireServer(self.weapon:GetName())
+		self.remote.StopFire:FireServer(self.weapon.DataObject.Name)
 		ContextActionService:UnbindAction(self.bindData.Fire.Action)
 		ContextActionService:UnbindAction(self.bindData.Reload.Action)
 		self.cameraEvents.StopShake:Fire()

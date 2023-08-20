@@ -11,8 +11,7 @@ do
 		local self = setmetatable({}, BaseHitHandler)
 		return self:constructor(...) or self
 	end
-	function BaseHitHandler:constructor(waepon)
-		self.waepon = waepon
+	function BaseHitHandler:constructor()
 	end
 	function BaseHitHandler:OnHit(res)
 	end

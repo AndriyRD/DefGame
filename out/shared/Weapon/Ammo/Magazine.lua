@@ -27,6 +27,7 @@ do
 	function Magazine:Take()
 		self.currentAmmo -= 1
 		self.Changed:Fire(self.currentAmmo)
+		return self.currentAmmo
 	end
 	function Magazine:AddAmmo(value)
 		self.currentAmmo += value

@@ -3,6 +3,6 @@ import { WeaponModelParser } from "../ModelParsers/WeaponModelParser";
 import { IWeaponBuildData } from "./IWeaponBuildData";
 import { WeaponBuilder } from "./WeaponBuilder";
 
-export class PersonWeaponBuilder extends WeaponBuilder<IWeaponBuildData> {
+export class PersonWeaponBuilder extends WeaponBuilder {
     protected modelParser: WeaponModelParser = new PersonWeaponModelParser()
 }

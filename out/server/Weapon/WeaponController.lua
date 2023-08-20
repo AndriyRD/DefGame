@@ -3,8 +3,8 @@ local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_incl
 local PlayerStorageContainer = TS.import(script, game:GetService("ServerScriptService"), "TS", "Core", "PlayerStorage", "PlayerStorageContainer").PlayerStorageContainer
 local RemoteProvider = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "RemoteProvider").RemoteProvider
 local PlayerFireModules = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "PlayerFireModules").PlayerFireModules
-local AutoFireModule = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "AutoFireModule").AutoFireModule
 local ServerWeaponManager = TS.import(script, game:GetService("ServerScriptService"), "TS", "Weapon", "ServerWeaponManager").ServerWeaponManager
+local AutoFire = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "FireModule", "AutoFire").AutoFire
 local WeaponController
 do
 	local super = PlayerStorageContainer
@@ -26,11 +26,10 @@ do
 		self.playerFireModules = PlayerFireModules.new()
 	end
 	function WeaponController:CreateWeapon(owner, model)
-		local weaponContainer = self.serverWeaponManager:RegisterWeapon(owner, model)
-		local weapon = weaponContainer:GetWeapon()
-		local id = weapon:GetName()
-		self:AddItem(owner, id, weaponContainer)
-		self.playerFireModules:Add(owner, id, AutoFireModule.new(weaponContainer))
+		local weapon = self.serverWeaponManager:RegisterWeapon(owner, model)
+		local id = weapon.DataObject.Name
+		self:AddItem(owner, id, weapon)
+		self.playerFireModules:Add(owner, id, AutoFire.new(weapon.fireModule))
 		self.remote.CreateWeapon:FireAllClients(owner, id)
 	end
 	function WeaponController:StartFire(plr, id)

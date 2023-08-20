@@ -1,11 +1,11 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local AutoFireModule = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "AutoFireModule").AutoFireModule
-local WeaponProvider = TS.import(script, script.Parent.Parent, "WeaponProvider").WeaponProvider
 local PlayerFireModules = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "PlayerFireModules").PlayerFireModules
 local RemoteProvider = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "RemoteProvider").RemoteProvider
 local GetCharacter = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "GetCharacter")
 local Players = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Players
+local AutoFire = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "FireModule", "AutoFire").AutoFire
+local WeaponProvider = TS.import(script, script.Parent.Parent, "WeaponProvider").WeaponProvider
 local WeaponReplicator
 do
 	WeaponReplicator = setmetatable({}, {
@@ -29,8 +29,8 @@ do
 			return nil
 		end
 		local model = GetCharacter(plr):WaitForChild(id)
-		local weaponContainer = WeaponProvider.weaponManager:RegisterWeapon(plr, model)
-		local fireModule = AutoFireModule.new(weaponContainer)
+		local weapon = WeaponProvider:RegisterWeapon(plr, model)
+		local fireModule = AutoFire.new(weapon.fireModule)
 		self.list:Add(plr, model.Name, fireModule)
 	end
 	function WeaponReplicator:OnStartFire(plr, weaponID)

@@ -9,8 +9,11 @@ import { WeaponDataObject } from "shared/Weapon/WeaponDataObject";
 import { IPersonWeaponModel } from "shared/Weapon/WeaponModel/IPersonWeaponModel";
 import { FireModule } from "shared/Weapon/FireModule/FireModule";
 import { BaseHitHandler } from "./ClientBaseHitHandler"
+import { IAssetParser } from "shared/Weapon/Asset/IAssetParser";
+import { IWeaponAssets } from "shared/Weapon/Asset/IWeaponAssets";
+import { IPersonWeaponAssets } from "shared/Weapon/Asset/IPersonWeaponAssets";
 
-export class BaseFireHandler extends FireModule<IPersonWeaponModel>{
+export class BaseFireHandler extends FireModule<IPersonWeaponModel, IPersonWeaponAssets>{
     private readonly entityStorage
     private readonly shotTrace
     private readonly smokeParticleSet
@@ -41,14 +44,14 @@ export class BaseFireHandler extends FireModule<IPersonWeaponModel>{
         return this;
     }
 
-    constructor(owner: Player, weaponData: WeaponDataObject, model: IPersonWeaponModel){
+    constructor(owner: Player, weaponData: WeaponDataObject<IPersonWeaponAssets>, model: IPersonWeaponModel){
         super(owner, weaponData, model)
         this.caster = new WeaponRayCasting(owner)
         this.shotTrace = new ShotTrace(this.weponModel)
-        this.fireSound = this.weponData.Assets.Sounds.Fire
+        this.fireSound = this.weaponData.Assets.Sounds.Fire
         this.smokeParticleSet = new BaseParticleSet(new Instance('Attachment', this.weponModel.Muzzle))
-            .AddByOrigin(this.weponData.Assets.Particles.FireSmoke[0], {EmitParticleCount: 5})
-            .AddByOrigin(this.weponData.Assets.Particles.FireSmoke[1], {EmitParticleCount: 10})
+            .AddByOrigin(this.weaponData.Assets.Particles.FireSmoke[0], {EmitParticleCount: 5})
+            .AddByOrigin(this.weaponData.Assets.Particles.FireSmoke[1], {EmitParticleCount: 10})
 
         this.entityStorage = new EntityStorageUnpacked(
             EntityStorageFactory.CreateByOtherTeams(

@@ -7,14 +7,16 @@ import { WeaponBuilder } from "./WeponBuilder/WeaponBuilder";
 import { PersonWeaponBuilder } from "./WeponBuilder/PersonWeaponBuilder";
 import { WEAPON_CLASSES } from "./WEAPON_CLASSES";
 import WEAPON_CONFIG_LIST from "./WEAPON_CONFIG_LIST";
+import { IWeaponAssets } from "./Asset/IWeaponAssets";
+import { Reflection } from "shared/Reflection";
 
 export abstract class WeaponManager {
     protected builders = {
         [WEAPON_CLASSES.DEFAULT]: new WeaponBuilder(),
         [WEAPON_CLASSES.PERSON_WEAPOM]: new PersonWeaponBuilder()
     }
-    protected readonly weaponList = new Map<Player, Weapon<IWeaponConfig, IWeaponModel>[]>
-    protected readonly factories = new Map<WEAPON_HANDLER_TYPES, FireModuleFactory<IWeaponModel>>()
+    protected readonly weaponList = new Map<Player, Weapon<IWeaponConfig, IWeaponModel, IWeaponAssets>[]>
+    protected readonly factories = new Map<WEAPON_HANDLER_TYPES, FireModuleFactory<IWeaponModel, IWeaponAssets>>()
 
     protected FindHandlerFactory(handlerType: WEAPON_HANDLER_TYPES){
         const factory = this.factories.get(handlerType)
@@ -25,10 +27,11 @@ export abstract class WeaponManager {
     RegisterWeapon(plaeyr: Player, model: Model){
         let playerWeaponList = this.weaponList.get(plaeyr)
         const name = model.Name
-        const config = WEAPON_CONFIG_LIST.get(name)!
+        const config = WEAPON_CONFIG_LIST.get(name)
         if(!config) error(`Not found config for weapon: ${name}`)
-        
-        const newWeapon = this.builders[config.WeaponClass]
+        const builder = Reflection.ConvertObjectToMap<WeaponBuilder>(this.builders).get(tostring(config.WeaponClass))!
+
+        const newWeapon = builder
             .SetConfig(config)
             .ParseModel(model)
             .SetFireModuleFactory(this.FindHandlerFactory(config.HandlerType))

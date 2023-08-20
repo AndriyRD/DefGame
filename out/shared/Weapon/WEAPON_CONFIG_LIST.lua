@@ -1,6 +1,7 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local WEAPON_HANDLER_TYPES = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WEAPON_HANDLER_TYPES").WEAPON_HANDLER_TYPES
+local WEAPON_CLASSES = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WEAPON_CLASSES").WEAPON_CLASSES
 local WEAPON_CONFIG_LIST = {}
 local _arg1 = {
 	Damage = 7,
@@ -10,6 +11,7 @@ local _arg1 = {
 		MagazineSize = 30,
 		MaxAmmo = 180,
 	},
+	WeaponClass = WEAPON_CLASSES.PERSON_WEAPOM,
 	AnimationSet = {
 		Equip = "",
 		Unequip = "",
@@ -25,6 +27,7 @@ local _arg1_1 = {
 		MagazineSize = 1,
 		MaxAmmo = 10,
 	},
+	WeaponClass = WEAPON_CLASSES.PERSON_WEAPOM,
 	AnimationSet = {
 		Equip = "",
 		Unequip = "",
@@ -40,11 +43,7 @@ local _arg1_2 = {
 		MagazineSize = 180,
 		MaxAmmo = 180,
 	},
-	AnimationSet = {
-		Equip = "",
-		Unequip = "",
-		Relaod = "14110068229",
-	},
+	WeaponClass = WEAPON_CLASSES.DEFAULT,
 }
 WEAPON_CONFIG_LIST.MachineGun = _arg1_2
 return WEAPON_CONFIG_LIST

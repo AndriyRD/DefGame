@@ -1,12 +1,14 @@
+import { IAssetParser } from "./Asset/IAssetParser"
+import { IWeaponAssets } from "./Asset/IWeaponAssets"
 import { FireModule } from "./FireModule/FireModule"
 import { IWeaponConfig } from "./WeaponConfigurations/IWeaponConfig"
 import { WeaponDataObject } from "./WeaponDataObject"
 import { IWeaponModel } from "./WeaponModel/IWeaponModel"
 import { WeaponOwnerState } from "./WeaponOwnerState"
 
-export abstract class Weapon<ConfigType extends IWeaponConfig, ModelType extends IWeaponModel>{
+export abstract class Weapon<ConfigType extends IWeaponConfig, ModelType extends IWeaponModel, AssetsType extends IWeaponAssets>{
     readonly OwnerState: WeaponOwnerState
-    readonly DataObject: WeaponDataObject
+    readonly DataObject: WeaponDataObject<AssetsType>
 
     protected abstract OnRemoveOwner(plr: Player): void
 
@@ -26,9 +28,10 @@ export abstract class Weapon<ConfigType extends IWeaponConfig, ModelType extends
     constructor(
         readonly WeaponModel: ModelType,
         protected readonly config: ConfigType,
-        readonly fireModule: FireModule<ModelType>
+        readonly fireModule: FireModule<ModelType, AssetsType>,
+        assetParser: IAssetParser<AssetsType>
     ){
-            this.DataObject = new WeaponDataObject(this.WeaponModel, config)
+            this.DataObject = new WeaponDataObject(this.WeaponModel, config, assetParser)
             this.OwnerState = new WeaponOwnerState()
     }
 }
