@@ -8,17 +8,15 @@ import { IAssetParser } from "../Asset/IAssetParser";
 import { IWeaponModelParser } from "../ModelParsers/IWeaponModelParser";
 import { IWeapon } from "../IWeapon";
 
-type ExtendsConfig = IWeaponConfig & any
 type ExtendsModel = IWeaponModel & any
 type ExtendsAssets = IWeaponAssets & any
 
 export abstract class WeaponBuilder<T extends IWeapon>{
     protected readonly buildData = {} as IWeaponBuildData<IWeaponConfig, IWeaponModel>
     protected createFireModule: FireModuleFactory<ExtendsModel, ExtendsAssets> | undefined
-    protected readonly abstract assetsParser: IAssetParser<IWeaponAssets> | undefined
     protected readonly abstract modelParser: IWeaponModelParser<IWeaponModel>
 
-    protected abstract CreateWeapon<T>(model: IWeaponModel, config: IWeaponConfig, assetParser: IAssetParser<IWeaponAssets> | undefined): any
+    protected abstract CreateWeapon<T>(model: IWeaponModel, config: IWeaponConfig): any
 
     ParseModel(model: Model){
         this.buildData.WeaponModel = this.modelParser.Parse(model) as any
@@ -38,10 +36,10 @@ export abstract class WeaponBuilder<T extends IWeapon>{
     Build():T {
         const weaponModel = this.buildData.WeaponModel
         const config = this.buildData.Config
-        if(!weaponModel || !config || !this.createFireModule || !this.assetsParser)
+        if(!weaponModel || !config || !this.createFireModule)
             error(`Not inited parameters for ${script.Name}.Build()`)
 
         table.clear(this.buildData)
-        return this.CreateWeapon(weaponModel, config, this.assetsParser)
+        return this.CreateWeapon(weaponModel, config)
     }
 }

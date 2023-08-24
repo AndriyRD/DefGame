@@ -2,7 +2,6 @@
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local BaseWeapon = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Weapons", "BaseWeapon").BaseWeapon
 local WeaponModelParser = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "ModelParsers", "WeaponModelParser").WeaponModelParser
-local WeaponAssetParser = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Asset", "WeaponAssetParser").WeaponAssetParser
 local WeaponBuilder = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WeponBuilder", "WeaponBuilder").WeaponBuilder
 local BaseWeaponBuilder
 do
@@ -20,11 +19,10 @@ do
 	end
 	function BaseWeaponBuilder:constructor(...)
 		super.constructor(self, ...)
-		self.assetsParser = WeaponAssetParser.new()
 		self.modelParser = WeaponModelParser.new()
 	end
-	function BaseWeaponBuilder:CreateWeapon(model, config, assetParser)
-		return BaseWeapon.new(model, config, self.createFireModule, self.assetsParser)
+	function BaseWeaponBuilder:CreateWeapon(model, config)
+		return BaseWeapon.new(model, config, self.createFireModule)
 	end
 end
 return {

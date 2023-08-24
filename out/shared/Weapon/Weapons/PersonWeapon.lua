@@ -20,13 +20,22 @@ do
 	end
 	function PersonWeapon:constructor(model, config, createFireModule)
 		super.constructor(self, model, config, createFireModule, PersonWeaponAssetParser.new())
-		self.animation = PersonWeaponAnimation.new(self.OwnerState:GetCurrent(), self.config.AnimationSet, self.DataObject.Assets, self.WeaponModel)
+		self.OwnerState.ChangeOwnerEvent.Event:Connect(function(_, plr)
+			if plr then
+				self.animation = self:CreatePersonAnimation(plr)
+			end
+		end)
+	end
+	function PersonWeapon:CreatePersonAnimation(owner)
+		return PersonWeaponAnimation.new(owner, self.config.AnimationSet, self.DataObject.Assets, self.WeaponModel)
 	end
 	function PersonWeapon:Reload()
 		if RunService:IsClient() then
-			self.animation:PlayReload()
+			local _result = self.animation
+			if _result ~= nil then
+				_result:PlayReload()
+			end
 		end
-		-- return super.Reload()
 	end
 end
 return {

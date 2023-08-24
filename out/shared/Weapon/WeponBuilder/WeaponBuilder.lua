@@ -20,11 +20,11 @@ do
 	function WeaponBuilder:Build()
 		local weaponModel = self.buildData.WeaponModel
 		local config = self.buildData.Config
-		if not weaponModel or (not config or (not self.createFireModule or not self.assetsParser)) then
+		if not weaponModel or (not config or not self.createFireModule) then
 			error("Not inited parameters for " .. (script.Name .. ".Build()"))
 		end
 		table.clear(self.buildData)
-		return self:CreateWeapon(weaponModel, config, self.assetsParser)
+		return self:CreateWeapon(weaponModel, config)
 	end
 end
 return {

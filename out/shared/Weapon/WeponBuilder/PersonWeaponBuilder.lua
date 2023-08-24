@@ -19,10 +19,9 @@ do
 	end
 	function PersonWeaponBuilder:constructor(...)
 		super.constructor(self, ...)
-		self.assetsParser = nil
 		self.modelParser = PersonWeaponModelParser.new()
 	end
-	function PersonWeaponBuilder:CreateWeapon(model, config, assetParser)
+	function PersonWeaponBuilder:CreateWeapon(model, config)
 		return PersonWeapon.new(model, config, self.createFireModule)
 	end
 end
