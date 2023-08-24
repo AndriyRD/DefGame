@@ -1,12 +1,12 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local RunService = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").RunService
-local BaseWeapon = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Weapons", "BaseWeapon").BaseWeapon
 local PersonWeaponAnimation = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Animation", "PersonWeaponAnimation").PersonWeaponAnimation
 local PersonWeaponAssetParser = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Asset", "PersonWeaponAssetParser").PersonWeaponAssetParser
+local Weapon = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Weapon").Weapon
 local PersonWeapon
 do
-	local super = BaseWeapon
+	local super = Weapon
 	PersonWeapon = setmetatable({}, {
 		__tostring = function()
 			return "PersonWeapon"
@@ -26,7 +26,7 @@ do
 		if RunService:IsClient() then
 			self.animation:PlayReload()
 		end
-		return super.Reload(self)
+		-- return super.Reload()
 	end
 end
 return {

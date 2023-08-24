@@ -6,9 +6,8 @@ import { FireModuleFactory } from "./WeponBuilder/FireModuleFactoryType";
 import { BaseWeaponBuilder } from "./WeponBuilder/BaseWeaponBuilder";
 import { PersonWeaponBuilder } from "./WeponBuilder/PersonWeaponBuilder";
 import { WEAPON_CLASSES } from "./WEAPON_CLASSES";
-import WEAPON_CONFIG_LIST from "./WEAPON_CONFIG_LIST";
 import { IWeaponAssets } from "./Asset/IWeaponAssets";
-import { IPresonWeaponConfig } from "./WeaponConfigurations/IPresonWeaponConfig";
+import { ConfigurationSrorage } from "shared/Configuration/ConfigurationSrorage";
 
 export abstract class WeaponManager {
     protected builders = {
@@ -27,7 +26,7 @@ export abstract class WeaponManager {
     RegisterWeapon(plaeyr: Player, model: Model){
         let playerWeaponList = this.weaponList.get(plaeyr)
         const name = model.Name
-        const config = WEAPON_CONFIG_LIST.get(name)
+        const config = ConfigurationSrorage.WeaponConfiguration.Get(name)
         if(!config) error(`Not found config for weapon: ${name}`)
         const builder = this.builders[config.WeaponClass]
 
@@ -38,7 +37,7 @@ export abstract class WeaponManager {
             .Build()
 
         if(!playerWeaponList) playerWeaponList = new Array()
-        playerWeaponList.push(newWeapon)
+        playerWeaponList.push(newWeapon as any)
         this.weaponList.set(plaeyr, playerWeaponList)
         return newWeapon
     }

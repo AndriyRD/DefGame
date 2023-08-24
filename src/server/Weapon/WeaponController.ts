@@ -17,7 +17,7 @@ export class WeaponController extends PlayerStorageContainer<string, Weapon<IWea
         const weapon = this.serverWeaponManager.RegisterWeapon(owner, model)
         const id = weapon.DataObject.Name
 
-        this.AddItem(owner, id, weapon)
+        this.AddItem(owner, id, weapon as Weapon<IWeaponConfig, IWeaponModel, IWeaponAssets>)
         this.playerFireModules.Add(
             owner, 
             id, 

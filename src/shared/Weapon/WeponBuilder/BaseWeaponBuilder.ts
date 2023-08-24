@@ -7,7 +7,7 @@ import { IAssetParser } from "../Asset/IAssetParser";
 import { WeaponAssetParser } from "../Asset/WeaponAssetParser";
 import { WeaponBuilder } from "./WeaponBuilder";
 
-export class BaseWeaponBuilder extends WeaponBuilder<IWeaponConfig, IWeaponModel, IWeaponAssets>{
+export class BaseWeaponBuilder extends WeaponBuilder<BaseWeapon>{
     protected assetsParser = new WeaponAssetParser()
     protected modelParser = new WeaponModelParser()
 

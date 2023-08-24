@@ -10,8 +10,9 @@ import { PersonWeaponAssetParser } from "../Asset/PersonWeaponAssetParser";
 import { FireModuleFactory } from "../WeponBuilder/FireModuleFactoryType";
 import { Weapon } from "../Weapon";
 import { IAssetParser } from "../Asset/IAssetParser";
+import { IWeapon } from "../IWeapon";
 
-export class PersonWeapon extends Weapon<IPresonWeaponConfig, IPersonWeaponModel, IPersonWeaponAssets>{
+export class PersonWeapon extends Weapon<IPresonWeaponConfig, IPersonWeaponModel, IPersonWeaponAssets> implements IWeapon{
     private readonly animation: PersonWeaponAnimation
 
     Reload() {

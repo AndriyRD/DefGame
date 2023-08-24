@@ -7,7 +7,7 @@ import { IPersonWeaponModel } from "../WeaponModel/IPersonWeaponModel";
 import { PersonWeapon } from "../Weapons/PersonWeapon";
 import { WeaponBuilder } from "./WeaponBuilder";
 
-export class PersonWeaponBuilder extends WeaponBuilder<IPresonWeaponConfig, IPersonWeaponModel, IPersonWeaponAssets> {
+export class PersonWeaponBuilder extends WeaponBuilder<PersonWeapon> {
     protected assetsParser = undefined
     protected modelParser = new PersonWeaponModelParser()
 

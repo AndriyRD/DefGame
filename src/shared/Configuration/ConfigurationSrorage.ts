@@ -36,6 +36,7 @@ export class ConfigurationSrorage{
                 Relaod: '14085080526'
             }
         },
+        
         MachineGun: {
             Damage: 7,
             FireSpeed: 20,

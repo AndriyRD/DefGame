@@ -1,15 +1,15 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local WeaponBuilder = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WeponBuilder", "WeaponBuilder").WeaponBuilder
+local BaseWeaponBuilder = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WeponBuilder", "BaseWeaponBuilder").BaseWeaponBuilder
 local PersonWeaponBuilder = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WeponBuilder", "PersonWeaponBuilder").PersonWeaponBuilder
 local WEAPON_CLASSES = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WEAPON_CLASSES").WEAPON_CLASSES
-local WEAPON_CONFIG_LIST = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WEAPON_CONFIG_LIST")
+local ConfigurationSrorage = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Configuration", "ConfigurationSrorage").ConfigurationSrorage
 local WeaponManager
 do
 	WeaponManager = {}
 	function WeaponManager:constructor()
 		self.builders = {
-			[WEAPON_CLASSES.DEFAULT] = WeaponBuilder.new(),
+			[WEAPON_CLASSES.DEFAULT] = BaseWeaponBuilder.new(),
 			[WEAPON_CLASSES.PERSON_WEAPOM] = PersonWeaponBuilder.new(),
 		}
 		self.weaponList = {}
@@ -29,7 +29,7 @@ do
 		local _plaeyr = plaeyr
 		local playerWeaponList = _weaponList[_plaeyr]
 		local name = model.Name
-		local config = WEAPON_CONFIG_LIST[name]
+		local config = ConfigurationSrorage.WeaponConfiguration:Get(name)
 		if not config then
 			error("Not found config for weapon: " .. name)
 		end

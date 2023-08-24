@@ -1,13 +1,14 @@
 import { IAssetParser } from "./Asset/IAssetParser"
 import { IWeaponAssets } from "./Asset/IWeaponAssets"
 import { FireModule } from "./FireModule/FireModule"
+import { IWeapon } from "./IWeapon"
 import { IWeaponConfig } from "./WeaponConfigurations/IWeaponConfig"
 import { WeaponDataObject } from "./WeaponDataObject"
 import { IWeaponModel } from "./WeaponModel/IWeaponModel"
 import { WeaponOwnerState } from "./WeaponOwnerState"
 import { FireModuleFactory } from "./WeponBuilder/FireModuleFactoryType"
 
-export abstract class Weapon<ConfigType extends IWeaponConfig, ModelType extends IWeaponModel, AssetsType extends IWeaponAssets>{
+export abstract class Weapon<ConfigType extends IWeaponConfig, ModelType extends IWeaponModel, AssetsType extends IWeaponAssets> implements IWeapon{
     readonly OwnerState: WeaponOwnerState
     readonly DataObject: WeaponDataObject<AssetsType>
     readonly fireModule: FireModule<ModelType, AssetsType>

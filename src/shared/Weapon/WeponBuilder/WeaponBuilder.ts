@@ -6,31 +6,36 @@ import { FireModuleFactory } from "./FireModuleFactoryType";
 import { IWeaponAssets } from "../Asset/IWeaponAssets";
 import { IAssetParser } from "../Asset/IAssetParser";
 import { IWeaponModelParser } from "../ModelParsers/IWeaponModelParser";
+import { IWeapon } from "../IWeapon";
 
-export abstract class WeaponBuilder<T extends IWeaponConfig, U extends IWeaponModel, K extends IWeaponAssets>{
-    protected readonly buildData = {} as IWeaponBuildData<T, U>
-    protected createFireModule: FireModuleFactory<U, K> | undefined
-    protected readonly abstract assetsParser: IAssetParser<K> | undefined
-    protected readonly abstract modelParser: IWeaponModelParser<U>
+type ExtendsConfig = IWeaponConfig & any
+type ExtendsModel = IWeaponModel & any
+type ExtendsAssets = IWeaponAssets & any
 
-    protected abstract CreateWeapon<WeaponType extends Weapon<T, U, K>>(model: U, config: T, assetParser: IAssetParser<K> | undefined): any
+export abstract class WeaponBuilder<T extends IWeapon>{
+    protected readonly buildData = {} as IWeaponBuildData<IWeaponConfig, IWeaponModel>
+    protected createFireModule: FireModuleFactory<ExtendsModel, ExtendsAssets> | undefined
+    protected readonly abstract assetsParser: IAssetParser<IWeaponAssets> | undefined
+    protected readonly abstract modelParser: IWeaponModelParser<IWeaponModel>
+
+    protected abstract CreateWeapon<T>(model: IWeaponModel, config: IWeaponConfig, assetParser: IAssetParser<IWeaponAssets> | undefined): any
 
     ParseModel(model: Model){
         this.buildData.WeaponModel = this.modelParser.Parse(model) as any
         return this
     }
 
-    SetConfig(config: T){
+    SetConfig(config: T & any){
         this.buildData.Config = config
         return this
     }
 
-    SetFireModuleFactory(factory: FireModuleFactory<U, K>) {
+    SetFireModuleFactory(factory: FireModuleFactory<IWeaponModel, IWeaponAssets>) {
         this.createFireModule = factory
         return this
     }
 
-    Build<WeaponType extends Weapon<T, U, K>>(): WeaponType  {
+    Build():T {
         const weaponModel = this.buildData.WeaponModel
         const config = this.buildData.Config
         if(!weaponModel || !config || !this.createFireModule || !this.assetsParser)
