@@ -2,27 +2,29 @@
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local FireModule = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "FireModule", "FireModule").FireModule
 local BaseHitHandler = TS.import(script, game:GetService("ServerScriptService"), "TS", "Weapon", "ServerWeaponHandlers", "Base", "ServerBaseHitHandler").BaseHitHandler
-local BaseFireHandler
+local ServerBaseFireModule
 do
 	local super = FireModule
-	BaseFireHandler = setmetatable({}, {
+	ServerBaseFireModule = setmetatable({}, {
 		__tostring = function()
-			return "BaseFireHandler"
+			return "ServerBaseFireModule"
 		end,
 		__index = super,
 	})
-	BaseFireHandler.__index = BaseFireHandler
-	function BaseFireHandler.new(...)
-		local self = setmetatable({}, BaseFireHandler)
+	ServerBaseFireModule.__index = ServerBaseFireModule
+	function ServerBaseFireModule.new(...)
+		local self = setmetatable({}, ServerBaseFireModule)
 		return self:constructor(...) or self
 	end
-	function BaseFireHandler:constructor(...)
+	function ServerBaseFireModule:constructor(...)
 		super.constructor(self, ...)
 		self.hitHandler = BaseHitHandler.new()
 	end
-	function BaseFireHandler:Fire()
+	function ServerBaseFireModule:Fire()
+	end
+	function ServerBaseFireModule:Dispose()
 	end
 end
 return {
-	BaseFireHandler = BaseFireHandler,
+	ServerBaseFireModule = ServerBaseFireModule,
 }

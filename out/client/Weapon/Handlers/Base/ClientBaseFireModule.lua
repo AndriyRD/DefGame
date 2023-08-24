@@ -3,29 +3,27 @@ local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_incl
 local WeaponRayCasting = TS.import(script, script.Parent, "WeaponRayCasting").WeaponRayCasting
 local ShotTrace = TS.import(script, script.Parent, "VisualEffects", "Trace", "ShotTrace").ShotTrace
 local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
-local EntityStorageUnpacked = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Entity", "EntityStorage", "EntityStorageUnpacked").EntityStorageUnpacked
 local EntityStorageFactory = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Entity", "EntityStorage", "EntityStorageFactory").EntityStorageFactory
 local BaseParticleSet = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "ParticleEmitterSet", "BaseParticleSet").BaseParticleSet
 local FireModule = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "FireModule", "FireModule").FireModule
 local BaseHitHandler = TS.import(script, script.Parent, "ClientBaseHitHandler").BaseHitHandler
-local BaseFireHandler
+local BaseFireModule
 do
 	local super = FireModule
-	BaseFireHandler = setmetatable({}, {
+	BaseFireModule = setmetatable({}, {
 		__tostring = function()
-			return "BaseFireHandler"
+			return "BaseFireModule"
 		end,
 		__index = super,
 	})
-	BaseFireHandler.__index = BaseFireHandler
-	function BaseFireHandler.new(...)
-		local self = setmetatable({}, BaseFireHandler)
+	BaseFireModule.__index = BaseFireModule
+	function BaseFireModule.new(...)
+		local self = setmetatable({}, BaseFireModule)
 		return self:constructor(...) or self
 	end
-	function BaseFireHandler:constructor(owner, weaponData, model)
-		super.constructor(self, owner, weaponData, model)
+	function BaseFireModule:constructor(weaponData, model)
+		super.constructor(self, weaponData, model)
 		self.hitHandler = BaseHitHandler.new()
-		self.caster = WeaponRayCasting.new(owner)
 		self.shotTrace = ShotTrace.new(self.weponModel)
 		self.fireSound = self.weaponData.Assets.Sounds.Fire
 		self.smokeParticleSet = BaseParticleSet.new(Instance.new("Attachment", self.weponModel.Muzzle)):AddByOrigin(self.weaponData.Assets.Particles.FireSmoke[1], {
@@ -33,10 +31,24 @@ do
 		}):AddByOrigin(self.weaponData.Assets.Particles.FireSmoke[2], {
 			EmitParticleCount = 10,
 		})
-		self.entityStorage = EntityStorageUnpacked.new(EntityStorageFactory:CreateByOtherTeams(self.currentOwner.Team, GlobalConfig.TAGS.DAMAGEBLE_ENTITY):AutoRegisterMode(true))
+		self.entityStorage = nil
 	end
-	function BaseFireHandler:Fire()
-		local res = self.caster:Cast()
+	function BaseFireModule:Dispose()
+	end
+	function BaseFireModule:OnChagneOwner(plr)
+		self.caster = WeaponRayCasting.new(plr)
+		self.entityStorage = EntityStorageFactory:CreateByOtherTeams(plr.Team, GlobalConfig.TAGS.DAMAGEBLE_ENTITY):AutoRegisterMode(true)
+		return super.OnChagneOwner(self, plr)
+	end
+	function BaseFireModule:Fire()
+		local _res = self.caster
+		if _res ~= nil then
+			_res = _res:Cast()
+		end
+		local res = _res
+		if not res then
+			return nil
+		end
 		local rayRes = res.RaycastResult
 		if rayRes then
 			self.hitHandler:OnHit(rayRes)
@@ -56,5 +68,5 @@ do
 	end
 end
 return {
-	BaseFireHandler = BaseFireHandler,
+	BaseFireModule = BaseFireModule,
 }

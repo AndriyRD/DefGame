@@ -7,7 +7,6 @@ export class TeamEventListener implements IEventListener {
     }
 
     OnJoinToTeam = (plr: Player, teamName: string) => {
-        print('Team join to' + tostring(teamName))
         plr.Team = Teams.GetTeams().find((v) => v.Name === teamName)
     }
 }

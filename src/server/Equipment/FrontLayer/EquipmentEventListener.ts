@@ -13,7 +13,6 @@ export class EquipmentEventListener implements IEventListener{
     }
 
     OnCreateEquipment = (player: Player, name: string) => {
-        print('===>>> Create equipment')
         const data = this.equipmentServiceAPI.Create(player, name) as Array<unknown>
         const createEquipmentData = {
             Model: data[0],

@@ -6,6 +6,7 @@ import { EventProvider } from "client/EventProvider";
 import { WeaponProvider } from "client/Weapon/WeaponProvider";
 import { AutoFire } from "shared/Weapon/FireModule/AutoFire";
 import { PersonWeapon } from "shared/Weapon/Weapons/PersonWeapon";
+import { IEquipment } from "shared/Equipment/IEquipment";
 
 export class WeaponWrappedEquipment extends ClientBaseWrapperEquipment{
     private readonly events = EventProvider.Weapon
@@ -32,5 +33,10 @@ export class WeaponWrappedEquipment extends ClientBaseWrapperEquipment{
         this.bindWeaponModule.Unbind()
         this.events.Unequip.Fire()
         return super.Unequip()
+    }
+
+    constructor(equipment: IEquipment){
+        super(equipment)
+        this.weapon.OwnerState.ChagneOwner(equipment.GetOwner())
     }
 }

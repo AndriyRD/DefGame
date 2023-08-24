@@ -2,10 +2,22 @@
 local FireModule
 do
 	FireModule = {}
-	function FireModule:constructor(currentOwner, weaponData, weponModel)
-		self.currentOwner = currentOwner
+	function FireModule:constructor(weaponData, weponModel)
 		self.weaponData = weaponData
 		self.weponModel = weponModel
+		self.GetCurrentOwner = function()
+			return self.currentOwner
+		end
+		self.CanFire = function()
+			return self.currentOwner ~= nil
+		end
+	end
+	function FireModule:OnChagneOwner(owner)
+		self.currentOwner = owner
+		return self
+	end
+	function FireModule:OnRemoveOwner()
+		self.currentOwner = nil
 	end
 end
 return {

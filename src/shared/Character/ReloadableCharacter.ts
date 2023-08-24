@@ -41,7 +41,6 @@ export class ReloadableCharacter {
         this.Events.get(CHARACTER_LOAD_EVENT_NAMES.ROOT)!.Fire(this.root)
 
         this.animator = this.hum.WaitForChild('Animator') as Animator
-        print('Reloaded animator')
         this.Events.get(CHARACTER_LOAD_EVENT_NAMES.ANIMATOR)!.Fire(this.animator)
 
         this.animateScript = this.char.WaitForChild(AnimationConfig.ANIMATE_SCRIPT_NAME) as Instance

@@ -12,8 +12,7 @@ new CharacterController().Start()
 new GameLoader()
     .RegisterGameMode(new TeamWarsGameMode())
     .Startup()
-task.wait(5)
-print('Call create weapon')
+
 craeteEquipmentEvent.FireServer('AK47')
 
 new ReloadableCharacter(Players.LocalPlayer).Events.get(CHARACTER_LOAD_EVENT_NAMES.CHARACTER)?.Event.Connect(()=>{

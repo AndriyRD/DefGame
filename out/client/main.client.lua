@@ -14,8 +14,6 @@ local craeteEquipmentEvent = remote:WaitForChild("CreateEquipment")
 -- craeteEquipmentEvent.FireServer('RocketLauncher')
 CharacterController.new():Start()
 GameLoader.new():RegisterGameMode(TeamWarsGameMode.new()):Startup()
-task.wait(5)
-print("Call create weapon")
 craeteEquipmentEvent:FireServer("AK47")
 local _events = ReloadableCharacter.new(Players.LocalPlayer).Events
 local _cHARACTER = CHARACTER_LOAD_EVENT_NAMES.CHARACTER

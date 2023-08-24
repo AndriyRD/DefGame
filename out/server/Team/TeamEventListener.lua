@@ -15,7 +15,6 @@ do
 	end
 	function TeamEventListener:constructor()
 		self.OnJoinToTeam = function(plr, teamName)
-			print("Team join to" .. tostring(teamName))
 			local _exp = Teams:GetTeams()
 			local _arg0 = function(v)
 				return v.Name == teamName

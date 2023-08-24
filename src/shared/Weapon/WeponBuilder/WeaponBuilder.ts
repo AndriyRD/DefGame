@@ -1,71 +1,42 @@
-import { Reflection } from "shared/Reflection";
+import { Weapon } from "../Weapon";
 import { IWeaponBuildData } from "./IWeaponBuildData";
-import { IWeaponBuilder } from "./IWeaponBuilder";
 import { IWeaponConfig } from "../WeaponConfigurations/IWeaponConfig";
 import { IWeaponModel } from "../WeaponModel/IWeaponModel";
-import { Weapon } from "../Weapon";
 import { FireModuleFactory } from "./FireModuleFactoryType";
-import { BaseWeapon } from "../Weapons/BaseWeapon";
-import { WeaponModelParser } from "../ModelParsers/WeaponModelParser";
 import { IWeaponAssets } from "../Asset/IWeaponAssets";
 import { IAssetParser } from "../Asset/IAssetParser";
+import { IWeaponModelParser } from "../ModelParsers/IWeaponModelParser";
 
-export class WeaponBuilder implements IWeaponBuilder<IWeaponConfig, IWeaponModel, IWeaponAssets>{
-    protected readonly buildData = {} as IWeaponBuildData<IWeaponConfig, IWeaponModel>
-    protected fireModuleFactory: FireModuleFactory<IWeaponModel, IWeaponAssets> | undefined
-    protected assetsParser: IAssetParser<IWeaponAssets> | undefined
-    protected modelParser = new WeaponModelParser()
-    private classInstanceProps = Reflection.ConvertObjectToMap(this)
+export abstract class WeaponBuilder<T extends IWeaponConfig, U extends IWeaponModel, K extends IWeaponAssets>{
+    protected readonly buildData = {} as IWeaponBuildData<T, U>
+    protected createFireModule: FireModuleFactory<U, K> | undefined
+    protected readonly abstract assetsParser: IAssetParser<K> | undefined
+    protected readonly abstract modelParser: IWeaponModelParser<U>
 
-    protected ExistProp(propName: string){
-        return this.classInstanceProps.get(propName) !== undefined
-    }
-
-    protected CanCreateBaseWeapon(){
-        for (const item of this.classInstanceProps)
-            if(!this.ExistProp(item[0]))
-                return false
-        return true
-    }
+    protected abstract CreateWeapon<WeaponType extends Weapon<T, U, K>>(model: U, config: T, assetParser: IAssetParser<K> | undefined): any
 
     ParseModel(model: Model){
         this.buildData.WeaponModel = this.modelParser.Parse(model) as any
         return this
     }
 
-    SetConfig(config: IWeaponConfig){
+    SetConfig(config: T){
         this.buildData.Config = config
         return this
     }
 
-    GetConfig(){
-        return this.buildData.Config
-    }
-
-    SetFireModuleFactory(factory: FireModuleFactory<IWeaponModel, IWeaponAssets>) {
-        this.fireModuleFactory = factory
+    SetFireModuleFactory(factory: FireModuleFactory<U, K>) {
+        this.createFireModule = factory
         return this
     }
 
-    SetWeaponParser(parser: IAssetParser<IWeaponAssets>){
-        this.assetsParser = parser
-        return this
-    }
-
-    Build(): Weapon<IWeaponConfig, IWeaponModel, IWeaponAssets> {
+    Build<WeaponType extends Weapon<T, U, K>>(): WeaponType  {
         const weaponModel = this.buildData.WeaponModel
         const config = this.buildData.Config
-
-        if(!weaponModel || !config || !this.fireModuleFactory || !this.assetsParser)
+        if(!weaponModel || !config || !this.createFireModule || !this.assetsParser)
             error(`Not inited parameters for ${script.Name}.Build()`)
 
-        const weapon = new BaseWeapon<IWeaponConfig, IWeaponModel, IWeaponAssets>(
-            weaponModel, 
-            config, 
-            this.fireModuleFactory(weaponModel),
-            this.assetsParser)
-
         table.clear(this.buildData)
-        return weapon
+        return this.CreateWeapon(weaponModel, config, this.assetsParser)
     }
 }

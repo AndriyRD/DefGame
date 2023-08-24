@@ -18,8 +18,8 @@ do
 		local self = setmetatable({}, PersonWeapon)
 		return self:constructor(...) or self
 	end
-	function PersonWeapon:constructor(model, config, fireModule)
-		super.constructor(self, model, config, fireModule, PersonWeaponAssetParser.new())
+	function PersonWeapon:constructor(model, config, createFireModule)
+		super.constructor(self, model, config, createFireModule, PersonWeaponAssetParser.new())
 		self.animation = PersonWeaponAnimation.new(self.OwnerState:GetCurrent(), self.config.AnimationSet, self.DataObject.Assets, self.WeaponModel)
 	end
 	function PersonWeapon:Reload()

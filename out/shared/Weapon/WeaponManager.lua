@@ -4,7 +4,6 @@ local WeaponBuilder = TS.import(script, game:GetService("ReplicatedStorage"), "T
 local PersonWeaponBuilder = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WeponBuilder", "PersonWeaponBuilder").PersonWeaponBuilder
 local WEAPON_CLASSES = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WEAPON_CLASSES").WEAPON_CLASSES
 local WEAPON_CONFIG_LIST = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WEAPON_CONFIG_LIST")
-local Reflection = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Reflection").Reflection
 local WeaponManager
 do
 	WeaponManager = {}
@@ -34,9 +33,7 @@ do
 		if not config then
 			error("Not found config for weapon: " .. name)
 		end
-		local _exp = Reflection:ConvertObjectToMap(self.builders)
-		local _arg0 = tostring(config.WeaponClass)
-		local builder = _exp[_arg0]
+		local builder = self.builders[config.WeaponClass]
 		local newWeapon = builder:SetConfig(config):ParseModel(model):SetFireModuleFactory(self:FindHandlerFactory(config.HandlerType)):Build()
 		if not playerWeaponList then
 			playerWeaponList = {}

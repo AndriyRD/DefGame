@@ -1,8 +1,9 @@
 import { ReplicatedStorage } from "@rbxts/services";
 import { IWeaponAssets } from "./IWeaponAssets";
+import { IAssetParser } from "./IAssetParser";
 const weaponDir = ReplicatedStorage.WaitForChild('Weapon') as Folder
 
-export class WeaponAssetParser {
+export class WeaponAssetParser implements IAssetParser<IWeaponAssets> {
     protected readonly ASSET_DIR = weaponDir.WaitForChild('Assets') as Folder
     protected readonly COMMON_ASSETS_DIR = this.ASSET_DIR.WaitForChild('Common')
     protected readonly options = {
@@ -41,9 +42,6 @@ export class WeaponAssetParser {
         return {
             Sounds: {
                 Fire: soundsDir.WaitForChild('Fire') as Sound,
-                // Equip: sounds.get('Equip')!,
-                // Unequip: sounds.get('Unequip')!,
-                // Reload: sounds.get('Reload')!
             },
 
             Particles:{

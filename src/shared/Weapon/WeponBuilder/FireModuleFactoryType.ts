@@ -3,4 +3,4 @@ import { FireModule } from "../FireModule/FireModule";
 import { WeaponDataObject } from "../WeaponDataObject";
 import { IWeaponModel } from "../WeaponModel/IWeaponModel";
 
-export type FireModuleFactory<T extends IWeaponModel, U extends IWeaponAssets> = (model: T) => FireModule<T, U>
+export type FireModuleFactory<T extends IWeaponModel, U extends IWeaponAssets> = (model: T, dataObject: WeaponDataObject<U>) => FireModule<T, U>

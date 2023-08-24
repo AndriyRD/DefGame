@@ -15,10 +15,9 @@ do
 		self.ChangeOwnerEvent = Instance.new("BindableEvent")
 	end
 	function WeaponOwnerState:ChagneOwner(newOwner)
-		if not self.owner then
-			self.owner = newOwner
-			self.ChangeOwnerEvent:Fire(nil, newOwner)
-		end
+		self.owner = newOwner
+		self.owner = newOwner
+		self.ChangeOwnerEvent:Fire(nil, newOwner)
 		return self
 	end
 	function WeaponOwnerState:RemoveOwner()

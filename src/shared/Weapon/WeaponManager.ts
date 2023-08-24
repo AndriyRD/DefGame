@@ -3,16 +3,16 @@ import { WEAPON_HANDLER_TYPES } from "./WEAPON_HANDLER_TYPES";
 import { IWeaponConfig } from "./WeaponConfigurations/IWeaponConfig";
 import { IWeaponModel } from "./WeaponModel/IWeaponModel";
 import { FireModuleFactory } from "./WeponBuilder/FireModuleFactoryType";
-import { WeaponBuilder } from "./WeponBuilder/WeaponBuilder";
+import { BaseWeaponBuilder } from "./WeponBuilder/BaseWeaponBuilder";
 import { PersonWeaponBuilder } from "./WeponBuilder/PersonWeaponBuilder";
 import { WEAPON_CLASSES } from "./WEAPON_CLASSES";
 import WEAPON_CONFIG_LIST from "./WEAPON_CONFIG_LIST";
 import { IWeaponAssets } from "./Asset/IWeaponAssets";
-import { Reflection } from "shared/Reflection";
+import { IPresonWeaponConfig } from "./WeaponConfigurations/IPresonWeaponConfig";
 
 export abstract class WeaponManager {
     protected builders = {
-        [WEAPON_CLASSES.DEFAULT]: new WeaponBuilder(),
+        [WEAPON_CLASSES.DEFAULT]: new BaseWeaponBuilder(),
         [WEAPON_CLASSES.PERSON_WEAPOM]: new PersonWeaponBuilder()
     }
     protected readonly weaponList = new Map<Player, Weapon<IWeaponConfig, IWeaponModel, IWeaponAssets>[]>
@@ -29,7 +29,7 @@ export abstract class WeaponManager {
         const name = model.Name
         const config = WEAPON_CONFIG_LIST.get(name)
         if(!config) error(`Not found config for weapon: ${name}`)
-        const builder = Reflection.ConvertObjectToMap<WeaponBuilder>(this.builders).get(tostring(config.WeaponClass))!
+        const builder = this.builders[config.WeaponClass]
 
         const newWeapon = builder
             .SetConfig(config)
@@ -37,14 +37,13 @@ export abstract class WeaponManager {
             .SetFireModuleFactory(this.FindHandlerFactory(config.HandlerType))
             .Build()
 
-        if(!playerWeaponList)
-            playerWeaponList = new Array()
+        if(!playerWeaponList) playerWeaponList = new Array()
         playerWeaponList.push(newWeapon)
         this.weaponList.set(plaeyr, playerWeaponList)
         return newWeapon
     }
 
     UnregisterWeapon(){
-        //TODO: Clear from memory
+        //TODO: Clear from memory   
     }
 }

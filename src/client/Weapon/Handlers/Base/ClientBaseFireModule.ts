@@ -2,28 +2,41 @@ import { WeaponRayCasting } from "./WeaponRayCasting";
 import { IHitHandler } from "shared/Weapon/FireModule/IHitHandler";
 import { ShotTrace } from "./VisualEffects/Trace/ShotTrace";
 import { GlobalConfig } from "shared/GlobalConfig";
-import { EntityStorageUnpacked } from "shared/Entity/EntityStorage/EntityStorageUnpacked";
 import { EntityStorageFactory } from "shared/Entity/EntityStorage/EntityStorageFactory";
 import { BaseParticleSet } from "shared/ParticleEmitterSet/BaseParticleSet";
 import { WeaponDataObject } from "shared/Weapon/WeaponDataObject";
 import { IPersonWeaponModel } from "shared/Weapon/WeaponModel/IPersonWeaponModel";
 import { FireModule } from "shared/Weapon/FireModule/FireModule";
 import { BaseHitHandler } from "./ClientBaseHitHandler"
-import { IAssetParser } from "shared/Weapon/Asset/IAssetParser";
+import { EntityStorage } from "shared/Entity/EntityStorage/EntityStorage";
+import { IWeaponModel } from "shared/Weapon/WeaponModel/IWeaponModel";
 import { IWeaponAssets } from "shared/Weapon/Asset/IWeaponAssets";
-import { IPersonWeaponAssets } from "shared/Weapon/Asset/IPersonWeaponAssets";
 
-export class BaseFireHandler extends FireModule<IPersonWeaponModel, IPersonWeaponAssets>{
-    private readonly entityStorage
+export class BaseFireModule extends FireModule<IWeaponModel, IWeaponAssets>{
+    private entityStorage
     private readonly shotTrace
     private readonly smokeParticleSet
     protected readonly hitHandler: IHitHandler = new BaseHitHandler()
 
-    private readonly caster
+    private caster: WeaponRayCasting | undefined
     private readonly fireSound
 
+    Dispose(){
+        
+    }
+
+    OnChagneOwner(plr: Player){
+        this.caster = new WeaponRayCasting(plr)
+        this.entityStorage = EntityStorageFactory.CreateByOtherTeams(
+            plr.Team as Team, 
+            GlobalConfig.TAGS.DAMAGEBLE_ENTITY)
+                .AutoRegisterMode(true)
+        return super.OnChagneOwner(plr)
+    }
+
     Fire() {
-        const res = this.caster.Cast()
+        const res = this.caster?.Cast()
+        if (!res) return
         const rayRes = res.RaycastResult
         if (rayRes){
             this.hitHandler.OnHit(rayRes)
@@ -44,19 +57,13 @@ export class BaseFireHandler extends FireModule<IPersonWeaponModel, IPersonWeapo
         return this;
     }
 
-    constructor(owner: Player, weaponData: WeaponDataObject<IPersonWeaponAssets>, model: IPersonWeaponModel){
-        super(owner, weaponData, model)
-        this.caster = new WeaponRayCasting(owner)
+    constructor(weaponData: WeaponDataObject<IWeaponAssets>, model: IWeaponModel){
+        super(weaponData, model)
         this.shotTrace = new ShotTrace(this.weponModel)
         this.fireSound = this.weaponData.Assets.Sounds.Fire
         this.smokeParticleSet = new BaseParticleSet(new Instance('Attachment', this.weponModel.Muzzle))
             .AddByOrigin(this.weaponData.Assets.Particles.FireSmoke[0], {EmitParticleCount: 5})
             .AddByOrigin(this.weaponData.Assets.Particles.FireSmoke[1], {EmitParticleCount: 10})
-
-        this.entityStorage = new EntityStorageUnpacked(
-            EntityStorageFactory.CreateByOtherTeams(
-                this.currentOwner.Team as Team, 
-                GlobalConfig.TAGS.DAMAGEBLE_ENTITY)
-                    .AutoRegisterMode(true))
+        this.entityStorage = (undefined as any) as EntityStorage
     }
 }

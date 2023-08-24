@@ -5,16 +5,22 @@ import { IWeaponConfig } from "./WeaponConfigurations/IWeaponConfig"
 import { WeaponDataObject } from "./WeaponDataObject"
 import { IWeaponModel } from "./WeaponModel/IWeaponModel"
 import { WeaponOwnerState } from "./WeaponOwnerState"
+import { FireModuleFactory } from "./WeponBuilder/FireModuleFactoryType"
 
 export abstract class Weapon<ConfigType extends IWeaponConfig, ModelType extends IWeaponModel, AssetsType extends IWeaponAssets>{
     readonly OwnerState: WeaponOwnerState
     readonly DataObject: WeaponDataObject<AssetsType>
+    readonly fireModule: FireModule<ModelType, AssetsType>
 
-    protected abstract OnRemoveOwner(plr: Player): void
+    protected OnRemoveOwner(plr: Player){
+        this.fireModule.Dispose()
+    }
 
-    protected abstract OnNewOwner(plr: Player): void
+    protected OnNewOwner(plr: Player){
+        this.fireModule.OnChagneOwner(plr)
+    }
 
-    OnCreate(){
+    private OnCreate(){
         this.OwnerState.ChangeOwnerEvent.Event.Connect((oldPlr, newPlr) => {
             if(!newPlr && oldPlr)
                 this.OnRemoveOwner(oldPlr)
@@ -28,10 +34,12 @@ export abstract class Weapon<ConfigType extends IWeaponConfig, ModelType extends
     constructor(
         readonly WeaponModel: ModelType,
         protected readonly config: ConfigType,
-        readonly fireModule: FireModule<ModelType, AssetsType>,
+        readonly createFireModule: FireModuleFactory<ModelType, AssetsType>,
         assetParser: IAssetParser<AssetsType>
     ){
             this.DataObject = new WeaponDataObject(this.WeaponModel, config, assetParser)
             this.OwnerState = new WeaponOwnerState()
+            this.fireModule = createFireModule(WeaponModel, this.DataObject)
+            this.OnCreate()
     }
 }

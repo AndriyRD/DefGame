@@ -20,11 +20,12 @@ do
 		local self = setmetatable({}, WeaponWrappedEquipment)
 		return self:constructor(...) or self
 	end
-	function WeaponWrappedEquipment:constructor(...)
-		super.constructor(self, ...)
+	function WeaponWrappedEquipment:constructor(equipment)
+		super.constructor(self, equipment)
 		self.events = EventProvider.Weapon
 		self.weapon = WeaponProvider:RegisterWeapon(self:GetOwner(), self:GetModel())
 		self.bindWeaponModule = WeaponBindModule.new(self.weapon, AutoFire.new(self.weapon.fireModule))
+		self.weapon.OwnerState:ChagneOwner(equipment:GetOwner())
 	end
 	function WeaponWrappedEquipment:GetEquipmentType()
 		return EQUIPMENT_TYPES.WEAPON

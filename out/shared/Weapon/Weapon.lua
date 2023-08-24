@@ -5,12 +5,20 @@ local WeaponOwnerState = TS.import(script, game:GetService("ReplicatedStorage"),
 local Weapon
 do
 	Weapon = {}
-	function Weapon:constructor(WeaponModel, config, fireModule, assetParser)
+	function Weapon:constructor(WeaponModel, config, createFireModule, assetParser)
 		self.WeaponModel = WeaponModel
 		self.config = config
-		self.fireModule = fireModule
+		self.createFireModule = createFireModule
 		self.DataObject = WeaponDataObject.new(self.WeaponModel, config, assetParser)
 		self.OwnerState = WeaponOwnerState.new()
+		self.fireModule = createFireModule(WeaponModel, self.DataObject)
+		self:OnCreate()
+	end
+	function Weapon:OnRemoveOwner(plr)
+		self.fireModule:Dispose()
+	end
+	function Weapon:OnNewOwner(plr)
+		self.fireModule:OnChagneOwner(plr)
 	end
 	function Weapon:OnCreate()
 		self.OwnerState.ChangeOwnerEvent.Event:Connect(function(oldPlr, newPlr)

@@ -7,18 +7,21 @@ import { IPersonWeaponModel } from "../WeaponModel/IPersonWeaponModel";
 import { FireModule } from "../FireModule/FireModule";
 import { IPersonWeaponAssets } from "../Asset/IPersonWeaponAssets";
 import { PersonWeaponAssetParser } from "../Asset/PersonWeaponAssetParser";
+import { FireModuleFactory } from "../WeponBuilder/FireModuleFactoryType";
+import { Weapon } from "../Weapon";
+import { IAssetParser } from "../Asset/IAssetParser";
 
-export class PersonWeapon extends BaseWeapon<IPresonWeaponConfig, IPersonWeaponModel, IPersonWeaponAssets>{
+export class PersonWeapon extends Weapon<IPresonWeaponConfig, IPersonWeaponModel, IPersonWeaponAssets>{
     private readonly animation: PersonWeaponAnimation
 
     Reload() {
         if(RunService.IsClient())
             this.animation.PlayReload()
-        return super.Reload()
+        // return super.Reload()
     }
 
-    constructor(model: IPersonWeaponModel, config: IPresonWeaponConfig, fireModule: FireModule<IPersonWeaponModel, IPersonWeaponAssets>){
-            super(model, config, fireModule, new PersonWeaponAssetParser())
+    constructor(model: IPersonWeaponModel, config: IPresonWeaponConfig, createFireModule: FireModuleFactory<IPersonWeaponModel, IPersonWeaponAssets>){
+            super(model, config, createFireModule, new PersonWeaponAssetParser())
             this.animation = new PersonWeaponAnimation(
                 this.OwnerState.GetCurrent()!,
                 this.config.AnimationSet,

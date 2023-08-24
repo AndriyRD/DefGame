@@ -38,7 +38,6 @@ export class RemoteInstance {
             
         else if(this.instance.IsA("RemoteFunction"))
             instanceMap.set(this.FindKeyOnCallInstance(), cb) 
-        print(this.FindKeyOnCallInstance())
     }
 
     Destroy(){

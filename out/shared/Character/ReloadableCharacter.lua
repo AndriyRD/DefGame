@@ -65,7 +65,6 @@ do
 		local _rOOT = CHARACTER_LOAD_EVENT_NAMES.ROOT
 		_events_2[_rOOT]:Fire(self.root)
 		self.animator = self.hum:WaitForChild("Animator")
-		print("Reloaded animator")
 		local _events_3 = self.Events
 		local _aNIMATOR = CHARACTER_LOAD_EVENT_NAMES.ANIMATOR
 		_events_3[_aNIMATOR]:Fire(self.animator)

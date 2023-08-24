@@ -1,5 +1,6 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
+local PersonWeaponAssetParser = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Asset", "PersonWeaponAssetParser").PersonWeaponAssetParser
 local PersonWeaponModelParser = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "ModelParsers", "PersonWeaponModelParser").PersonWeaponModelParser
 local WeaponBuilder = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WeponBuilder", "WeaponBuilder").WeaponBuilder
 local PersonWeaponBuilder
@@ -19,6 +20,7 @@ do
 	function PersonWeaponBuilder:constructor(...)
 		super.constructor(self, ...)
 		self.modelParser = PersonWeaponModelParser.new()
+		self.assetsParser = PersonWeaponAssetParser.new()
 	end
 end
 return {

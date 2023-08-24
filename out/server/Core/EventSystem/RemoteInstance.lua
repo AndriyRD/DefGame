@@ -58,7 +58,6 @@ do
 			local _cb = cb
 			instanceMap[_arg0] = _cb
 		end
-		print(self:FindKeyOnCallInstance())
 	end
 	function RemoteInstance:Destroy()
 		self.instance:Destroy()

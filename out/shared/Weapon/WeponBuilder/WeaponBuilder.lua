@@ -3,6 +3,7 @@ local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_incl
 local Reflection = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Reflection").Reflection
 local BaseWeapon = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Weapons", "BaseWeapon").BaseWeapon
 local WeaponModelParser = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "ModelParsers", "WeaponModelParser").WeaponModelParser
+local WeaponAssetParser = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Asset", "WeaponAssetParser").WeaponAssetParser
 local WeaponBuilder
 do
 	WeaponBuilder = setmetatable({}, {
@@ -17,8 +18,9 @@ do
 	end
 	function WeaponBuilder:constructor()
 		self.buildData = {}
-		self.modelParser = WeaponModelParser.new()
 		self.classInstanceProps = Reflection:ConvertObjectToMap(self)
+		self.assetsParser = WeaponAssetParser.new()
+		self.modelParser = WeaponModelParser.new()
 	end
 	function WeaponBuilder:ExistProp(propName)
 		local _classInstanceProps = self.classInstanceProps
@@ -34,6 +36,12 @@ do
 		end
 		return true
 	end
+	function WeaponBuilder:CreateModelParser()
+		return WeaponModelParser.new()
+	end
+	function WeaponBuilder:CreateAssetParser()
+		return WeaponAssetParser.new()
+	end
 	function WeaponBuilder:ParseModel(model)
 		self.buildData.WeaponModel = self.modelParser:Parse(model)
 		return self
@@ -42,15 +50,8 @@ do
 		self.buildData.Config = config
 		return self
 	end
-	function WeaponBuilder:GetConfig()
-		return self.buildData.Config
-	end
 	function WeaponBuilder:SetFireModuleFactory(factory)
 		self.fireModuleFactory = factory
-		return self
-	end
-	function WeaponBuilder:SetWeaponParser(parser)
-		self.assetsParser = parser
 		return self
 	end
 	function WeaponBuilder:Build()
@@ -59,7 +60,9 @@ do
 		if not weaponModel or (not config or (not self.fireModuleFactory or not self.assetsParser)) then
 			error("Not inited parameters for " .. (script.Name .. ".Build()"))
 		end
-		local weapon = BaseWeapon.new(weaponModel, config, self.fireModuleFactory(weaponModel), self.assetsParser)
+		local weapon = BaseWeapon.new(weaponModel, config, function(m, d)
+			return self.fireModuleFactory(m, d)
+		end, self.assetsParser)
 		table.clear(self.buildData)
 		return weapon
 	end

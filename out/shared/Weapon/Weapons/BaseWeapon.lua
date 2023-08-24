@@ -18,10 +18,6 @@ do
 	function BaseWeapon:constructor(...)
 		super.constructor(self, ...)
 	end
-	function BaseWeapon:OnRemoveOwner(plr)
-	end
-	function BaseWeapon:OnNewOwner(plr)
-	end
 	function BaseWeapon:Reload()
 		self.DataObject.Ammo:Reload()
 	end

@@ -4,10 +4,9 @@ export class WeaponOwnerState {
         new Instance('BindableEvent')
 
     ChagneOwner(newOwner: Player){
-        if(!this.owner){
-            this.owner = newOwner
-            this.ChangeOwnerEvent.Fire(undefined, newOwner)
-        }
+        this.owner = newOwner
+        this.owner = newOwner
+        this.ChangeOwnerEvent.Fire(undefined, newOwner)
         return this
     }
 

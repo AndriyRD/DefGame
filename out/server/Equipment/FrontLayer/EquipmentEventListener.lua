@@ -19,7 +19,6 @@ do
 	function EquipmentEventListener:constructor()
 		self.equipmentServiceAPI = EquipmentApi.Import()
 		self.OnCreateEquipment = function(player, name)
-			print("===>>> Create equipment")
 			local data = self.equipmentServiceAPI.Create(player, name)
 			local createEquipmentData = {
 				Model = data[1],
