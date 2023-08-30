@@ -64,6 +64,7 @@ do
 		end
 		self.fireSound:Play()
 		self.smokeParticleSet:Emit()
+		self.weaponData.Ammo:GetMagazine():Take()
 		return self
 	end
 end

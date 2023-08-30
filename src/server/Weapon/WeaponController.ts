@@ -1,23 +1,17 @@
-import { PlayerStorageContainer } from "server/Core/PlayerStorage/PlayerStorageContainer";
 import { RemoteProvider } from "shared/RemoteProvider";
 import { PlayerFireModules } from "shared/Weapon/PlayerFireModules";
 import { ServerWeaponManager } from "./ServerWeaponManager";
-import { Weapon } from "shared/Weapon/Weapon";
-import { IWeaponConfig } from "shared/Weapon/WeaponConfigurations/IWeaponConfig";
-import { IWeaponModel } from "shared/Weapon/WeaponModel/IWeaponModel";
 import { AutoFire } from "shared/Weapon/FireModule/AutoFire";
-import { IWeaponAssets } from "shared/Weapon/Asset/IWeaponAssets";
 
-export class WeaponController extends PlayerStorageContainer<string, Weapon<IWeaponConfig, IWeaponModel, IWeaponAssets>> {
+export class WeaponController {
     private readonly remote = RemoteProvider.GetForWeapon()
-    private readonly serverWeaponManager = new ServerWeaponManager()
+    private readonly weaponManager = new ServerWeaponManager()
     private readonly playerFireModules = new PlayerFireModules()
 
     CreateWeapon(owner: Player, model: Model){
-        const weapon = this.serverWeaponManager.RegisterWeapon(owner, model)
+        const weapon = this.weaponManager.RegisterWeapon(model)
         const id = weapon.DataObject.Name
 
-        this.AddItem(owner, id, weapon as Weapon<IWeaponConfig, IWeaponModel, IWeaponAssets>)
         this.playerFireModules.Add(
             owner, 
             id, 
@@ -33,5 +27,21 @@ export class WeaponController extends PlayerStorageContainer<string, Weapon<IWea
     StopFire(plr: Player, id: string){
         this.playerFireModules.GetFireModule(plr, id).FireModule.StopFire()
         this.remote.StopFire.FireAllClients(plr, id)
+    }
+
+    Get(owner: Player, id: string){
+        return this.weaponManager.GetById(owner, id)
+    }
+
+    DropWeapon(owner: Player, id: string){
+        const weapon = this.weaponManager.GetById(owner, id)
+        if(weapon) weapon.OwnerState.RemoveOwner()
+        else error(`Not found weapon: ${id} for player: ${owner}`)
+    }
+
+    SetNewWeaponOwner(newOwner: Player, weaponModel: Model){
+        const weapon = this.weaponManager.GetByModel(weaponModel)
+        if(weapon) weapon.OwnerState.ChagneOwner(newOwner)
+        else error(`Not found registered weapon by model: ${weaponModel.GetFullName()}`)
     }
 }

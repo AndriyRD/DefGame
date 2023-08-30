@@ -19,13 +19,19 @@ do
 		self.controller:CreateWeapon(plr, model)
 	end
 	function WeaponServiceAPI:Get(plr, id)
-		return self.controller:Get(plr):GetItem(id)
+		return self.controller:Get(plr, id)
 	end
 	function WeaponServiceAPI:StartFire(plr, id)
 		self.controller:StartFire(plr, id)
 	end
 	function WeaponServiceAPI:StopFire(plr, id)
 		self.controller:StopFire(plr, id)
+	end
+	function WeaponServiceAPI:DropWeapon(owner, id)
+		self.controller:DropWeapon(owner, id)
+	end
+	function WeaponServiceAPI:SetNewOwner(owner, model)
+		self.controller:SetNewWeaponOwner(owner, model)
 	end
 	WeaponServiceAPI.controller = WeaponController.new()
 end

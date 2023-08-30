@@ -8,7 +8,7 @@ export class WeaponServiceAPI {
     }
 
     static Get(plr: Player, id: string){
-        return this.controller.Get(plr).GetItem(id)
+        return this.controller.Get(plr, id)
     }
 
     static StartFire(plr: Player, id: string){
@@ -17,5 +17,13 @@ export class WeaponServiceAPI {
 
     static StopFire(plr: Player, id: string){
         this.controller.StopFire(plr, id)
+    }
+
+    static DropWeapon(owner: Player, id: string){
+        this.controller.DropWeapon(owner, id)
+    }
+
+    static SetNewOwner(owner: Player, model: Model){
+        this.controller.SetNewWeaponOwner(owner, model)
     }
 }

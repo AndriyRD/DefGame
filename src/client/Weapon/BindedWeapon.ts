@@ -3,9 +3,9 @@ import { EventProvider } from "client/EventProvider"
 import { GlobalConfig } from "shared/GlobalConfig"
 import { RemoteProvider } from "shared/RemoteProvider"
 import { AutoFire } from "shared/Weapon/FireModule/AutoFire"
-import { PersonWeapon } from "shared/Weapon/Weapons/PersonWeapon"
+import { BaseWeapon } from "shared/Weapon/Weapons/BaseWeapon"
 
-export class WeaponBindModule {
+export class BindedWeapon{
     private readonly bindData = GlobalConfig.BIND_DATA.Weapon
     private readonly remote = RemoteProvider.GetForWeapon()
     private readonly cameraEvents = EventProvider.CharatcerController.Camera
@@ -44,7 +44,7 @@ export class WeaponBindModule {
     }
 
     constructor(
-        private readonly weapon: PersonWeapon,
+        private readonly weapon: BaseWeapon,
         private readonly autoFireModule: AutoFire){
             this.name = weapon.DataObject.Name
         }

@@ -1,22 +1,22 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local ContextActionService = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").ContextActionService
-local EventProvider = TS.import(script, script.Parent.Parent.Parent.Parent, "EventProvider").EventProvider
+local EventProvider = TS.import(script, script.Parent.Parent, "EventProvider").EventProvider
 local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
 local RemoteProvider = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "RemoteProvider").RemoteProvider
-local WeaponBindModule
+local BindedWeapon
 do
-	WeaponBindModule = setmetatable({}, {
+	BindedWeapon = setmetatable({}, {
 		__tostring = function()
-			return "WeaponBindModule"
+			return "BindedWeapon"
 		end,
 	})
-	WeaponBindModule.__index = WeaponBindModule
-	function WeaponBindModule.new(...)
-		local self = setmetatable({}, WeaponBindModule)
+	BindedWeapon.__index = BindedWeapon
+	function BindedWeapon.new(...)
+		local self = setmetatable({}, BindedWeapon)
 		return self:constructor(...) or self
 	end
-	function WeaponBindModule:constructor(weapon, autoFireModule)
+	function BindedWeapon:constructor(weapon, autoFireModule)
 		self.weapon = weapon
 		self.autoFireModule = autoFireModule
 		self.bindData = GlobalConfig.BIND_DATA.Weapon
@@ -24,7 +24,7 @@ do
 		self.cameraEvents = EventProvider.CharatcerController.Camera
 		self.name = weapon.DataObject.Name
 	end
-	function WeaponBindModule:Bind()
+	function BindedWeapon:Bind()
 		ContextActionService:BindAction(self.bindData.Fire.Action, function(name, state)
 			if name == self.bindData.Fire.Action then
 				if state == Enum.UserInputState.Begin then
@@ -45,7 +45,7 @@ do
 			end
 		end, false, self.bindData.Reload.PC.Input)
 	end
-	function WeaponBindModule:Unbind()
+	function BindedWeapon:Unbind()
 		self.autoFireModule:StopFire()
 		self.remote.StopFire:FireServer(self.weapon.DataObject.Name)
 		ContextActionService:UnbindAction(self.bindData.Fire.Action)
@@ -54,5 +54,5 @@ do
 	end
 end
 return {
-	WeaponBindModule = WeaponBindModule,
+	BindedWeapon = BindedWeapon,
 }

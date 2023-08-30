@@ -1,7 +1,6 @@
 import { AnimationWithSound } from "shared/Character/Animation/AnimationWithSound"
 import { GlobalConfig } from "shared/GlobalConfig"
 import { Debris } from "@rbxts/services"
-import { IWeaponModel } from "../WeaponModel/IWeaponModel"
 import { IPersonWeaponModel } from "../WeaponModel/IPersonWeaponModel"
 
 export class BaseWeaponRelaodAnimation{

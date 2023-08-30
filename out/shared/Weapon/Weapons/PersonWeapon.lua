@@ -3,7 +3,7 @@ local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_incl
 local RunService = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").RunService
 local PersonWeaponAnimation = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Animation", "PersonWeaponAnimation").PersonWeaponAnimation
 local PersonWeaponAssetParser = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Asset", "PersonWeaponAssetParser").PersonWeaponAssetParser
-local Weapon = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Weapon").Weapon
+local Weapon = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Weapons", "Weapon").Weapon
 local PersonWeapon
 do
 	local super = Weapon
@@ -36,6 +36,7 @@ do
 				_result:PlayReload()
 			end
 		end
+		self.DataObject.Ammo:Reload()
 	end
 end
 return {

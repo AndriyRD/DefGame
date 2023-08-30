@@ -5,7 +5,6 @@ import { GlobalConfig } from "shared/GlobalConfig";
 import { EntityStorageFactory } from "shared/Entity/EntityStorage/EntityStorageFactory";
 import { BaseParticleSet } from "shared/ParticleEmitterSet/BaseParticleSet";
 import { WeaponDataObject } from "shared/Weapon/WeaponDataObject";
-import { IPersonWeaponModel } from "shared/Weapon/WeaponModel/IPersonWeaponModel";
 import { FireModule } from "shared/Weapon/FireModule/FireModule";
 import { BaseHitHandler } from "./ClientBaseHitHandler"
 import { EntityStorage } from "shared/Entity/EntityStorage/EntityStorage";
@@ -51,8 +50,10 @@ export class BaseFireModule extends FireModule<IWeaponModel, IWeaponAssets>{
         }
         else
             this.shotTrace.Create(res.EndPoint)
+
         this.fireSound.Play()
         this.smokeParticleSet.Emit()
+        this.weaponData.Ammo.GetMagazine().Take()
 
         return this;
     }

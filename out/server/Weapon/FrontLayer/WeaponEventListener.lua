@@ -29,6 +29,12 @@ do
 				print(res.Instance)
 			end
 		end
+		self.NewWeaponOwner = function(plr, model)
+			WeaponServiceAPI:SetNewOwner(plr, model)
+		end
+		self.DropWeapon = function(plr, id)
+			WeaponServiceAPI:DropWeapon(plr, id)
+		end
 	end
 	function WeaponEventListener:GetId()
 		return "Weapon"

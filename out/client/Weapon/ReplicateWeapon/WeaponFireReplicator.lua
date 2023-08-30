@@ -29,7 +29,7 @@ do
 			return nil
 		end
 		local model = GetCharacter(plr):WaitForChild(id)
-		local weapon = WeaponProvider:RegisterWeapon(plr, model)
+		local weapon = WeaponProvider:RegisterWeapon(model)
 		local fireModule = AutoFire.new(weapon.fireModule)
 		self.list:Add(plr, model.Name, fireModule)
 	end

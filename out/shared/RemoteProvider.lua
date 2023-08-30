@@ -25,8 +25,10 @@ do
 	end
 	function RemoteProvider:GetForWeapon()
 		return {
+			NewWeaponOwner = RemoteProvider.dirs.Weapon:WaitForChild("NewWeaponOwner"),
 			CreateWeapon = RemoteProvider.dirs.Weapon:WaitForChild("CreateWeapon"),
 			HitPackage = RemoteProvider.dirs.Weapon:WaitForChild("HitPackage"),
+			DropWeapon = RemoteProvider.dirs.Weapon:WaitForChild("DropWeapon"),
 			StartFire = RemoteProvider.dirs.Weapon:WaitForChild("StartFire"),
 			StopFire = RemoteProvider.dirs.Weapon:WaitForChild("StopFire"),
 			Reload = RemoteProvider.dirs.Weapon:WaitForChild("Reload"),

@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local Weapon = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Weapon").Weapon
+local Weapon = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Weapons", "Weapon").Weapon
 local WeaponAssetParser = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Asset", "WeaponAssetParser").WeaponAssetParser
 local BaseWeapon
 do

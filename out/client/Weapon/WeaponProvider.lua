@@ -15,8 +15,8 @@ do
 	end
 	function WeaponProvider:constructor()
 	end
-	function WeaponProvider:RegisterWeapon(plr, model)
-		return WeaponProvider.manager:RegisterWeapon(plr, model)
+	function WeaponProvider:RegisterWeapon(model)
+		return WeaponProvider.manager:RegisterWeapon(model)
 	end
 	WeaponProvider.manager = ClientWeaponManager.new()
 end

@@ -1,4 +1,4 @@
-import { Weapon } from "./Weapon";
+import { Weapon } from "./Weapons/Weapon";
 import { WEAPON_HANDLER_TYPES } from "./WEAPON_HANDLER_TYPES";
 import { IWeaponConfig } from "./WeaponConfigurations/IWeaponConfig";
 import { IWeaponModel } from "./WeaponModel/IWeaponModel";
@@ -8,13 +8,14 @@ import { PersonWeaponBuilder } from "./WeponBuilder/PersonWeaponBuilder";
 import { WEAPON_CLASSES } from "./WEAPON_CLASSES";
 import { IWeaponAssets } from "./Asset/IWeaponAssets";
 import { ConfigurationSrorage } from "shared/Configuration/ConfigurationSrorage";
+import { IWeapon } from "./IWeapon";
 
 export abstract class WeaponManager {
     protected builders = {
         [WEAPON_CLASSES.DEFAULT]: new BaseWeaponBuilder(),
         [WEAPON_CLASSES.PERSON_WEAPOM]: new PersonWeaponBuilder()
     }
-    protected readonly weaponList = new Map<Player, Weapon<IWeaponConfig, IWeaponModel, IWeaponAssets>[]>
+    protected readonly weaponList = new Array<IWeapon>
     protected readonly factories = new Map<WEAPON_HANDLER_TYPES, FireModuleFactory<IWeaponModel, IWeaponAssets>>()
 
     protected FindHandlerFactory(handlerType: WEAPON_HANDLER_TYPES){
@@ -23,8 +24,19 @@ export abstract class WeaponManager {
         return factory
     }
 
-    RegisterWeapon(plaeyr: Player, model: Model){
-        let playerWeaponList = this.weaponList.get(plaeyr)
+    GetOwnerWeapons(owner: Player){
+        return this.weaponList.filter(weapon => weapon.OwnerState.GetCurrent() === owner)
+    }
+
+    GetByModel(model: Model){
+        return this.weaponList.find(weapon => weapon.WeaponModel.Model === model)
+    }
+
+    GetById(owner: Player, id: string){
+        return this.GetOwnerWeapons(owner).find(weapon => weapon.WeaponModel.Model.Name === id)
+    }
+
+    RegisterWeapon(model: Model){
         const name = model.Name
         const config = ConfigurationSrorage.WeaponConfiguration.Get(name)
         if(!config) error(`Not found config for weapon: ${name}`)
@@ -36,9 +48,7 @@ export abstract class WeaponManager {
             .SetFireModuleFactory(this.FindHandlerFactory(config.HandlerType))
             .Build()
 
-        if(!playerWeaponList) playerWeaponList = new Array()
-        playerWeaponList.push(newWeapon as any)
-        this.weaponList.set(plaeyr, playerWeaponList)
+        this.weaponList.push(newWeapon)
         return newWeapon
     }
 

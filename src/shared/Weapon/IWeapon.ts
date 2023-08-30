@@ -6,4 +6,6 @@ import { WeaponOwnerState } from "./WeaponOwnerState";
 export interface IWeapon {
     readonly OwnerState: WeaponOwnerState
     readonly fireModule: FireModule<IWeaponModel, IWeaponAssets>
+    readonly WeaponModel: IWeaponModel
+    GetId(): string
 }

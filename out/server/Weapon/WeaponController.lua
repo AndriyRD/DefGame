@@ -1,34 +1,29 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local PlayerStorageContainer = TS.import(script, game:GetService("ServerScriptService"), "TS", "Core", "PlayerStorage", "PlayerStorageContainer").PlayerStorageContainer
 local RemoteProvider = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "RemoteProvider").RemoteProvider
 local PlayerFireModules = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "PlayerFireModules").PlayerFireModules
 local ServerWeaponManager = TS.import(script, game:GetService("ServerScriptService"), "TS", "Weapon", "ServerWeaponManager").ServerWeaponManager
 local AutoFire = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "FireModule", "AutoFire").AutoFire
 local WeaponController
 do
-	local super = PlayerStorageContainer
 	WeaponController = setmetatable({}, {
 		__tostring = function()
 			return "WeaponController"
 		end,
-		__index = super,
 	})
 	WeaponController.__index = WeaponController
 	function WeaponController.new(...)
 		local self = setmetatable({}, WeaponController)
 		return self:constructor(...) or self
 	end
-	function WeaponController:constructor(...)
-		super.constructor(self, ...)
+	function WeaponController:constructor()
 		self.remote = RemoteProvider:GetForWeapon()
-		self.serverWeaponManager = ServerWeaponManager.new()
+		self.weaponManager = ServerWeaponManager.new()
 		self.playerFireModules = PlayerFireModules.new()
 	end
 	function WeaponController:CreateWeapon(owner, model)
-		local weapon = self.serverWeaponManager:RegisterWeapon(owner, model)
+		local weapon = self.weaponManager:RegisterWeapon(model)
 		local id = weapon.DataObject.Name
-		self:AddItem(owner, id, weapon)
 		self.playerFireModules:Add(owner, id, AutoFire.new(weapon.fireModule))
 		self.remote.CreateWeapon:FireAllClients(owner, id)
 	end
@@ -39,6 +34,25 @@ do
 	function WeaponController:StopFire(plr, id)
 		self.playerFireModules:GetFireModule(plr, id).FireModule:StopFire()
 		self.remote.StopFire:FireAllClients(plr, id)
+	end
+	function WeaponController:Get(owner, id)
+		return self.weaponManager:GetById(owner, id)
+	end
+	function WeaponController:DropWeapon(owner, id)
+		local weapon = self.weaponManager:GetById(owner, id)
+		if weapon then
+			weapon.OwnerState:RemoveOwner()
+		else
+			error("Not found weapon: " .. (id .. (" for player: " .. tostring(owner))))
+		end
+	end
+	function WeaponController:SetNewWeaponOwner(newOwner, weaponModel)
+		local weapon = self.weaponManager:GetByModel(weaponModel)
+		if weapon then
+			weapon.OwnerState:ChagneOwner(newOwner)
+		else
+			error("Not found registered weapon by model: " .. weaponModel:GetFullName())
+		end
 	end
 end
 return {

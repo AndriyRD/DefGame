@@ -2,6 +2,7 @@
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local WeaponDataObject = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WeaponDataObject").WeaponDataObject
 local WeaponOwnerState = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "WeaponOwnerState").WeaponOwnerState
+local RemoteProvider = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "RemoteProvider").RemoteProvider
 local Weapon
 do
 	Weapon = {}
@@ -9,8 +10,10 @@ do
 		self.WeaponModel = WeaponModel
 		self.config = config
 		self.createFireModule = createFireModule
+		self.remote = RemoteProvider:GetForWeapon()
+		self.id = WeaponModel.Model.Name
 		self.DataObject = WeaponDataObject.new(self.WeaponModel, config, assetParser)
-		self.OwnerState = WeaponOwnerState.new()
+		self.OwnerState = WeaponOwnerState.new(self.id)
 		self.fireModule = createFireModule(WeaponModel, self.DataObject)
 		self:OnCreate()
 	end
@@ -30,6 +33,9 @@ do
 			end
 		end)
 		return self
+	end
+	function Weapon:GetId()
+		return self.id
 	end
 end
 return {

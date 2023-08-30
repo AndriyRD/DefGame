@@ -1,5 +1,5 @@
 import { IWeaponConfig } from "../WeaponConfigurations/IWeaponConfig";
-import { Weapon } from "../Weapon";
+import { Weapon } from "../Weapons/Weapon";
 import { IWeaponModel } from "../WeaponModel/IWeaponModel";
 import { FireModuleFactory } from "./FireModuleFactoryType";
 import { IWeaponAssets } from "../Asset/IWeaponAssets";

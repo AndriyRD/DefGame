@@ -23,8 +23,10 @@ export class RemoteProvider {
 
     static GetForWeapon(){
         return {
+            NewWeaponOwner: RemoteProvider.dirs.Weapon.WaitForChild('NewWeaponOwner') as RemoteEvent,
             CreateWeapon: RemoteProvider.dirs.Weapon.WaitForChild('CreateWeapon') as RemoteEvent,
             HitPackage: RemoteProvider.dirs.Weapon.WaitForChild('HitPackage') as RemoteEvent,
+            DropWeapon: RemoteProvider.dirs.Weapon.WaitForChild('DropWeapon') as RemoteEvent,
             StartFire: RemoteProvider.dirs.Weapon.WaitForChild('StartFire') as RemoteEvent,
             StopFire: RemoteProvider.dirs.Weapon.WaitForChild('StopFire') as RemoteEvent,
             Reload: RemoteProvider.dirs.Weapon.WaitForChild('Reload') as RemoteEvent,

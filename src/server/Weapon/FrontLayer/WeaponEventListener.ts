@@ -26,4 +26,12 @@ export class WeaponEventListener implements IEventListener{
             print(res.Instance)
         }
     }
+
+    NewWeaponOwner = (plr: Player, model: Model) => {
+        WeaponServiceAPI.SetNewOwner(plr, model)
+    }
+
+    DropWeapon = (plr: Player, id: string) => {
+        WeaponServiceAPI.DropWeapon(plr, id)
+    }
 }

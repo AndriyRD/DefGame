@@ -1,4 +1,4 @@
-import { Weapon } from "../Weapon";
+import { Weapon } from "../Weapons/Weapon";
 import { IWeaponBuildData } from "./IWeaponBuildData";
 import { IWeaponConfig } from "../WeaponConfigurations/IWeaponConfig";
 import { IWeaponModel } from "../WeaponModel/IWeaponModel";

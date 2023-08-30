@@ -24,10 +24,56 @@ do
 		end
 		return factory
 	end
-	function WeaponManager:RegisterWeapon(plaeyr, model)
+	function WeaponManager:GetOwnerWeapons(owner)
 		local _weaponList = self.weaponList
-		local _plaeyr = plaeyr
-		local playerWeaponList = _weaponList[_plaeyr]
+		local _arg0 = function(weapon)
+			return weapon.OwnerState:GetCurrent() == owner
+		end
+		-- ▼ ReadonlyArray.filter ▼
+		local _newValue = {}
+		local _length = 0
+		for _k, _v in _weaponList do
+			if _arg0(_v, _k - 1, _weaponList) == true then
+				_length += 1
+				_newValue[_length] = _v
+			end
+		end
+		-- ▲ ReadonlyArray.filter ▲
+		return _newValue
+	end
+	function WeaponManager:GetByModel(model)
+		local _weaponList = self.weaponList
+		local _arg0 = function(weapon)
+			return weapon.WeaponModel.Model == model
+		end
+		-- ▼ ReadonlyArray.find ▼
+		local _result
+		for _i, _v in _weaponList do
+			if _arg0(_v, _i - 1, _weaponList) == true then
+				_result = _v
+				break
+			end
+		end
+		-- ▲ ReadonlyArray.find ▲
+		return _result
+	end
+	function WeaponManager:GetById(owner, id)
+		local _exp = self:GetOwnerWeapons(owner)
+		local _arg0 = function(weapon)
+			return weapon.WeaponModel.Model.Name == id
+		end
+		-- ▼ ReadonlyArray.find ▼
+		local _result
+		for _i, _v in _exp do
+			if _arg0(_v, _i - 1, _exp) == true then
+				_result = _v
+				break
+			end
+		end
+		-- ▲ ReadonlyArray.find ▲
+		return _result
+	end
+	function WeaponManager:RegisterWeapon(model)
 		local name = model.Name
 		local config = ConfigurationSrorage.WeaponConfiguration:Get(name)
 		if not config then
@@ -35,14 +81,7 @@ do
 		end
 		local builder = self.builders[config.WeaponClass]
 		local newWeapon = builder:SetConfig(config):ParseModel(model):SetFireModuleFactory(self:FindHandlerFactory(config.HandlerType)):Build()
-		if not playerWeaponList then
-			playerWeaponList = {}
-		end
-		table.insert(playerWeaponList, newWeapon)
-		local _weaponList_1 = self.weaponList
-		local _plaeyr_1 = plaeyr
-		local _playerWeaponList = playerWeaponList
-		_weaponList_1[_plaeyr_1] = _playerWeaponList
+		table.insert(self.weaponList, newWeapon)
 		return newWeapon
 	end
 	function WeaponManager:UnregisterWeapon()

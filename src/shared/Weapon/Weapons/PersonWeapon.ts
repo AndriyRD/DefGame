@@ -1,14 +1,11 @@
 import { RunService } from "@rbxts/services";
-import { BaseWeapon } from "./BaseWeapon";
-import { IWeaponModel } from "../WeaponModel/IWeaponModel";
 import { PersonWeaponAnimation } from "../Animation/PersonWeaponAnimation";
 import { IPresonWeaponConfig } from "../WeaponConfigurations/IPresonWeaponConfig";
 import { IPersonWeaponModel } from "../WeaponModel/IPersonWeaponModel";
-import { FireModule } from "../FireModule/FireModule";
 import { IPersonWeaponAssets } from "../Asset/IPersonWeaponAssets";
 import { PersonWeaponAssetParser } from "../Asset/PersonWeaponAssetParser";
 import { FireModuleFactory } from "../WeponBuilder/FireModuleFactoryType";
-import { Weapon } from "../Weapon";
+import { Weapon } from "./Weapon";
 import { IWeapon } from "../IWeapon";
 
 export class PersonWeapon extends Weapon<IPresonWeaponConfig, IPersonWeaponModel, IPersonWeaponAssets> implements IWeapon{
@@ -25,6 +22,7 @@ export class PersonWeapon extends Weapon<IPresonWeaponConfig, IPersonWeaponModel
     Reload() {
         if(RunService.IsClient())
             this.animation?.PlayReload()
+        this.DataObject.Ammo.Reload()
     }
 
     constructor(model: IPersonWeaponModel, config: IPresonWeaponConfig, createFireModule: FireModuleFactory<IPersonWeaponModel, IPersonWeaponAssets>){

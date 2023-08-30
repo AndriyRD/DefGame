@@ -5,29 +5,36 @@ import { ReloadableCharacter } from "shared/Character/ReloadableCharacter";
 import { Players } from "@rbxts/services";
 import { IBuildingCreateData } from "shared/BuildSystem/IBuildingCreateData";
 import { GlobalConfig } from "shared/GlobalConfig";
-import { RemoteProvider } from "shared/RemoteProvider";
+import { WeaponProvider } from "client/Weapon/WeaponProvider";
+import { BaseWeapon } from "shared/Weapon/Weapons/BaseWeapon";
+import { BindedWeapon } from "client/Weapon/BindedWeapon";
+import { AutoFire } from "shared/Weapon/FireModule/AutoFire";
 
 export class MachineGun extends Building {
     private readonly seat
     private readonly activateBtn;
     private readonly charatcer = new ReloadableCharacter(Players.LocalPlayer)
-
-    protected OnActivate(){
+    private readonly weapon: BaseWeapon
+    private readonly bindedWeapon: BindedWeapon
+    
+    protected OnActivate(plr: Player){
         this.seat.Sit(this.charatcer.GetHumanoid())
     }
 
     protected OnUp(){
-
+        this.bindedWeapon.Unbind()
     }
 
-    protected OnSeat(){
+    protected OnSeat(plr: Player){
         this.seat.Sit(this.charatcer.GetHumanoid())
         let connection = this.seat.GetPropertyChangedSignal("Occupant").Connect(() => {
             if(this.seat.Occupant) return
             this.OnUp()
             connection.Disconnect()
         })
-        RemoteProvider.GetForWeapon().CreateWeapon.FireServer(this.model)
+        // RemoteProvider.GetForWeapon().CreateWeapon.FireServer(this.model)
+        this.weapon.OwnerState.ChagneOwner(plr)
+        this.bindedWeapon.Bind()
     }
 
     GetID(): BUILDINGS_IDS {
@@ -35,7 +42,7 @@ export class MachineGun extends Building {
     }
 
     OnBuild(): void {
-        this.activateBtn.Triggered.Connect(() => this.OnActivate())
+        this.activateBtn.Triggered.Connect((plr) => this.OnActivate(plr))
     }
 
     constructor(data: IBuildingCreateData){
@@ -44,8 +51,11 @@ export class MachineGun extends Building {
         this.seat = this.model.FindFirstChild('Seat', true) as Seat
         this.seat.Disabled = true
         this.activateBtn.Parent = this.model.PrimaryPart
-        this.activateBtn.TriggerEnded.Connect(
-            (plr) => plr === Players.LocalPlayer ? this.OnSeat(): undefined)
         this.model.AddTag(GlobalConfig.TAGS.DAMAGEBLE_ENTITY)
+        this.activateBtn.TriggerEnded.Connect(
+            plr => plr === Players.LocalPlayer ? this.OnSeat(plr!): undefined)
+        this.weapon = WeaponProvider.RegisterWeapon<BaseWeapon>(data.Model)
+        print(this.weapon)
+        this.bindedWeapon = new BindedWeapon(this.weapon, new AutoFire(this.weapon.fireModule))
     }
 }

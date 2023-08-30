@@ -13,7 +13,7 @@ export class WeaponReplicator {
     private OnCreateWeapon(plr: Player, id: string){
         if (this.IsLocalPlayer(plr)) return
         const model = GetCharacter(plr).WaitForChild(id) as Model
-        const weapon = WeaponProvider.RegisterWeapon(plr, model)
+        const weapon = WeaponProvider.RegisterWeapon(model)
         const fireModule = new AutoFire(weapon.fireModule)
         this.list.Add(plr, model.Name, fireModule)
     }
