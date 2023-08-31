@@ -7,4 +7,8 @@ export class WeaponProvider {
     static RegisterWeapon<T extends IWeapon>(model: Model){
         return WeaponProvider.manager.RegisterWeapon(model) as any as T 
     }
+
+    static Find<T extends IWeapon>(globalID: number){
+        return this.manager.FindByGlobalId(globalID) as T
+    }
 }

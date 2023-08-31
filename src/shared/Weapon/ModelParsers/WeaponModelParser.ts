@@ -1,6 +1,7 @@
-import { AnalyticsService, ReplicatedStorage } from "@rbxts/services";
+import { ReplicatedStorage, RunService } from "@rbxts/services";
 import { IWeaponModel } from "../WeaponModel/IWeaponModel";
 import { IWeaponModelParser } from "./IWeaponModelParser";
+import { IdentifiedInstance } from "shared/IdentifiedInstance";
 const weaponDir = ReplicatedStorage.WaitForChild('Weapon')
 const models = weaponDir.WaitForChild('Models') as Folder
 
@@ -15,10 +16,16 @@ export class WeaponModelParser implements IWeaponModelParser<IWeaponModel>{
         const root = model.PrimaryPart as BasePart
         if (!root) error(`Not found PrimaryPart in weapon-model: ${model}`)
 
+        let identifiedModel
+
+        if(RunService.IsClient())
+            identifiedModel = IdentifiedInstance.ParseFrom<Model>(model)
+        else identifiedModel = new IdentifiedInstance<Model>(model)
+
         return {
             CasingSpawn: casingSpawn,
             Muzzle: muzzle,
-            Model: model,
+            Model: identifiedModel,
         }
     }
 

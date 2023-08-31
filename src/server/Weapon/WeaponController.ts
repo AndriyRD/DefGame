@@ -1,47 +1,41 @@
 import { RemoteProvider } from "shared/RemoteProvider";
-import { PlayerFireModules } from "server/Weapon/PlayerFireModules";
 import { ServerWeaponManager } from "./ServerWeaponManager";
-import { AutoFire } from "shared/Weapon/FireModule/AutoFire";
+import { IAutoFiredWeapon } from "shared/Weapon/IAutoFiredWeapon";
 
 export class WeaponController {
     private readonly remote = RemoteProvider.GetForWeapon()
     private readonly weaponManager = new ServerWeaponManager()
-    private readonly playerFireModules = new PlayerFireModules()
 
-    CreateWeapon(owner: Player, model: Model){
-        const weapon = this.weaponManager.RegisterWeapon(model)
-        const id = weapon.DataObject.Name
-
-        this.playerFireModules.Add(
-            owner, 
-            id, 
-            new AutoFire(weapon.fireModule))
-        this.remote.CreateWeapon.FireAllClients(owner, id)
+    CreateWeapon(model: Model){
+        return this.weaponManager.RegisterWeapon(model)
     }
 
-    StartFire(plr: Player, id: string){
-        this.playerFireModules.GetFireModule(plr, id).FireModule.StartFire()
-        this.remote.StartFire.FireAllClients(plr, id)
+    StartFire(plr: Player, globalId: number){
+        print(`Start fire event: ${globalId}`)
+        this.weaponManager.FindByGlobalId<IAutoFiredWeapon>(globalId).StartFire()
+        this.remote.StartFire.FireAllClients(plr, globalId)
     }
 
-    StopFire(plr: Player, id: string){
-        this.playerFireModules.GetFireModule(plr, id).FireModule.StopFire()
-        this.remote.StopFire.FireAllClients(plr, id)
+    StopFire(plr: Player, globalId: number){
+        this.weaponManager.FindByGlobalId<IAutoFiredWeapon>(globalId).StopFire()
+        this.remote.StopFire.FireAllClients(plr, globalId)
     }
 
-    Get(owner: Player, id: string){
-        return this.weaponManager.GetById(owner, id)
+    Get(globalId: number){
+        print(`Get event: ${globalId}`)
+        return this.weaponManager.FindByGlobalId(globalId)
     }
 
-    DropWeapon(owner: Player, id: string){
-        const weapon = this.weaponManager.GetById(owner, id)
+    DropWeapon(globalId: number){
+        print(`Drop event: ${globalId}`)
+        const weapon = this.Get(globalId)
         if(weapon) weapon.OwnerState.RemoveOwner()
-        else error(`Not found weapon: ${id} for player: ${owner}`)
+        else error(`Not found weapon by global-id: ${globalId}`)
     }
 
-    SetNewWeaponOwner(newOwner: Player, weaponModel: Model){
-        const weapon = this.weaponManager.GetByModel(weaponModel)
+    SetNewWeaponOwner(newOwner: Player, globalId: number){
+        const weapon = this.weaponManager.FindByGlobalId(globalId)
         if(weapon) weapon.OwnerState.ChagneOwner(newOwner)
-        else error(`Not found registered weapon by model: ${weaponModel.GetFullName()}`)
+        else error(`Not found registered weapon by global-id ${globalId}`)
     }
 }

@@ -1,6 +1,4 @@
-import { Weapon } from "./Weapons/Weapon";
 import { WEAPON_HANDLER_TYPES } from "./WEAPON_HANDLER_TYPES";
-import { IWeaponConfig } from "./WeaponConfigurations/IWeaponConfig";
 import { IWeaponModel } from "./WeaponModel/IWeaponModel";
 import { FireModuleFactory } from "./WeponBuilder/FireModuleFactoryType";
 import { BaseWeaponBuilder } from "./WeponBuilder/BaseWeaponBuilder";
@@ -29,11 +27,16 @@ export abstract class WeaponManager {
     }
 
     GetByModel(model: Model){
-        return this.weaponList.find(weapon => weapon.WeaponModel.Model === model)
+        return this.weaponList.find(weapon => weapon.WeaponModel.Model.GetInstance() === model)
     }
 
-    GetById(owner: Player, id: string){
-        return this.GetOwnerWeapons(owner).find(weapon => weapon.WeaponModel.Model.Name === id)
+    GetByIdAndOwner(owner: Player, id: string){
+        return this.GetOwnerWeapons(owner).find(weapon => weapon.GetId() === id)
+    }
+
+    FindByGlobalId<T extends IWeapon>(id: number){
+        print(`Find weapon by GId: ${id}`)
+        return this.weaponList.find(weapon => weapon.WeaponModel.Model.GetId()===id) as T
     }
 
     RegisterWeapon(model: Model){
@@ -49,6 +52,7 @@ export abstract class WeaponManager {
             .Build()
 
         this.weaponList.push(newWeapon)
+        print(`Add weapon: ${newWeapon.GetId()} | GId: ${newWeapon.WeaponModel.Model.GetId()}`)
         return newWeapon
     }
 

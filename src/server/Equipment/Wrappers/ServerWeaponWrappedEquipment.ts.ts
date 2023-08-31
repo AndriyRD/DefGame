@@ -1,4 +1,3 @@
-import { BaseWrappedEquipment } from "shared/Equipment/Wrappers/BaseWrappedEquipment";
 import { EQUIPMENT_TYPES } from "shared/Equipment/EQUIPMENTS_TYPES";
 import { IWrappedEquipment } from "shared/Equipment/IWrappedEquipment";
 import { IEquipment } from "shared/Equipment/IEquipment";
@@ -16,6 +15,6 @@ export class ServerWeaponWrappedEquipment extends ServerBaseWrappedEquipment{
 
     constructor(protected readonly equipment: IEquipment){
         super(equipment)
-        WeaponServiceAPI.Create(equipment.GetOwner(), equipment.GetModel())
+        WeaponServiceAPI.Create(equipment.GetModel())
     }
 }

@@ -15,23 +15,23 @@ do
 	end
 	function WeaponServiceAPI:constructor()
 	end
-	function WeaponServiceAPI:Create(plr, model)
-		self.controller:CreateWeapon(plr, model)
+	function WeaponServiceAPI:Create(model)
+		self.controller:CreateWeapon(model)
 	end
-	function WeaponServiceAPI:Get(plr, id)
-		return self.controller:Get(plr, id)
+	function WeaponServiceAPI:Get(globalID)
+		return self.controller:Get(globalID)
 	end
-	function WeaponServiceAPI:StartFire(plr, id)
-		self.controller:StartFire(plr, id)
+	function WeaponServiceAPI:StartFire(plr, globalID)
+		self.controller:StartFire(plr, globalID)
 	end
-	function WeaponServiceAPI:StopFire(plr, id)
-		self.controller:StopFire(plr, id)
+	function WeaponServiceAPI:StopFire(plr, globalID)
+		self.controller:StopFire(plr, globalID)
 	end
-	function WeaponServiceAPI:DropWeapon(owner, id)
-		self.controller:DropWeapon(owner, id)
+	function WeaponServiceAPI:DropWeapon(globalID)
+		self.controller:DropWeapon(globalID)
 	end
-	function WeaponServiceAPI:SetNewOwner(owner, model)
-		self.controller:SetNewWeaponOwner(owner, model)
+	function WeaponServiceAPI:SetNewOwner(owner, globalId)
+		self.controller:SetNewWeaponOwner(owner, globalId)
 	end
 	WeaponServiceAPI.controller = WeaponController.new()
 end

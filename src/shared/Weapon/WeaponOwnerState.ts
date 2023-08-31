@@ -8,8 +8,8 @@ export class WeaponOwnerState {
         new Instance('BindableEvent')
 
     private RemoteCallChangeState(event: RemoteEvent){
-        if(RunService.IsClient()) event.FireServer(this.owner, this.weaponId)
-        else event.FireAllClients(this.owner, this.weaponId)
+        if(RunService.IsClient()) event.FireServer(this.owner, this.weaponGlobalId)
+        else event.FireAllClients(this.owner, this.weaponGlobalId)
     }
 
     ChagneOwner(newOwner: Player){
@@ -30,8 +30,6 @@ export class WeaponOwnerState {
         return this.owner
     }
 
-    constructor(private readonly weaponId: string){}
-
-    // if(RunService.IsClient()) this.remote.DropWeapon.FireServer(oldPlr, this.id)
-    // else this.remote.DropWeapon.FireServer(oldPlr, this.id)
+    constructor(private readonly weaponGlobalId: number){
+    }
 }

@@ -11,7 +11,8 @@ import { FireModuleFactory } from "../WeponBuilder/FireModuleFactoryType"
 
 export abstract class Weapon<ConfigType extends IWeaponConfig, ModelType extends IWeaponModel, AssetsType extends IWeaponAssets> implements IWeapon{
     protected readonly fireModule: FireModule<ModelType, AssetsType>
-    private readonly id: string
+    protected readonly id: string
+    protected readonly globalModelId: number
     readonly OwnerState: WeaponOwnerState
     readonly DataObject: WeaponDataObject<AssetsType>
 
@@ -39,6 +40,10 @@ export abstract class Weapon<ConfigType extends IWeaponConfig, ModelType extends
         return this.id
     }
 
+    GetModelID(): number {
+        return this.WeaponModel.Model.GetId()
+    }
+
     Fire(): void {
         if(this.fireModule.CanFire()){
             this.fireModule.Fire()
@@ -52,9 +57,10 @@ export abstract class Weapon<ConfigType extends IWeaponConfig, ModelType extends
         readonly createFireModule: FireModuleFactory<ModelType, AssetsType>,
         assetParser: IAssetParser<AssetsType>
     ){
-            this.id = WeaponModel.Model.Name
+            this.id = WeaponModel.Model.GetInstance().Name
+            this.globalModelId = this.WeaponModel.Model.GetId()
             this.DataObject = new WeaponDataObject(this.WeaponModel, config, assetParser)
-            this.OwnerState = new WeaponOwnerState(this.id)
+            this.OwnerState = new WeaponOwnerState(this.WeaponModel.Model.GetId())
             this.fireModule = createFireModule(WeaponModel, this.DataObject)
             this.OnCreate()
     }

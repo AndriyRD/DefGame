@@ -14,14 +14,14 @@ do
 		return self:constructor(...) or self
 	end
 	function WeaponEventListener:constructor()
-		self.OnStartFire = function(plr, name)
-			WeaponServiceAPI:StartFire(plr, name)
+		self.OnStartFire = function(plr, globalID)
+			WeaponServiceAPI:StartFire(plr, globalID)
 		end
-		self.OnStopFire = function(plr, name)
-			WeaponServiceAPI:StopFire(plr, name)
+		self.OnStopFire = function(plr, globalID)
+			WeaponServiceAPI:StopFire(plr, globalID)
 		end
 		self.OnCreateWeapon = function(plr, model)
-			WeaponServiceAPI:Create(plr, model)
+			WeaponServiceAPI:Create(model)
 		end
 		self.OnHitPackage = function(plr, results)
 			print("Hited results: " .. tostring(#results))
@@ -29,11 +29,11 @@ do
 				print(res.Instance)
 			end
 		end
-		self.NewWeaponOwner = function(plr, model)
-			WeaponServiceAPI:SetNewOwner(plr, model)
+		self.OnNewWeaponOwner = function(plr, char, globalId)
+			WeaponServiceAPI:SetNewOwner(plr, globalId)
 		end
-		self.DropWeapon = function(plr, id)
-			WeaponServiceAPI:DropWeapon(plr, id)
+		self.OnDropWeapon = function(plr, globalID)
+			WeaponServiceAPI:DropWeapon(globalID)
 		end
 	end
 	function WeaponEventListener:GetId()

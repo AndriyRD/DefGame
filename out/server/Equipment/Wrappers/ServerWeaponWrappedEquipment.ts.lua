@@ -20,7 +20,7 @@ do
 	function ServerWeaponWrappedEquipment:constructor(equipment)
 		super.constructor(self, equipment)
 		self.equipment = equipment
-		WeaponServiceAPI:Create(equipment:GetOwner(), equipment:GetModel())
+		WeaponServiceAPI:Create(equipment:GetModel())
 	end
 	function ServerWeaponWrappedEquipment:GetEquipmentType()
 		return EQUIPMENT_TYPES.WEAPON

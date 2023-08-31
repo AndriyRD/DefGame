@@ -18,7 +18,6 @@ export = (build: Model, cf: CFrame) => {
     const size = build.GetBoundingBox()[1]
     params.FilterDescendantsInstances.push(build)
     const parts = Workspace.GetPartBoundsInBox(cf, size, params)
-    print(parts[0])
     if (parts.size() > 0)
         return false
     return true

@@ -7,12 +7,12 @@ export class AutoFiredBindedWeapon extends BindedWeapon<IAutoFiredWeapon> {
         ContextActionService.BindAction(this.bindData.Fire.Action, (name, state) => {
             if (name === this.bindData.Fire.Action){
                 if (state === Enum.UserInputState.Begin){
-                    this.remote.StartFire.FireServer(this.name)
+                    this.remote.StartFire.FireServer(this.weapon.GetModelID())
                     this.weapon.StartFire()
                     this.cameraEvents.Shake.Fire()
                 }
                 else if (state === Enum.UserInputState.End){
-                    this.remote.StopFire.FireServer(this.name)
+                    this.remote.StopFire.FireServer(this.weapon.GetModelID())
                     this.weapon.StopFire()
                     this.cameraEvents.StopShake.Fire()
                 }
@@ -22,7 +22,7 @@ export class AutoFiredBindedWeapon extends BindedWeapon<IAutoFiredWeapon> {
 
     Unbind(){
         this.weapon.StopFire()
-        this.remote.StopFire.FireServer(this.name)
+        this.remote.StopFire.FireServer(this.weapon.GetModelID())
         ContextActionService.UnbindAction(this.bindData.Fire.Action)
         this.cameraEvents.StopShake.Fire()
     }

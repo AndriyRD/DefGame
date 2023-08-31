@@ -8,16 +8,16 @@ export class WeaponEventListener implements IEventListener{
         return 'Weapon'
     }
 
-    OnStartFire = (plr: Player, name: string) => {
-        WeaponServiceAPI.StartFire(plr, name)
+    OnStartFire = (plr: Player, globalID: number) => {
+        WeaponServiceAPI.StartFire(plr, globalID)
     }
 
-    OnStopFire = (plr: Player, name: string) => {
-        WeaponServiceAPI.StopFire(plr, name)
+    OnStopFire = (plr: Player, globalID: number) => {
+        WeaponServiceAPI.StopFire(plr, globalID)
     }
 
     OnCreateWeapon = (plr: Player, model: Model) => {
-        WeaponServiceAPI.Create(plr, model)
+        WeaponServiceAPI.Create(model)
     }
 
     OnHitPackage = (plr: Player, results: Array<IHitResult>) => {
@@ -27,11 +27,11 @@ export class WeaponEventListener implements IEventListener{
         }
     }
 
-    NewWeaponOwner = (plr: Player, model: Model) => {
-        WeaponServiceAPI.SetNewOwner(plr, model)
+    OnNewWeaponOwner = (plr: Player, char: Model, globalId: number) => {
+        WeaponServiceAPI.SetNewOwner(plr, globalId)
     }
 
-    DropWeapon = (plr: Player, id: string) => {
-        WeaponServiceAPI.DropWeapon(plr, id)
+    OnDropWeapon = (plr: Player, globalID: number) => {
+        WeaponServiceAPI.DropWeapon(globalID)
     }
 }

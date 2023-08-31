@@ -4,6 +4,7 @@ local RunService = TS.import(script, game:GetService("ReplicatedStorage"), "rbxt
 local PersonWeaponAnimation = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Animation", "PersonWeaponAnimation").PersonWeaponAnimation
 local PersonWeaponAssetParser = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Asset", "PersonWeaponAssetParser").PersonWeaponAssetParser
 local Weapon = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "Weapons", "Weapon").Weapon
+local AutoFire = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "FireModule", "AutoFire").AutoFire
 local PersonWeapon
 do
 	local super = Weapon
@@ -25,9 +26,18 @@ do
 				self.animation = self:CreatePersonAnimation(plr)
 			end
 		end)
+		self.autoFire = AutoFire.new(self.fireModule)
 	end
 	function PersonWeapon:CreatePersonAnimation(owner)
 		return PersonWeaponAnimation.new(owner, self.config.AnimationSet, self.DataObject.Assets, self.WeaponModel)
+	end
+	function PersonWeapon:StartFire()
+		self.autoFire:StartFire()
+		return self
+	end
+	function PersonWeapon:StopFire()
+		self.autoFire:StopFire()
+		return self
 	end
 	function PersonWeapon:Reload()
 		if RunService:IsClient() then

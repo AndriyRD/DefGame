@@ -1,6 +1,9 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local ReplicatedStorage = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").ReplicatedStorage
+local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
+local ReplicatedStorage = _services.ReplicatedStorage
+local RunService = _services.RunService
+local IdentifiedInstance = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "IdentifiedInstance").IdentifiedInstance
 local weaponDir = ReplicatedStorage:WaitForChild("Weapon")
 local models = weaponDir:WaitForChild("Models")
 local WeaponModelParser
@@ -30,10 +33,16 @@ do
 		if not root then
 			error("Not found PrimaryPart in weapon-model: " .. tostring(model))
 		end
+		local identifiedModel
+		if RunService:IsClient() then
+			identifiedModel = IdentifiedInstance:ParseFrom(model)
+		else
+			identifiedModel = IdentifiedInstance.new(model)
+		end
 		return {
 			CasingSpawn = casingSpawn,
 			Muzzle = muzzle,
-			Model = model,
+			Model = identifiedModel,
 		}
 	end
 	function WeaponModelParser:ByOriginal(name)

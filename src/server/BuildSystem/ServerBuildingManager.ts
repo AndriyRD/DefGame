@@ -6,32 +6,21 @@ import { MachineGun } from "./Buildings/ServerMachineGun";
 import { Reflection } from "shared/Reflection";
 import { GlobalConfig } from "shared/GlobalConfig";
 import { Wall } from "./Buildings/ServerWall";
-import { IBuildingCreateData } from "shared/BuildSystem/IBuildingCreateData";
+import { IdentifiedInstance } from "shared/IdentifiedInstance";
 
 export class ServerBuildingManager extends BuildingManager{
-    private CreateGlobalIDInstance(buildingModel: Model){
-        const idInstance = new Instance("StringValue")
-        idInstance.Parent = buildingModel
-        idInstance.Name = GlobalConfig.BUILDING_GLOBAL_ID_INSTANCE_NAME
-        idInstance.Value = tostring(buildingModel)
-        return idInstance
-    }
-
     Build(id: BUILDINGS_IDS, cf: CFrame) {
         const createBuilding = this.factories.Find(id)
         if(!createBuilding) error(`Not found building by id: ${id}`)
         const buidlignModel = GlobalConfig.BUILDING_MODEL_STORAGE.WaitForChild(id) as Model
         if(!buidlignModel) error(`Nor found model for buildnig: ${id}`)
 
-        const model = buidlignModel.Clone()
-        this.CreateGlobalIDInstance(model)
-        const gId = tick()
-        const createData = {Model: model as Model, ID: gId}
+        const model = new IdentifiedInstance<Model>(buidlignModel.Clone())
 
-        const building = createBuilding(createData)
-        this.buildings.set(model, building)
+        const building = createBuilding(model)
+        this.buildings.set(model.GetInstance(), building)
         building.OnBuild()
-        return createData
+        return model
     }
     
     UseAction(plr: Player, model: Model, actionName: string){
@@ -42,9 +31,9 @@ export class ServerBuildingManager extends BuildingManager{
     }
 
     constructor(){
-        super(new FactoryMap<BUILDINGS_IDS, IActionBuilding, IBuildingCreateData>()
-        .Set(BUILDINGS_IDS.MACHINE_GUN, (v: IBuildingCreateData) => new MachineGun(v)) 
-        .Set(BUILDINGS_IDS.BASE_WALL, (v: IBuildingCreateData) => new Wall(v))
+        super(new FactoryMap<BUILDINGS_IDS, IActionBuilding, IdentifiedInstance<Model>>()
+        .Set(BUILDINGS_IDS.MACHINE_GUN, (v: IdentifiedInstance<Model>) => new MachineGun(v)) 
+        .Set(BUILDINGS_IDS.BASE_WALL, (v: IdentifiedInstance<Model>) => new Wall(v))
     )
     }
 }

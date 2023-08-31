@@ -7,7 +7,7 @@ local MachineGun = TS.import(script, script.Parent, "Buildings", "MachineGun").M
 local Wall = TS.import(script, script.Parent, "Buildings", "Wall").Wall
 local InstanceCache = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "InstanceCache", "InstanceCache").InstanceCache
 local Workspace = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Workspace
-local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
+local IdentifiedInstance = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "IdentifiedInstance").IdentifiedInstance
 local ClientBuildingManger
 do
 	local super = BuildingManager
@@ -31,20 +31,9 @@ do
 		self.modelContainer = Workspace
 		self.buildingCache = InstanceCache.new():SetMaxLifeTime(2400)
 	end
-	function ClientBuildingManger:FindModelByGlobalID(id)
-		for _, item in self.modelContainer:GetChildren() do
-			if not self.buildingCache:Exist(tostring(id)) then
-				if item:IsA("Model") then
-					local idInst = item:FindFirstChild(GlobalConfig.BUILDING_GLOBAL_ID_INSTANCE_NAME)
-					if idInst and idInst:IsA("StringValue") then
-						return item
-					end
-				end
-			end
-		end
-	end
 	function ClientBuildingManger:Build(globalID)
-		local model = self:FindModelByGlobalID(globalID)
+		local identifiedModel = IdentifiedInstance:FindAndWrap(globalID)
+		local model = identifiedModel.GetInstance()
 		if not model then
 			error("Not found building model by global id: " .. tostring(globalID))
 		end
@@ -53,17 +42,9 @@ do
 		if not createBuilding then
 			error("Not found building by id: " .. id)
 		end
-		local building = createBuilding({
-			Model = model,
-			ID = globalID,
-		})
+		local building = createBuilding(identifiedModel)
 		self.buildings[model] = building
-		local data = {
-			Model = model,
-			ID = globalID,
-		}
-		self.buildingCache:AddItem(tostring(globalID), model)
-		return data
+		return identifiedModel
 	end
 end
 return {

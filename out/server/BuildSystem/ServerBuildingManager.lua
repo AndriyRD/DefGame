@@ -7,6 +7,7 @@ local MachineGun = TS.import(script, game:GetService("ServerScriptService"), "TS
 local Reflection = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Reflection").Reflection
 local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
 local Wall = TS.import(script, game:GetService("ServerScriptService"), "TS", "BuildSystem", "Buildings", "ServerWall").Wall
+local IdentifiedInstance = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "IdentifiedInstance").IdentifiedInstance
 local ServerBuildingManager
 do
 	local super = BuildingManager
@@ -28,13 +29,6 @@ do
 			return Wall.new(v)
 		end))
 	end
-	function ServerBuildingManager:CreateGlobalIDInstance(buildingModel)
-		local idInstance = Instance.new("StringValue")
-		idInstance.Parent = buildingModel
-		idInstance.Name = GlobalConfig.BUILDING_GLOBAL_ID_INSTANCE_NAME
-		idInstance.Value = tostring(buildingModel)
-		return idInstance
-	end
 	function ServerBuildingManager:Build(id, cf)
 		local createBuilding = self.factories:Find(id)
 		if not createBuilding then
@@ -44,17 +38,13 @@ do
 		if not buidlignModel then
 			error("Nor found model for buildnig: " .. id)
 		end
-		local model = buidlignModel:Clone()
-		self:CreateGlobalIDInstance(model)
-		local gId = tick()
-		local createData = {
-			Model = model,
-			ID = gId,
-		}
-		local building = createBuilding(createData)
-		self.buildings[model] = building
+		local model = IdentifiedInstance.new(buidlignModel:Clone())
+		local building = createBuilding(model)
+		local _buildings = self.buildings
+		local _arg0 = model.GetInstance()
+		_buildings[_arg0] = building
 		building:OnBuild()
-		return createData
+		return model
 	end
 	function ServerBuildingManager:UseAction(plr, model, actionName)
 		local _exp = Reflection:ConvertObjectToMap(self:FindBuildingByModel(model))

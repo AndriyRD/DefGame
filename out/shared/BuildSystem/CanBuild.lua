@@ -19,7 +19,6 @@ return function(build, cf)
 	local _build = build
 	table.insert(_filterDescendantsInstances, _build)
 	local parts = Workspace:GetPartBoundsInBox(cf, size, params)
-	print(parts[1])
 	if #parts > 0 then
 		return false
 	end

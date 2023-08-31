@@ -2,17 +2,14 @@
 local Building
 do
 	Building = {}
-	function Building:constructor(data)
-		self.model = data.Model
-		self.globalID = data.ID
+	function Building:constructor(model)
+		self.model = model
+		self.buildingModelInstance = model.GetInstance()
 	end
 	function Building:OnDestroy()
-		self.model:Destroy()
+		self.model.GetInstance():Destroy()
 		self.model = nil
 		table.clear(self)
-	end
-	function Building:GetGlobalID()
-		return self.globalID
 	end
 end
 return {

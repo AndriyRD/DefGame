@@ -14,7 +14,7 @@ do
 		return self:constructor(...) or self
 	end
 	function WeaponDataObject:constructor(model, config, assetParser)
-		self.Name = model.Model.Name
+		self.Name = model.Model.GetInstance().Name
 		self.FireDelay = 1 / config.FireSpeed
 		self.Assets = assetParser:Parse(self.Name)
 		self.Ammo = AmmoContainer.new(config.AmmoConfig)

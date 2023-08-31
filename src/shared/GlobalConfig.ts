@@ -85,7 +85,7 @@ export class GlobalConfig {
     static LAODED_MAP_NAME = 'Map'
     static HP_ATTRIBUtE_NAME = 'HP'
     static UI_MAIN_SCREEN_NAME = 'MainUI'
-    static BUILDING_GLOBAL_ID_INSTANCE_NAME = 'GlobalID'
+    static GLOBAL_ID_INSTANCE_NAME = 'GlobalID'
     static REGEN_HEALTH_PAUSE_AFTER_DAMAGE = 4
     static MAP_SPAWNS_CONTAINER_NAME = 'Spawns'
 }

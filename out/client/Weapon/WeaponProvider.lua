@@ -18,6 +18,9 @@ do
 	function WeaponProvider:RegisterWeapon(model)
 		return WeaponProvider.manager:RegisterWeapon(model)
 	end
+	function WeaponProvider:Find(globalID)
+		return self.manager:FindByGlobalId(globalID)
+	end
 	WeaponProvider.manager = ClientWeaponManager.new()
 end
 return {

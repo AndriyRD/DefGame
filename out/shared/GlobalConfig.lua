@@ -90,7 +90,7 @@ do
 	GlobalConfig.LAODED_MAP_NAME = "Map"
 	GlobalConfig.HP_ATTRIBUtE_NAME = "HP"
 	GlobalConfig.UI_MAIN_SCREEN_NAME = "MainUI"
-	GlobalConfig.BUILDING_GLOBAL_ID_INSTANCE_NAME = "GlobalID"
+	GlobalConfig.GLOBAL_ID_INSTANCE_NAME = "GlobalID"
 	GlobalConfig.REGEN_HEALTH_PAUSE_AFTER_DAMAGE = 4
 	GlobalConfig.MAP_SPAWNS_CONTAINER_NAME = "Spawns"
 end

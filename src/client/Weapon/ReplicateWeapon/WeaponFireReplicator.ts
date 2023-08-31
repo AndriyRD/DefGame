@@ -1,31 +1,26 @@
-import { PlayerFireModules } from "../../../server/Weapon/PlayerFireModules";
 import { RemoteProvider } from "shared/RemoteProvider";
 import GetCharacter from "shared/Character/GetCharacter";
 import { Players } from "@rbxts/services";
-import { AutoFire } from "shared/Weapon/FireModule/AutoFire";
 import { WeaponProvider } from "../WeaponProvider";
+import { IAutoFiredWeapon } from "shared/Weapon/IAutoFiredWeapon";
 
-export class WeaponReplicator {
-    private readonly list = new PlayerFireModules()
-    
-    private IsLocalPlayer(plr: Player) {return Players.LocalPlayer === plr}
+export class WeaponReplicator { 
+    private IsLocalPlayer = (plr: Player) => Players.LocalPlayer === plr
 
     private OnCreateWeapon(plr: Player, id: string){
-        if (this.IsLocalPlayer(plr)) return
+        if (this.IsLocalPlayer(plr)) return;
         const model = GetCharacter(plr).WaitForChild(id) as Model
-        const weapon = WeaponProvider.RegisterWeapon(model)
-        const fireModule = new AutoFire(weapon.fireModule)
-        this.list.Add(plr, model.Name, fireModule)
+        WeaponProvider.RegisterWeapon(model)
     }
 
-    private OnStartFire(plr: Player, weaponID: string){
-        if (this.IsLocalPlayer(plr)) return
-        this.list.GetFireModule(plr, weaponID).FireModule.StartFire()
+    private OnStartFire(plr: Player, weaponGlobalID: number){
+        if (this.IsLocalPlayer(plr)) return;
+        WeaponProvider.Find<IAutoFiredWeapon>(weaponGlobalID).StartFire()
     }
 
-    private OnStopFire(plr: Player, weaponID: string){
-        if (this.IsLocalPlayer(plr)) return
-        this.list.GetFireModule(plr, weaponID).FireModule.StopFire()
+    private OnStopFire(plr: Player, weaponGlobalID: number){
+        if (this.IsLocalPlayer(plr)) return;
+        WeaponProvider.Find<IAutoFiredWeapon>(weaponGlobalID).StopFire()
     }
 
     Run(){

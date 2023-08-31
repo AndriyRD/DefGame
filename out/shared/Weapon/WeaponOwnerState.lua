@@ -14,16 +14,16 @@ do
 		local self = setmetatable({}, WeaponOwnerState)
 		return self:constructor(...) or self
 	end
-	function WeaponOwnerState:constructor(weaponId)
-		self.weaponId = weaponId
+	function WeaponOwnerState:constructor(weaponGlobalId)
+		self.weaponGlobalId = weaponGlobalId
 		self.remote = RemoteProvider:GetForWeapon()
 		self.ChangeOwnerEvent = Instance.new("BindableEvent")
 	end
 	function WeaponOwnerState:RemoteCallChangeState(event)
 		if RunService:IsClient() then
-			event:FireServer(self.owner, self.weaponId)
+			event:FireServer(self.owner, self.weaponGlobalId)
 		else
-			event:FireAllClients(self.owner, self.weaponId)
+			event:FireAllClients(self.owner, self.weaponGlobalId)
 		end
 	end
 	function WeaponOwnerState:ChagneOwner(newOwner)

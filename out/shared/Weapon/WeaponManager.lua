@@ -44,7 +44,7 @@ do
 	function WeaponManager:GetByModel(model)
 		local _weaponList = self.weaponList
 		local _arg0 = function(weapon)
-			return weapon.WeaponModel.Model == model
+			return weapon.WeaponModel.Model.GetInstance() == model
 		end
 		-- ▼ ReadonlyArray.find ▼
 		local _result
@@ -57,15 +57,32 @@ do
 		-- ▲ ReadonlyArray.find ▲
 		return _result
 	end
-	function WeaponManager:GetById(owner, id)
+	function WeaponManager:GetByIdAndOwner(owner, id)
 		local _exp = self:GetOwnerWeapons(owner)
 		local _arg0 = function(weapon)
-			return weapon.WeaponModel.Model.Name == id
+			return weapon:GetId() == id
 		end
 		-- ▼ ReadonlyArray.find ▼
 		local _result
 		for _i, _v in _exp do
 			if _arg0(_v, _i - 1, _exp) == true then
+				_result = _v
+				break
+			end
+		end
+		-- ▲ ReadonlyArray.find ▲
+		return _result
+	end
+	function WeaponManager:FindByGlobalId(id)
+		print("Find weapon by GId: " .. tostring(id))
+		local _weaponList = self.weaponList
+		local _arg0 = function(weapon)
+			return weapon.WeaponModel.Model.GetId() == id
+		end
+		-- ▼ ReadonlyArray.find ▼
+		local _result
+		for _i, _v in _weaponList do
+			if _arg0(_v, _i - 1, _weaponList) == true then
 				_result = _v
 				break
 			end
@@ -82,6 +99,7 @@ do
 		local builder = self.builders[config.WeaponClass]
 		local newWeapon = builder:SetConfig(config):ParseModel(model):SetFireModuleFactory(self:FindHandlerFactory(config.HandlerType)):Build()
 		table.insert(self.weaponList, newWeapon)
+		print("Add weapon: " .. (newWeapon:GetId() .. (" | GId: " .. tostring(newWeapon.WeaponModel.Model.GetId()))))
 		return newWeapon
 	end
 	function WeaponManager:UnregisterWeapon()

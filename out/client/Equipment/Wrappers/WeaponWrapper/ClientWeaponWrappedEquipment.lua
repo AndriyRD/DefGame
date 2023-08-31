@@ -4,8 +4,8 @@ local EQUIPMENT_TYPES = TS.import(script, game:GetService("ReplicatedStorage"), 
 local ClientBaseWrapperEquipment = TS.import(script, script.Parent.Parent, "BaseWrapper", "ClientBaseWrapperEquipment").ClientBaseWrapperEquipment
 local EventProvider = TS.import(script, script.Parent.Parent.Parent.Parent, "EventProvider").EventProvider
 local WeaponProvider = TS.import(script, script.Parent.Parent.Parent.Parent, "Weapon", "WeaponProvider").WeaponProvider
-local AutoFire = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "FireModule", "AutoFire").AutoFire
-local BindedWeapon = TS.import(script, script.Parent.Parent.Parent.Parent, "Weapon", "BindedWeapon").BindedWeapon
+local AutoFiredBindedWeapon = TS.import(script, script.Parent.Parent.Parent.Parent, "Weapon", "BindedWeapon", "AutoFiredBindedWeapon").AutoFiredBindedWeapon
+local ReloadebleBindedWeapon = TS.import(script, script.Parent.Parent.Parent.Parent, "Weapon", "BindedWeapon", "ReloadebleBindedWeapon").ReloadebleBindedWeapon
 local WeaponWrappedEquipment
 do
 	local super = ClientBaseWrapperEquipment
@@ -24,20 +24,23 @@ do
 		super.constructor(self, equipment)
 		self.events = EventProvider.Weapon
 		self.weapon = WeaponProvider:RegisterWeapon(self:GetModel())
-		self.bindWeaponModule = BindedWeapon.new(self.weapon, AutoFire.new(self.weapon.fireModule))
+		self.fireBindedWeapon = AutoFiredBindedWeapon.new(self.weapon)
+		self.reloadBindedWeapon = ReloadebleBindedWeapon.new(self.weapon)
 		self.weapon.OwnerState:ChagneOwner(equipment:GetOwner())
 	end
 	function WeaponWrappedEquipment:GetEquipmentType()
 		return EQUIPMENT_TYPES.WEAPON
 	end
 	function WeaponWrappedEquipment:Equip()
-		self.bindWeaponModule:Bind()
+		self.fireBindedWeapon:Bind()
+		self.reloadBindedWeapon:Bind()
 		local ammoContainer = self.weapon.DataObject.Ammo
 		self.events.Equip:Fire(ammoContainer, ammoContainer:GetState())
 		return super.Equip(self)
 	end
 	function WeaponWrappedEquipment:Unequip()
-		self.bindWeaponModule:Unbind()
+		self.fireBindedWeapon:Unbind()
+		self.reloadBindedWeapon:Unbind()
 		self.events.Unequip:Fire()
 		return super.Unequip(self)
 	end

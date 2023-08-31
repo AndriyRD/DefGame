@@ -26,10 +26,11 @@ do
 			local canBuild = CanBuild(originModel, cf)
 			print(canBuild)
 			if canBuild then
-				local data = self.buildManger:Build(id, cf)
-				data.Model.Parent = self.modelContaiener
-				data.Model:PivotTo(cf)
-				self.buildBuildingEvent:FireAllClients(data.Model)
+				local identifiedModel = self.buildManger:Build(id, cf)
+				local model = identifiedModel.GetInstance()
+				model.Parent = self.modelContaiener
+				model:PivotTo(cf)
+				self.buildBuildingEvent:FireAllClients(identifiedModel.GetId())
 			end
 		end
 	end

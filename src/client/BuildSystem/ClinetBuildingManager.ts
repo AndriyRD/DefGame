@@ -6,44 +6,30 @@ import { MachineGun } from "./Buildings/MachineGun";
 import { Wall } from "./Buildings/Wall";
 import { InstanceCache } from "shared/InstanceCache/InstanceCache";
 import { Workspace } from "@rbxts/services";
-import { GlobalConfig } from "shared/GlobalConfig";
-import { IBuildingCreateData } from "shared/BuildSystem/IBuildingCreateData";
+import { IdentifiedInstance } from "shared/IdentifiedInstance";
 
 export class ClientBuildingManger extends BuildingManager {
     private modelContainer = Workspace
     private buildingCache = new InstanceCache<Model>()
         .SetMaxLifeTime(2400)
 
-    private FindModelByGlobalID(id: number){
-        for (const item of this.modelContainer.GetChildren()) {
-            if(!this.buildingCache.Exist(tostring(id))){
-                if(item.IsA("Model")){
-                    const idInst = item.FindFirstChild(
-                        GlobalConfig.BUILDING_GLOBAL_ID_INSTANCE_NAME)
-                    if(idInst && idInst.IsA("StringValue"))
-                        return item
-                }
-            }
-        }
-    }
-
     Build(globalID: number) {
-        const model = this.FindModelByGlobalID(globalID)
+        const identifiedModel = IdentifiedInstance.FindAndWrap<Model>(globalID)!
+        const model = identifiedModel.GetInstance()
         if(!model) error(`Not found building model by global id: ${globalID}`)
         const id = model.Name
         const createBuilding = this.factories.Find(id as any)
         if(!createBuilding) error(`Not found building by id: ${id}`)
-        const building = createBuilding({Model: model, ID: globalID})
+        const building = createBuilding(identifiedModel)
         this.buildings.set(model, building)
-        const data = {Model: model, ID: globalID}
-        this.buildingCache.AddItem(tostring(globalID), model)
-        return data
+        
+        return identifiedModel
     }
     
     constructor(){
-        super(new FactoryMap<BUILDINGS_IDS, Building, IBuildingCreateData>()
-            .Set(BUILDINGS_IDS.MACHINE_GUN, (v: IBuildingCreateData) => new MachineGun(v)) 
-            .Set(BUILDINGS_IDS.BASE_WALL, (v: IBuildingCreateData) => new Wall(v))
+        super(new FactoryMap<BUILDINGS_IDS, Building, IdentifiedInstance<Model>>()
+            .Set(BUILDINGS_IDS.MACHINE_GUN, (v: IdentifiedInstance<Model>) => new MachineGun(v)) 
+            .Set(BUILDINGS_IDS.BASE_WALL, (v: IdentifiedInstance<Model>) => new Wall(v))
         )
     }
 }
