@@ -35,7 +35,6 @@ do
 			return if plr == Players.LocalPlayer then self:OnSeat(plr) else nil
 		end)
 		self.weapon = WeaponProvider:RegisterWeapon(data.Model)
-		print(self.weapon)
 		self.bindedWeapon = BindedWeapon.new(self.weapon, AutoFire.new(self.weapon.fireModule))
 	end
 	function MachineGun:OnActivate(plr)

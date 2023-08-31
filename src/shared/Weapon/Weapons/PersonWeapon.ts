@@ -7,9 +7,13 @@ import { PersonWeaponAssetParser } from "../Asset/PersonWeaponAssetParser";
 import { FireModuleFactory } from "../WeponBuilder/FireModuleFactoryType";
 import { Weapon } from "./Weapon";
 import { IWeapon } from "../IWeapon";
+import { IReloadebleWeapon } from "../IReloadebleWeapon";
+import { IAutoFiredWeapon } from "../IAutoFiredWeapon";
+import { AutoFire } from "../FireModule/AutoFire";
 
-export class PersonWeapon extends Weapon<IPresonWeaponConfig, IPersonWeaponModel, IPersonWeaponAssets> implements IWeapon{
+export class PersonWeapon extends Weapon<IPresonWeaponConfig, IPersonWeaponModel, IPersonWeaponAssets> implements IWeapon, IReloadebleWeapon, IAutoFiredWeapon{
     private animation: PersonWeaponAnimation | undefined
+    private readonly autoFire: AutoFire
 
     protected CreatePersonAnimation(owner: Player){
         return new PersonWeaponAnimation(
@@ -17,6 +21,16 @@ export class PersonWeapon extends Weapon<IPresonWeaponConfig, IPersonWeaponModel
             this.config.AnimationSet,
             this.DataObject.Assets,
             this.WeaponModel)
+    }
+
+    StartFire(): IAutoFiredWeapon {
+        this.autoFire.StartFire()
+        return this
+    }
+
+    StopFire(): IAutoFiredWeapon {
+        this.autoFire.StopFire()
+        return this
     }
 
     Reload() {
@@ -30,5 +44,6 @@ export class PersonWeapon extends Weapon<IPresonWeaponConfig, IPersonWeaponModel
             this.OwnerState.ChangeOwnerEvent.Event.Connect((_, plr) => {
                 if(plr) this.animation = this.CreatePersonAnimation(plr)
             })
+        this.autoFire = new AutoFire(this.fireModule)
     }
 }

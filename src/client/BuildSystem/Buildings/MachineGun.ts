@@ -7,7 +7,7 @@ import { IBuildingCreateData } from "shared/BuildSystem/IBuildingCreateData";
 import { GlobalConfig } from "shared/GlobalConfig";
 import { WeaponProvider } from "client/Weapon/WeaponProvider";
 import { BaseWeapon } from "shared/Weapon/Weapons/BaseWeapon";
-import { BindedWeapon } from "client/Weapon/BindedWeapon";
+import { BindedWeapon } from "client/Weapon/BindedWeapon/BindedWeapon";
 import { AutoFire } from "shared/Weapon/FireModule/AutoFire";
 
 export class MachineGun extends Building {
@@ -55,7 +55,6 @@ export class MachineGun extends Building {
         this.activateBtn.TriggerEnded.Connect(
             plr => plr === Players.LocalPlayer ? this.OnSeat(plr!): undefined)
         this.weapon = WeaponProvider.RegisterWeapon<BaseWeapon>(data.Model)
-        print(this.weapon)
         this.bindedWeapon = new BindedWeapon(this.weapon, new AutoFire(this.weapon.fireModule))
     }
 }

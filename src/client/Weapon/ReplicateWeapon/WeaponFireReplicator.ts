@@ -1,4 +1,4 @@
-import { PlayerFireModules } from "../../../shared/Weapon/PlayerFireModules";
+import { PlayerFireModules } from "../../../server/Weapon/PlayerFireModules";
 import { RemoteProvider } from "shared/RemoteProvider";
 import GetCharacter from "shared/Character/GetCharacter";
 import { Players } from "@rbxts/services";

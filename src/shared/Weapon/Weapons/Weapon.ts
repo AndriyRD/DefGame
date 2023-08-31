@@ -8,14 +8,12 @@ import { WeaponDataObject } from "../WeaponDataObject"
 import { IWeaponModel } from "../WeaponModel/IWeaponModel"
 import { WeaponOwnerState } from "../WeaponOwnerState"
 import { FireModuleFactory } from "../WeponBuilder/FireModuleFactoryType"
-import { RemoteProvider } from "shared/RemoteProvider"
 
 export abstract class Weapon<ConfigType extends IWeaponConfig, ModelType extends IWeaponModel, AssetsType extends IWeaponAssets> implements IWeapon{
-    private readonly remote = RemoteProvider.GetForWeapon()
+    protected readonly fireModule: FireModule<ModelType, AssetsType>
     private readonly id: string
     readonly OwnerState: WeaponOwnerState
     readonly DataObject: WeaponDataObject<AssetsType>
-    readonly fireModule: FireModule<ModelType, AssetsType>
 
     protected OnRemoveOwner(plr: Player){
         this.fireModule.Dispose()
@@ -39,6 +37,13 @@ export abstract class Weapon<ConfigType extends IWeaponConfig, ModelType extends
 
     GetId(): string {
         return this.id
+    }
+
+    Fire(): void {
+        if(this.fireModule.CanFire()){
+            this.fireModule.Fire()
+            this.DataObject.Ammo.GetMagazine().Take()
+        }
     }
 
     constructor(

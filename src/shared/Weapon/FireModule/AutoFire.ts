@@ -2,7 +2,6 @@ import { BaseGameLoop } from "shared/Loop/BaseGameLoop";
 import { FireModule } from "./FireModule";
 import { IWeaponModel } from "../WeaponModel/IWeaponModel";
 import { IWeaponAssets } from "../Asset/IWeaponAssets";
-import { RunService } from "@rbxts/services";
 
 export class AutoFire {
     private readonly handleLoop: BaseGameLoop

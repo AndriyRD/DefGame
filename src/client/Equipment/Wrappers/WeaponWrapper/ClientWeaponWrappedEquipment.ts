@@ -6,7 +6,7 @@ import { WeaponProvider } from "client/Weapon/WeaponProvider";
 import { AutoFire } from "shared/Weapon/FireModule/AutoFire";
 import { PersonWeapon } from "shared/Weapon/Weapons/PersonWeapon";
 import { IEquipment } from "shared/Equipment/IEquipment";
-import { BindedWeapon } from "client/Weapon/BindedWeapon";
+import { BindedWeapon } from "client/Weapon/BindedWeapon/BindedWeapon";
 
 export class WeaponWrappedEquipment extends ClientBaseWrapperEquipment{
     private readonly events = EventProvider.Weapon

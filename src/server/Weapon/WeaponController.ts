@@ -1,5 +1,5 @@
 import { RemoteProvider } from "shared/RemoteProvider";
-import { PlayerFireModules } from "shared/Weapon/PlayerFireModules";
+import { PlayerFireModules } from "server/Weapon/PlayerFireModules";
 import { ServerWeaponManager } from "./ServerWeaponManager";
 import { AutoFire } from "shared/Weapon/FireModule/AutoFire";
 
