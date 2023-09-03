@@ -1,9 +1,8 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local ReplicatedStorage = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").ReplicatedStorage
-local BufferedAttachment = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "BufferedAttachment").BufferedAttachment
-local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
-local BeamAnimation = TS.import(script, script.Parent, "BeamAnimation").BeamAnimation
+local Players = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Players
+local FireBulletTrace = TS.import(script, script.Parent, "FireBulletTrace").FireBulletTrace
+local SmokeBulletTrace = TS.import(script, script.Parent, "SmokeBulletTrace").SmokeBulletTrace
 local BulletTrace
 do
 	BulletTrace = setmetatable({}, {
@@ -18,33 +17,13 @@ do
 	end
 	function BulletTrace:constructor(muzzlePart)
 		self.muzzlePart = muzzlePart
-		self.beamAnimation = BeamAnimation.new()
-		self.originBeam = ReplicatedStorage:WaitForChild("Weapon"):WaitForChild("Instances"):WaitForChild("BulletTrace")
-		self.attachmnetContainer = Instance.new("Part")
-		self.attachmnetContainer.Name = "BulletTraceAttachmentContainer"
-		self.attachmnetContainer.Parent = GlobalConfig.DEBRIS
+		self.fireBulletTrace = FireBulletTrace.new()
+		self.smokeBulletTrace = SmokeBulletTrace.new(muzzlePart)
+		self.mouse = Players.LocalPlayer:GetMouse()
 	end
-	function BulletTrace:CreateTargetAttachment(worldPos, parent)
-		local attach = Instance.new("Attachment")
-		attach.Parent = parent
-		attach.WorldPosition = worldPos
-		return attach
-	end
-	function BulletTrace:Spawn(pos)
-		local rootAttachment = BufferedAttachment.new(self.muzzlePart.Position, GlobalConfig.DEBRIS)
-		local targetAttachment = self:CreateTargetAttachment(pos, self.attachmnetContainer)
-		local newBeam = self.originBeam:Clone()
-		newBeam.Parent = targetAttachment
-		newBeam.Attachment0 = rootAttachment.GetAttachment()
-		newBeam.Attachment1 = targetAttachment
-		local tween = self.beamAnimation:Play(newBeam)
-		local conn
-		conn = tween.Completed:Connect(function(state)
-			rootAttachment:Destroy()
-			targetAttachment:Destroy()
-			newBeam:Destroy()
-			conn:Disconnect()
-		end)
+	function BulletTrace:Fire(pos)
+		self.fireBulletTrace:Spawn(self.muzzlePart.Position, pos)
+		self.smokeBulletTrace:Spawn(pos)
 	end
 end
 return {

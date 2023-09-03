@@ -9,6 +9,7 @@ import { BaseHitHandler } from "./ClientBaseHitHandler"
 import { EntityStorage } from "shared/Entity/EntityStorage/EntityStorage";
 import { IWeaponModel } from "shared/Weapon/WeaponModel/IWeaponModel";
 import { IWeaponAssets } from "shared/Weapon/Asset/IWeaponAssets";
+import { SmokeBulletTrace } from "./VisualEffects/Trace2/SmokeBulletTrace";
 import { BulletTrace } from "./VisualEffects/Trace2/BulletTrace";
 
 export class BaseFireModule extends FireModule<IWeaponModel, IWeaponAssets>{
@@ -45,15 +46,13 @@ export class BaseFireModule extends FireModule<IWeaponModel, IWeaponAssets>{
                 this.hitHandler.OnHitEnity(entityGetRes.Entity!, rayRes)
             else
                 this.hitHandler.OnHitPart(rayRes)
-            
-            this.bulletTrace.Spawn(rayRes.Position)
+            this.bulletTrace.Fire(rayRes.Position)
         }
         else
-            this.bulletTrace.Spawn(res.EndPoint)
+            this.bulletTrace.Fire(res.EndPoint)
 
         this.fireSound.Play()
         this.smokeParticleSet.Emit()
-        this.weaponData.Ammo.GetMagazine().Take()
 
         return this;
     }

@@ -58,13 +58,12 @@ do
 			else
 				self.hitHandler:OnHitPart(rayRes)
 			end
-			self.bulletTrace:Spawn(rayRes.Position)
+			self.bulletTrace:Fire(rayRes.Position)
 		else
-			self.bulletTrace:Spawn(res.EndPoint)
+			self.bulletTrace:Fire(res.EndPoint)
 		end
 		self.fireSound:Play()
 		self.smokeParticleSet:Emit()
-		self.weaponData.Ammo:GetMagazine():Take()
 		return self
 	end
 end
