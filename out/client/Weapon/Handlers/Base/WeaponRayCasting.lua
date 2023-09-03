@@ -1,8 +1,8 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local Workspace = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Workspace
-local ReloadableCharacter = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "ReloadableCharacter").ReloadableCharacter
 local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
+local ReloadableCharacter = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Character", "ReloadableCharacter").ReloadableCharacter
 local WeaponRayCasting
 do
 	WeaponRayCasting = setmetatable({}, {
@@ -31,13 +31,17 @@ do
 		end
 		self.rayParams.FilterType = Enum.RaycastFilterType.Exclude
 		self.rayParams.FilterDescendantsInstances = ignoreList
+		self.mouse = owner:GetMouse()
+	end
+	function WeaponRayCasting:GetDirection(startCF)
+		local _lookVector = CFrame.lookAt(startCF.Position, self.mouse.Hit.Position).LookVector
+		local _rANGE = self.RANGE
+		return _lookVector * _rANGE
 	end
 	function WeaponRayCasting:Cast()
 		local root = self.char:GetRoot()
-		local _lookVector = root.CFrame.LookVector
-		local _rANGE = self.RANGE
-		local dir = _lookVector * _rANGE
-		local res = Workspace:Raycast(root.Position, dir, self.rayParams)
+		local origin = root.Position
+		local res = Workspace:Raycast(origin, self:GetDirection(root.CFrame), self.rayParams)
 		return {
 			RaycastResult = res,
 			EndPoint = root.CFrame:PointToWorldSpace(self.endPointOffset),

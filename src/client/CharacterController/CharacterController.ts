@@ -21,7 +21,7 @@ export class CharacterController {
 
     static Startup(){
         if (this.inited) return warn(`CharatcerController inited!`)
-        
+
         CharacterController.characterModules.set("TOP_DOWN_CAMERA",
             new TopDownCamera(CharacterController.owner, CharacterController.character))
 

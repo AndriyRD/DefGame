@@ -14,6 +14,7 @@ local craeteEquipmentEvent = remote:WaitForChild("CreateEquipment")
 CharacterController:Startup()
 CharacterController:SwithModuleState("TOP_DOWN_CAMERA", true)
 CharacterController:SwithModuleState("CHARACTER_ROTATE", true)
+CharacterController:SwithModuleState("TORSO_ANDLE", true)
 GameLoader.new():RegisterGameMode(TeamWarsGameMode.new()):Startup()
 craeteEquipmentEvent:FireServer("AK47")
 local _events = ReloadableCharacter.new(Players.LocalPlayer).Events

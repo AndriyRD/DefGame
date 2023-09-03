@@ -9,6 +9,7 @@ const craeteEquipmentEvent = remote.WaitForChild('CreateEquipment') as RemoteEve
 CharacterController.Startup()
 CharacterController.SwithModuleState("TOP_DOWN_CAMERA", true)
 CharacterController.SwithModuleState("CHARACTER_ROTATE", true)
+CharacterController.SwithModuleState("TORSO_ANDLE", true)
 
 new GameLoader()
     .RegisterGameMode(new TeamWarsGameMode())

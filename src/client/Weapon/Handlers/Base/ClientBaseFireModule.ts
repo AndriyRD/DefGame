@@ -1,6 +1,5 @@
 import { WeaponRayCasting } from "./WeaponRayCasting";
 import { IHitHandler } from "shared/Weapon/FireModule/IHitHandler";
-import { ShotTrace } from "./VisualEffects/Trace/ShotTrace";
 import { GlobalConfig } from "shared/GlobalConfig";
 import { EntityStorageFactory } from "shared/Entity/EntityStorage/EntityStorageFactory";
 import { BaseParticleSet } from "shared/ParticleEmitterSet/BaseParticleSet";
@@ -14,7 +13,6 @@ import { BulletTrace } from "./VisualEffects/Trace2/BulletTrace";
 
 export class BaseFireModule extends FireModule<IWeaponModel, IWeaponAssets>{
     private entityStorage
-    // private readonly shotTrace
     private readonly smokeParticleSet
     protected readonly bulletTrace
     protected readonly hitHandler: IHitHandler = new BaseHitHandler()
@@ -48,11 +46,9 @@ export class BaseFireModule extends FireModule<IWeaponModel, IWeaponAssets>{
             else
                 this.hitHandler.OnHitPart(rayRes)
             
-            // this.shotTrace.Create(rayRes.Position)
             this.bulletTrace.Spawn(rayRes.Position)
         }
         else
-            // this.shotTrace.Create(res.EndPoint)
             this.bulletTrace.Spawn(res.EndPoint)
 
         this.fireSound.Play()
@@ -64,7 +60,6 @@ export class BaseFireModule extends FireModule<IWeaponModel, IWeaponAssets>{
 
     constructor(weaponData: WeaponDataObject<IWeaponAssets>, model: IWeaponModel){
         super(weaponData, model)
-        // this.shotTrace = new ShotTrace(this.weponModel)
         this.bulletTrace = new BulletTrace(this.weponModel.Muzzle)
         this.fireSound = this.weaponData.Assets.Sounds.Fire
         this.smokeParticleSet = new BaseParticleSet(new Instance('Attachment', this.weponModel.Muzzle))

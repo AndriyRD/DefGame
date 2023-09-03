@@ -24,7 +24,6 @@ do
 	function BaseFireModule:constructor(weaponData, model)
 		super.constructor(self, weaponData, model)
 		self.hitHandler = BaseHitHandler.new()
-		-- this.shotTrace = new ShotTrace(this.weponModel)
 		self.bulletTrace = BulletTrace.new(self.weponModel.Muzzle)
 		self.fireSound = self.weaponData.Assets.Sounds.Fire
 		self.smokeParticleSet = BaseParticleSet.new(Instance.new("Attachment", self.weponModel.Muzzle)):AddByOrigin(self.weaponData.Assets.Particles.FireSmoke[1], {
@@ -59,10 +58,8 @@ do
 			else
 				self.hitHandler:OnHitPart(rayRes)
 			end
-			-- this.shotTrace.Create(rayRes.Position)
 			self.bulletTrace:Spawn(rayRes.Position)
 		else
-			-- this.shotTrace.Create(res.EndPoint)
 			self.bulletTrace:Spawn(res.EndPoint)
 		end
 		self.fireSound:Play()
