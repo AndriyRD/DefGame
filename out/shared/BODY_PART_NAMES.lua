@@ -42,8 +42,18 @@ do
 	R15.LEFT_LOWER_ARM = "LeftLowerArm"
 	_inverse.LeftLowerArm = "LEFT_LOWER_ARM"
 end
+local MOTORS_R15
+do
+	local _inverse = {}
+	MOTORS_R15 = setmetatable({}, {
+		__index = _inverse,
+	})
+	MOTORS_R15.WAIST = "Waist"
+	_inverse.Waist = "WAIST"
+end
 return {
 	MAIN = COMMON,
 	R6 = R6,
 	R15 = R15,
+	MOTORS_R15 = MOTORS_R15,
 }

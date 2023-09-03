@@ -1,8 +1,9 @@
 import { RunService } from "@rbxts/services"
 import { CHARACTER_LOAD_EVENT_NAMES, ReloadableCharacter } from "shared/Character/ReloadableCharacter"
 import { GlobalConfig } from "shared/GlobalConfig"
+import { IStateSwithable } from "shared/IStateSwithable"
 
-export class RotateModule {
+export class RotateModule implements IStateSwithable {
     private connection: RBXScriptConnection | undefined = undefined
     private readonly mouse
     private readonly alignInstance = GlobalConfig.CHARACTER_ALIGHT_ISNTANCE.Clone()
@@ -32,6 +33,7 @@ export class RotateModule {
     Disable(){
         this.alignInstance.Enabled = false
         this.connection?.Disconnect()
+        return this
     }
 
     constructor(private readonly owner: Player,

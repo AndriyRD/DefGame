@@ -55,6 +55,7 @@ do
 		if _result ~= nil then
 			_result:Disconnect()
 		end
+		return self
 	end
 end
 return {

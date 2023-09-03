@@ -1,17 +1,15 @@
 import { RunService, Workspace } from "@rbxts/services"
 import { ReloadableCharacter } from "shared/Character/ReloadableCharacter"
-import { CameraShaker } from "./CameraShaker"
+import { IStateSwithable } from "shared/IStateSwithable"
 
-export class CameraModule {
+export class TopDownCamera implements IStateSwithable {
     private readonly camera = Workspace.CurrentCamera!
     private readonly screenGui = new Instance('ScreenGui')
     private readonly distance = new Vector3(0,35,0)
     private readonly cameraSensitivity = 20
     private readonly direction = new Vector3(0,-1,0)
-    private readonly mouse
     private readonly renderStepName = 'Camera'
-    private readonly shaker
-    private enableShake = false
+    private readonly mouse
 
     private getMouseScreenPositionCentered(){
         return new Vector2(
@@ -36,9 +34,6 @@ export class CameraModule {
     }
 
     private OnRender(){
-        // let cf = this.GetCameraCFrame()
-        // if(this.enableShake)
-        //     cf = this.shaker.Next(cf)
 		this.camera.CFrame = this.GetCameraCFrame()
     }
 
@@ -52,19 +47,11 @@ export class CameraModule {
 
     Disable(){
         RunService.UnbindFromRenderStep(this.renderStepName)
-    }
-
-    Shake(){
-        this.enableShake = true
-    }
-
-    StopShake(){
-        this.enableShake = false
+        return this
     }
 
     constructor(private readonly owner: Player, private readonly character: ReloadableCharacter){
         this.mouse = this.owner.GetMouse()
         this.screenGui.Parent = owner.WaitForChild("PlayerGui")
-        this.shaker = new CameraShaker(character)
     }
 }

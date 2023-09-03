@@ -1,30 +1,45 @@
 import { Players } from "@rbxts/services"
 import { ReloadableCharacter } from "shared/Character/ReloadableCharacter"
 import { RotateModule } from "./RotateModule"
-import { CameraModule } from "./CameraModule"
-import { EventProvider } from "client/EventProvider"
+import { IStateSwithable } from "shared/IStateSwithable"
+import { TopDownCamera } from "./TopDownCamera"
+import { RotatedUpperTorso } from "./RotatedUpperTorso"
+
+enum CHARACTER_MODULES {
+    TOP_DOWN_CAMERA,
+    CHARACTER_ROTATE,
+    TORSO_ANDLE
+}
+
+type CharatcerModulesKeys = keyof typeof CHARACTER_MODULES
 
 export class CharacterController {
-    private readonly owner = Players.LocalPlayer
-    private readonly character = new ReloadableCharacter(this.owner)
-    private readonly rotateModule
-    private readonly cameraModule
-    private readonly events = EventProvider.CharatcerController
+    private static readonly owner = Players.LocalPlayer
+    private static readonly character = new ReloadableCharacter(CharacterController.owner)
+    private static readonly characterModules = new Map<CharatcerModulesKeys, IStateSwithable>
+    private static inited = false
 
-    Start(){
-        this.rotateModule.Enable()
-        this.cameraModule.Enable()
+    static Startup(){
+        if (this.inited) return warn(`CharatcerController inited!`)
+        
+        CharacterController.characterModules.set("TOP_DOWN_CAMERA",
+            new TopDownCamera(CharacterController.owner, CharacterController.character))
+
+        CharacterController.characterModules.set("CHARACTER_ROTATE", 
+            new RotateModule(CharacterController.owner, CharacterController.character))
+
+        CharacterController.characterModules.set("TORSO_ANDLE", 
+            new RotatedUpperTorso(this.character.GetCharacter(), this.owner.GetMouse()))
+
+        this.inited = true
     }
 
-    constructor(){
-        this.rotateModule = new RotateModule(this.owner, this.character)
-        this.cameraModule = new CameraModule(this.owner, this.character)
-
-        this.events.Camera.Shake.Event.Connect(() => this.cameraModule.Shake())
-        this.events.Camera.Enable.Event.Connect(() => this.cameraModule.Enable())
-        this.events.Camera.Disable.Event.Connect(() => this.cameraModule.Disable())
-        this.events.Rotation.Enable.Event.Connect(() => this.rotateModule.Enable())
-        this.events.Rotation.Disable.Event.Connect(() => this.rotateModule.Disable())
-        this.events.Camera.StopShake.Event.Connect(() => this.cameraModule.StopShake())
+    static SwithModuleState(moduleName: CharatcerModulesKeys, enabled: boolean){
+        const charcterModule = CharacterController.characterModules.get(moduleName)
+        if(!charcterModule) error(`Not found character-controller module: ${moduleName}`)
+        if(enabled)
+            charcterModule.Enable()
+        else
+            charcterModule.Disable()
     }
 }

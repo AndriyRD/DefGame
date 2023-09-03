@@ -15,11 +15,16 @@ enum R15 {
     UPPER_TORSO = 'UpperTorso',
     LOWER_TORSO = 'LowerTorso',
     RIGHT_LOWER_ARM = 'RightLowerArm',
-    LEFT_LOWER_ARM = 'LeftLowerArm'
+    LEFT_LOWER_ARM = 'LeftLowerArm',
+}
+
+enum MOTORS_R15 {
+    WAIST = 'Waist'
 }
 
 export = {
     MAIN: COMMON,
     R6: R6,
-    R15: R15
+    R15: R15,
+    MOTORS_R15: MOTORS_R15
 }

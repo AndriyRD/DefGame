@@ -3,20 +3,19 @@ local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_incl
 local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
 local RunService = _services.RunService
 local Workspace = _services.Workspace
-local CameraShaker = TS.import(script, script.Parent, "CameraShaker").CameraShaker
-local CameraModule
+local TopDownCamera
 do
-	CameraModule = setmetatable({}, {
+	TopDownCamera = setmetatable({}, {
 		__tostring = function()
-			return "CameraModule"
+			return "TopDownCamera"
 		end,
 	})
-	CameraModule.__index = CameraModule
-	function CameraModule.new(...)
-		local self = setmetatable({}, CameraModule)
+	TopDownCamera.__index = TopDownCamera
+	function TopDownCamera.new(...)
+		local self = setmetatable({}, TopDownCamera)
 		return self:constructor(...) or self
 	end
-	function CameraModule:constructor(owner, character)
+	function TopDownCamera:constructor(owner, character)
 		self.owner = owner
 		self.character = character
 		self.camera = Workspace.CurrentCamera
@@ -25,20 +24,18 @@ do
 		self.cameraSensitivity = 20
 		self.direction = Vector3.new(0, -1, 0)
 		self.renderStepName = "Camera"
-		self.enableShake = false
 		self.mouse = self.owner:GetMouse()
 		self.screenGui.Parent = owner:WaitForChild("PlayerGui")
-		self.shaker = CameraShaker.new(character)
 	end
-	function CameraModule:getMouseScreenPositionCentered()
+	function TopDownCamera:getMouseScreenPositionCentered()
 		return Vector2.new(self.mouse.X - self.screenGui.AbsoluteSize.X / 2, self.mouse.Y - self.screenGui.AbsoluteSize.Y / 2)
 	end
-	function CameraModule:pixelToFraction(pixelV2)
+	function TopDownCamera:pixelToFraction(pixelV2)
 		local _pixelV2 = pixelV2
 		local _absoluteSize = self.screenGui.AbsoluteSize
 		return _pixelV2 / _absoluteSize
 	end
-	function CameraModule:GetCameraCFrame()
+	function TopDownCamera:GetCameraCFrame()
 		local rootPart = self.character:GetRoot()
 		local _position = rootPart.Position
 		local _vector3 = Vector3.new(0, 0, 3)
@@ -52,28 +49,20 @@ do
 		local _direction = self.direction
 		return CFrame.new(cameraPos, cameraPos + _direction)
 	end
-	function CameraModule:OnRender()
-		-- let cf = this.GetCameraCFrame()
-		-- if(this.enableShake)
-		-- cf = this.shaker.Next(cf)
+	function TopDownCamera:OnRender()
 		self.camera.CFrame = self:GetCameraCFrame()
 	end
-	function CameraModule:Enable()
+	function TopDownCamera:Enable()
 		RunService:BindToRenderStep(self.renderStepName, Enum.RenderPriority.Camera.Value, function()
 			return self:OnRender()
 		end)
 		return self
 	end
-	function CameraModule:Disable()
+	function TopDownCamera:Disable()
 		RunService:UnbindFromRenderStep(self.renderStepName)
-	end
-	function CameraModule:Shake()
-		self.enableShake = true
-	end
-	function CameraModule:StopShake()
-		self.enableShake = false
+		return self
 	end
 end
 return {
-	CameraModule = CameraModule,
+	TopDownCamera = TopDownCamera,
 }

@@ -11,8 +11,9 @@ local CHARACTER_LOAD_EVENT_NAMES = _ReloadableCharacter.CHARACTER_LOAD_EVENT_NAM
 local ReloadableCharacter = _ReloadableCharacter.ReloadableCharacter
 local remote = ReplicatedStorage:WaitForChild("Equipment"):WaitForChild("Remote")
 local craeteEquipmentEvent = remote:WaitForChild("CreateEquipment")
--- craeteEquipmentEvent.FireServer('RocketLauncher')
-CharacterController.new():Start()
+CharacterController:Startup()
+CharacterController:SwithModuleState("TOP_DOWN_CAMERA", true)
+CharacterController:SwithModuleState("CHARACTER_ROTATE", true)
 GameLoader.new():RegisterGameMode(TeamWarsGameMode.new()):Startup()
 craeteEquipmentEvent:FireServer("AK47")
 local _events = ReloadableCharacter.new(Players.LocalPlayer).Events
