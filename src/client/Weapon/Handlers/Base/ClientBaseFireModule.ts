@@ -10,11 +10,13 @@ import { BaseHitHandler } from "./ClientBaseHitHandler"
 import { EntityStorage } from "shared/Entity/EntityStorage/EntityStorage";
 import { IWeaponModel } from "shared/Weapon/WeaponModel/IWeaponModel";
 import { IWeaponAssets } from "shared/Weapon/Asset/IWeaponAssets";
+import { BulletTrace } from "./VisualEffects/Trace2/BulletTrace";
 
 export class BaseFireModule extends FireModule<IWeaponModel, IWeaponAssets>{
     private entityStorage
-    private readonly shotTrace
+    // private readonly shotTrace
     private readonly smokeParticleSet
+    protected readonly bulletTrace
     protected readonly hitHandler: IHitHandler = new BaseHitHandler()
 
     private caster: WeaponRayCasting | undefined
@@ -25,7 +27,7 @@ export class BaseFireModule extends FireModule<IWeaponModel, IWeaponAssets>{
     }
 
     OnChagneOwner(plr: Player){
-        this.caster = new WeaponRayCasting(plr)
+        this.caster = new WeaponRayCasting(plr, this.weponModel.Model.GetInstance())
         this.entityStorage = EntityStorageFactory.CreateByOtherTeams(
             plr.Team as Team, 
             GlobalConfig.TAGS.DAMAGEBLE_ENTITY)
@@ -46,10 +48,12 @@ export class BaseFireModule extends FireModule<IWeaponModel, IWeaponAssets>{
             else
                 this.hitHandler.OnHitPart(rayRes)
             
-            this.shotTrace.Create(rayRes.Position)
+            // this.shotTrace.Create(rayRes.Position)
+            this.bulletTrace.Spawn(rayRes.Position)
         }
         else
-            this.shotTrace.Create(res.EndPoint)
+            // this.shotTrace.Create(res.EndPoint)
+            this.bulletTrace.Spawn(res.EndPoint)
 
         this.fireSound.Play()
         this.smokeParticleSet.Emit()
@@ -60,7 +64,8 @@ export class BaseFireModule extends FireModule<IWeaponModel, IWeaponAssets>{
 
     constructor(weaponData: WeaponDataObject<IWeaponAssets>, model: IWeaponModel){
         super(weaponData, model)
-        this.shotTrace = new ShotTrace(this.weponModel)
+        // this.shotTrace = new ShotTrace(this.weponModel)
+        this.bulletTrace = new BulletTrace(this.weponModel.Muzzle)
         this.fireSound = this.weaponData.Assets.Sounds.Fire
         this.smokeParticleSet = new BaseParticleSet(new Instance('Attachment', this.weponModel.Muzzle))
             .AddByOrigin(this.weaponData.Assets.Particles.FireSmoke[0], {EmitParticleCount: 5})

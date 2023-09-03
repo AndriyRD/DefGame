@@ -1,12 +1,12 @@
 -- Compiled with roblox-ts v2.1.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local WeaponRayCasting = TS.import(script, script.Parent, "WeaponRayCasting").WeaponRayCasting
-local ShotTrace = TS.import(script, script.Parent, "VisualEffects", "Trace", "ShotTrace").ShotTrace
 local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
 local EntityStorageFactory = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Entity", "EntityStorage", "EntityStorageFactory").EntityStorageFactory
 local BaseParticleSet = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "ParticleEmitterSet", "BaseParticleSet").BaseParticleSet
 local FireModule = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Weapon", "FireModule", "FireModule").FireModule
 local BaseHitHandler = TS.import(script, script.Parent, "ClientBaseHitHandler").BaseHitHandler
+local BulletTrace = TS.import(script, script.Parent, "VisualEffects", "Trace2", "BulletTrace").BulletTrace
 local BaseFireModule
 do
 	local super = FireModule
@@ -24,7 +24,8 @@ do
 	function BaseFireModule:constructor(weaponData, model)
 		super.constructor(self, weaponData, model)
 		self.hitHandler = BaseHitHandler.new()
-		self.shotTrace = ShotTrace.new(self.weponModel)
+		-- this.shotTrace = new ShotTrace(this.weponModel)
+		self.bulletTrace = BulletTrace.new(self.weponModel.Muzzle)
 		self.fireSound = self.weaponData.Assets.Sounds.Fire
 		self.smokeParticleSet = BaseParticleSet.new(Instance.new("Attachment", self.weponModel.Muzzle)):AddByOrigin(self.weaponData.Assets.Particles.FireSmoke[1], {
 			EmitParticleCount = 5,
@@ -36,7 +37,7 @@ do
 	function BaseFireModule:Dispose()
 	end
 	function BaseFireModule:OnChagneOwner(plr)
-		self.caster = WeaponRayCasting.new(plr)
+		self.caster = WeaponRayCasting.new(plr, self.weponModel.Model.GetInstance())
 		self.entityStorage = EntityStorageFactory:CreateByOtherTeams(plr.Team, GlobalConfig.TAGS.DAMAGEBLE_ENTITY):AutoRegisterMode(true)
 		return super.OnChagneOwner(self, plr)
 	end
@@ -58,9 +59,11 @@ do
 			else
 				self.hitHandler:OnHitPart(rayRes)
 			end
-			self.shotTrace:Create(rayRes.Position)
+			-- this.shotTrace.Create(rayRes.Position)
+			self.bulletTrace:Spawn(rayRes.Position)
 		else
-			self.shotTrace:Create(res.EndPoint)
+			-- this.shotTrace.Create(res.EndPoint)
+			self.bulletTrace:Spawn(res.EndPoint)
 		end
 		self.fireSound:Play()
 		self.smokeParticleSet:Emit()

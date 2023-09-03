@@ -1,0 +1,52 @@
+-- Compiled with roblox-ts v2.1.0
+local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
+local ReplicatedStorage = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").ReplicatedStorage
+local BufferedAttachment = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "BufferedAttachment").BufferedAttachment
+local GlobalConfig = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "GlobalConfig").GlobalConfig
+local BeamAnimation = TS.import(script, script.Parent, "BeamAnimation").BeamAnimation
+local BulletTrace
+do
+	BulletTrace = setmetatable({}, {
+		__tostring = function()
+			return "BulletTrace"
+		end,
+	})
+	BulletTrace.__index = BulletTrace
+	function BulletTrace.new(...)
+		local self = setmetatable({}, BulletTrace)
+		return self:constructor(...) or self
+	end
+	function BulletTrace:constructor(muzzlePart)
+		self.muzzlePart = muzzlePart
+		self.beamAnimation = BeamAnimation.new()
+		self.originBeam = ReplicatedStorage:WaitForChild("Weapon"):WaitForChild("Instances"):WaitForChild("BulletTrace")
+		self.attachmnetContainer = Instance.new("Part")
+		self.attachmnetContainer.Name = "BulletTraceAttachmentContainer"
+		self.attachmnetContainer.Parent = GlobalConfig.DEBRIS
+	end
+	function BulletTrace:CreateTargetAttachment(worldPos, parent)
+		local attach = Instance.new("Attachment")
+		attach.Parent = parent
+		attach.WorldPosition = worldPos
+		return attach
+	end
+	function BulletTrace:Spawn(pos)
+		local rootAttachment = BufferedAttachment.new(self.muzzlePart.Position, GlobalConfig.DEBRIS)
+		local targetAttachment = self:CreateTargetAttachment(pos, self.attachmnetContainer)
+		local newBeam = self.originBeam:Clone()
+		newBeam.Parent = targetAttachment
+		newBeam.Attachment0 = rootAttachment.GetAttachment()
+		newBeam.Attachment1 = targetAttachment
+		local tween = self.beamAnimation:Play(newBeam)
+		local conn
+		conn = tween.Completed:Connect(function(state)
+			rootAttachment:Destroy()
+			targetAttachment:Destroy()
+			newBeam:Destroy()
+			conn:Disconnect()
+		end)
+	end
+end
+return {
+	BulletTrace = BulletTrace,
+}

@@ -14,7 +14,7 @@ do
 		return self:constructor(...) or self
 	end
 	function TraceBeamTransparencyAnimation:constructor(info, initValue)
-		self.tweenInfo = info
+		self.tweenInfo = if info then info else TweenInfo.new()
 		self.initValue = if initValue ~= 0 and (initValue == initValue and initValue) then initValue else .1
 	end
 	function TraceBeamTransparencyAnimation:NewBufferValue(startVal)
@@ -47,6 +47,7 @@ do
 			bufferNumValue:Destroy()
 		end)
 		tween:Play()
+		return tween
 	end
 end
 return {

@@ -74,7 +74,6 @@ do
 		return _result
 	end
 	function WeaponManager:FindByGlobalId(id)
-		print("Find weapon by GId: " .. tostring(id))
 		local _weaponList = self.weaponList
 		local _arg0 = function(weapon)
 			return weapon.WeaponModel.Model.GetId() == id
@@ -99,7 +98,6 @@ do
 		local builder = self.builders[config.WeaponClass]
 		local newWeapon = builder:SetConfig(config):ParseModel(model):SetFireModuleFactory(self:FindHandlerFactory(config.HandlerType)):Build()
 		table.insert(self.weaponList, newWeapon)
-		print("Add weapon: " .. (newWeapon:GetId() .. (" | GId: " .. tostring(newWeapon.WeaponModel.Model.GetId()))))
 		return newWeapon
 	end
 	function WeaponManager:UnregisterWeapon()

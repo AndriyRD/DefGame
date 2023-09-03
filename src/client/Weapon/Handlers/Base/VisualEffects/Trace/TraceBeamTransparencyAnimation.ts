@@ -35,10 +35,11 @@ export class TraceBeamTransparencyAnimation {
         })
 
         tween.Play()
+        return tween
     }
 
-    constructor(info: TweenInfo, initValue: number | undefined){
-        this.tweenInfo = info
+    constructor(info: TweenInfo | undefined, initValue: number | undefined){
+        this.tweenInfo = info ? info : new TweenInfo()
         this.initValue = initValue ? initValue : .1
     }
 }

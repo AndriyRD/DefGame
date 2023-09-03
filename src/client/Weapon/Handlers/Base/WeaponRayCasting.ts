@@ -14,25 +14,22 @@ export class WeaponRayCasting {
         const res = Workspace.Raycast(
             root.Position, dir, this.rayParams)
 
-        // const part = new Instance('Part')
-        // part.Parent = Workspace
-        // part.Anchored = true
-        // part.CanCollide = false
-        // part.Position = dir
-
         return {
             RaycastResult: res,
             EndPoint: root.CFrame.PointToWorldSpace(this.endPointOffset)
         }
     }
 
-    constructor(private readonly owner: Player){
+    constructor(private readonly owner: Player, weaponModel: Model | undefined){
         this.char = new ReloadableCharacter(owner)
+        const ignoreList = [
+            this.char.GetCharacter(),
+            GlobalConfig.DEBRIS,
+        ] 
+
+        weaponModel ? ignoreList.push(weaponModel) : undefined;
 
         this.rayParams.FilterType = Enum.RaycastFilterType.Exclude
-        this.rayParams.FilterDescendantsInstances = [
-            this.char.GetCharacter(), 
-            GlobalConfig.DEBRIS
-        ] 
+        this.rayParams.FilterDescendantsInstances = ignoreList
     }
 }

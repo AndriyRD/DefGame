@@ -15,14 +15,22 @@ do
 		local self = setmetatable({}, WeaponRayCasting)
 		return self:constructor(...) or self
 	end
-	function WeaponRayCasting:constructor(owner)
+	function WeaponRayCasting:constructor(owner, weaponModel)
 		self.owner = owner
 		self.rayParams = RaycastParams.new()
 		self.RANGE = 100
 		self.endPointOffset = Vector3.new(0, 0, -self.RANGE)
 		self.char = ReloadableCharacter.new(owner)
+		local ignoreList = { self.char:GetCharacter(), GlobalConfig.DEBRIS }
+		if weaponModel then
+			local _weaponModel = weaponModel
+			table.insert(ignoreList, _weaponModel)
+			local _ = #ignoreList
+		else
+			local _ = nil
+		end
 		self.rayParams.FilterType = Enum.RaycastFilterType.Exclude
-		self.rayParams.FilterDescendantsInstances = { self.char:GetCharacter(), GlobalConfig.DEBRIS }
+		self.rayParams.FilterDescendantsInstances = ignoreList
 	end
 	function WeaponRayCasting:Cast()
 		local root = self.char:GetRoot()
@@ -30,11 +38,6 @@ do
 		local _rANGE = self.RANGE
 		local dir = _lookVector * _rANGE
 		local res = Workspace:Raycast(root.Position, dir, self.rayParams)
-		-- const part = new Instance('Part')
-		-- part.Parent = Workspace
-		-- part.Anchored = true
-		-- part.CanCollide = false
-		-- part.Position = dir
 		return {
 			RaycastResult = res,
 			EndPoint = root.CFrame:PointToWorldSpace(self.endPointOffset),

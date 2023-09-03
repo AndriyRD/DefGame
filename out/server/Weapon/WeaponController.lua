@@ -22,7 +22,6 @@ do
 		return self.weaponManager:RegisterWeapon(model)
 	end
 	function WeaponController:StartFire(plr, globalId)
-		print("Start fire event: " .. tostring(globalId))
 		self.weaponManager:FindByGlobalId(globalId):StartFire()
 		self.remote.StartFire:FireAllClients(plr, globalId)
 	end
@@ -31,11 +30,9 @@ do
 		self.remote.StopFire:FireAllClients(plr, globalId)
 	end
 	function WeaponController:Get(globalId)
-		print("Get event: " .. tostring(globalId))
 		return self.weaponManager:FindByGlobalId(globalId)
 	end
 	function WeaponController:DropWeapon(globalId)
-		print("Drop event: " .. tostring(globalId))
 		local weapon = self:Get(globalId)
 		if weapon then
 			weapon.OwnerState:RemoveOwner()

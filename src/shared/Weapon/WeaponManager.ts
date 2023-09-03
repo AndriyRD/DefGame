@@ -35,7 +35,6 @@ export abstract class WeaponManager {
     }
 
     FindByGlobalId<T extends IWeapon>(id: number){
-        print(`Find weapon by GId: ${id}`)
         return this.weaponList.find(weapon => weapon.WeaponModel.Model.GetId()===id) as T
     }
 
@@ -52,7 +51,6 @@ export abstract class WeaponManager {
             .Build()
 
         this.weaponList.push(newWeapon)
-        print(`Add weapon: ${newWeapon.GetId()} | GId: ${newWeapon.WeaponModel.Model.GetId()}`)
         return newWeapon
     }
 

@@ -11,7 +11,6 @@ export class WeaponController {
     }
 
     StartFire(plr: Player, globalId: number){
-        print(`Start fire event: ${globalId}`)
         this.weaponManager.FindByGlobalId<IAutoFiredWeapon>(globalId).StartFire()
         this.remote.StartFire.FireAllClients(plr, globalId)
     }
@@ -22,12 +21,10 @@ export class WeaponController {
     }
 
     Get(globalId: number){
-        print(`Get event: ${globalId}`)
         return this.weaponManager.FindByGlobalId(globalId)
     }
 
     DropWeapon(globalId: number){
-        print(`Drop event: ${globalId}`)
         const weapon = this.Get(globalId)
         if(weapon) weapon.OwnerState.RemoveOwner()
         else error(`Not found weapon by global-id: ${globalId}`)
